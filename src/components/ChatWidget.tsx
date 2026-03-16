@@ -69,8 +69,12 @@ export default function ChatWidget() {
         body: JSON.stringify({ messages: next }),
       });
       const data = await res.json();
-      setMessages([...next, { role: 'assistant', content: data.reply ?? 'Something went wrong.' }]);
-    } catch {
+      if (!res.ok) {
+        setMessages([...next, { role: 'assistant', content: `Error: ${data.error ?? res.status}` }]);
+      } else {
+        setMessages([...next, { role: 'assistant', content: data.reply ?? 'No response received.' }]);
+      }
+    } catch (e) {
       setMessages([...next, { role: 'assistant', content: 'Could not reach the server. Try again.' }]);
     } finally {
       setLoading(false);

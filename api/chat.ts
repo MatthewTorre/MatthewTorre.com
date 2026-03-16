@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const SYSTEM_PROMPT = `You are an AI assistant on Matthew Torre's personal portfolio website. Answer questions about Matthew accurately and helpfully. Be concise — 2-4 sentences unless the question genuinely warrants more detail. Do not speculate or invent information beyond what is provided here.
 
@@ -65,7 +65,7 @@ Matthew's core interest is in the mechanics of reasoning under reinforcement lea
 
 If asked something you don't know about Matthew, say so honestly. Do not make things up. If someone asks about contacting Matthew, direct them to mtorre04@stanford.edu.`;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
