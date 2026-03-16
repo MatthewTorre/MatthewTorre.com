@@ -1,0 +1,92 @@
+import { useState } from 'react';
+import { papers, Paper } from '../data/papers';
+import { useRevealAll } from '../hooks/useReveal';
+
+function PaperModal({ paper, onClose }: { paper: Paper; onClose: () => void }) {
+  return (
+    <div className="paper-modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={paper.title}>
+      <div className="paper-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="paper-modal-header">
+          <div>
+            <span className="paper-modal-course">{paper.course}</span>
+            <h3 className="paper-modal-title">{paper.title}</h3>
+          </div>
+          <button className="paper-modal-close" onClick={onClose} aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <iframe
+          src={paper.pdf}
+          className="paper-modal-iframe"
+          title={paper.title}
+        />
+        <div className="paper-modal-footer">
+          <a href={paper.pdf} download className="paper-download-btn">
+            Download PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void }) {
+  return (
+    <article className="paper-card">
+      <div className="paper-card-meta">
+        <span className="paper-card-course">{paper.course}</span>
+        <span className="paper-card-year">{paper.year}</span>
+      </div>
+      <h3 className="paper-card-title">{paper.title}</h3>
+      <p className="paper-card-desc">{paper.description}</p>
+      <div className="paper-card-tags">
+        {paper.tags.map((tag) => (
+          <span key={tag} className="tag">{tag}</span>
+        ))}
+      </div>
+      <div className="paper-card-actions">
+        <button className="paper-read-btn" onClick={() => onOpen(paper)}>
+          Read Paper →
+        </button>
+        <a href={paper.pdf} download className="paper-dl-link">
+          ↓ PDF
+        </a>
+      </div>
+    </article>
+  );
+}
+
+export default function Writing() {
+  useRevealAll('.reveal');
+  const [active, setActive] = useState<Paper | null>(null);
+
+  return (
+    <>
+      {active && <PaperModal paper={active} onClose={() => setActive(null)} />}
+
+      <section>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">Writing</span>
+            <h2>Papers & Reports</h2>
+            <p>
+              Course papers, independent research, and technical reports spanning
+              distributed systems, machine learning, quantum computing, and AI planning.
+            </p>
+          </div>
+
+          <div className="papers-grid">
+            {papers.map((paper, i) => (
+              <div key={paper.id} className={`reveal reveal-delay-${Math.min(i + 1, 7)}`}>
+                <PaperCard paper={paper} onOpen={setActive} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

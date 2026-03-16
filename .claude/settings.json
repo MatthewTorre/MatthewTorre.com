@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:aa228.stanford.edu)",
+      "WebFetch(domain:www.scs.stanford.edu)",
+      "WebFetch(domain:cs230.stanford.edu)",
+      "WebFetch(domain:cs221.stanford.edu)",
+      "WebFetch(domain:cs131.stanford.edu)",
+      "WebFetch(domain:web.stanford.edu)",
+      "WebFetch(domain:stanford-cs221.github.io)",
+      "WebFetch(domain:vision.stanford.edu)"
+    ]
+  }
+}
