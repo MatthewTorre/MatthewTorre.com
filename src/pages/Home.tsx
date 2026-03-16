@@ -1,8 +1,24 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import { projects } from '../data/projects';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 import { useRevealAll } from '../hooks/useReveal';
+import { useTypewriter } from '../hooks/useTypewriter';
+
+const PHRASES = [
+  'ML systems researcher.',
+  'Stanford CS coterm.',
+  'building rigorous AI tools.',
+  'thinking about reasoning under RL.',
+];
+
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 18) return 'Good afternoon';
+  return 'Good evening';
+}
 
 const pillars = [
   {
@@ -26,12 +42,26 @@ const pillars = [
 export default function Home() {
   const featured = projects.find((p) => p.featured) ?? projects[0];
   useRevealAll('.reveal');
+  const typed = useTypewriter(PHRASES);
+  const [copied, setCopied] = useState(false);
+
+  function copyEmail() {
+    navigator.clipboard.writeText('mtorre04@stanford.edu').then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   return (
     <>
       <section className="hero">
         <div className="container">
+          <p className="hero-greeting reveal">{greeting()}</p>
           <h1 className="hero-name reveal">Matthew Torre</h1>
+          <p className="hero-typewriter reveal">
+            <span className="hero-typed">{typed}</span>
+            <span className="hero-cursor" aria-hidden="true">|</span>
+          </p>
 
           <div className="hero-credential reveal reveal-delay-1">
             <img src={stanfordLogo} alt="Stanford University" className="hero-credential-icon" />
@@ -56,33 +86,21 @@ export default function Home() {
           <div className="hero-currently reveal reveal-delay-3">
             <span className="hero-currently-label">Currently</span>
             <ul className="hero-currently-items">
-              <li className="hero-currently-item">
-                Product Engineering Intern at Lasso
-              </li>
-              <li className="hero-currently-item">
-                Research in probabilistic ML systems and evaluation methodology
-              </li>
+              <li className="hero-currently-item">Product Engineering Intern at Lasso</li>
+              <li className="hero-currently-item">Research in Stanford Department of Computer Science</li>
             </ul>
           </div>
           <div className="hero-actions reveal reveal-delay-4">
-            <Link to="/projects" className="btn btn-primary">
-              View Projects
-            </Link>
-            <a
-              href="https://github.com/MatthewTorre"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline"
-            >
+            <Link to="/projects" className="btn btn-primary">View Projects</Link>
+            <a href="https://github.com/MatthewTorre" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
               GitHub
             </a>
-            <a href="/Matthew_Torre_Research_CV.pdf" download className="btn btn-outline">
-              Resume
-            </a>
-            <a href="mailto:mtorre04@stanford.edu" className="btn btn-ghost">
-              mtorre04@stanford.edu
-            </a>
+            <a href="/Matthew_Torre_Research_CV.pdf" download className="btn btn-outline">Resume</a>
+            <button className="btn btn-ghost hero-email-btn" onClick={copyEmail}>
+              {copied ? '✓ Copied' : 'mtorre04@stanford.edu'}
+            </button>
           </div>
+          <p className="hero-updated reveal reveal-delay-4">Last updated March 2026</p>
         </div>
       </section>
 

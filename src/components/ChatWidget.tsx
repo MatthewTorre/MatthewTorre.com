@@ -47,6 +47,20 @@ export default function ChatWidget() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || e.key === '/') {
+        e.preventDefault();
+        setOpen((v) => !v);
+      }
+      if (e.key === 'Escape') setOpen(false);
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
     if (open) {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
       inputRef.current?.focus();

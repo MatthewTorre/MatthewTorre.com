@@ -15,6 +15,7 @@ const CATEGORIES: { label: Category; ids: string[] }[] = [
 export default function Projects() {
   useRevealAll('.reveal');
   const [active, setActive] = useState<Category>('All');
+  const [allTldr, setAllTldr] = useState(false);
 
   const category = CATEGORIES.find((c) => c.label === active)!;
   const filtered = active === 'All' ? projects : projects.filter((p) => category.ids.includes(p.id));
@@ -33,23 +34,31 @@ export default function Projects() {
         </div>
 
         <div className="projects-filters reveal">
-          <div className="projects-tag-filters">
-            {CATEGORIES.map(({ label }) => (
-              <button
-                key={label}
-                className={`filter-tag${active === label ? ' filter-tag--active' : ''}`}
-                onClick={() => setActive(label)}
-              >
-                {label}
-              </button>
-            ))}
+          <div className="projects-filters-row">
+            <div className="projects-tag-filters">
+              {CATEGORIES.map(({ label }) => (
+                <button
+                  key={label}
+                  className={`filter-tag${active === label ? ' filter-tag--active' : ''}`}
+                  onClick={() => setActive(label)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <button
+              className={`tldr-all-btn${allTldr ? ' tldr-all-btn--active' : ''}`}
+              onClick={() => setAllTldr((v) => !v)}
+            >
+              {allTldr ? '← Full Details' : 'Quick Summary View'}
+            </button>
           </div>
         </div>
 
         <div className="projects-grid">
-          {filtered.map((project, i) => (
-            <div key={project.id} className={`reveal reveal-delay-${Math.min(i + 1, 7)}`}>
-              <ProjectCard project={project} />
+          {filtered.map((project) => (
+            <div key={project.id}>
+              <ProjectCard project={project} forceTldr={allTldr} />
             </div>
           ))}
         </div>

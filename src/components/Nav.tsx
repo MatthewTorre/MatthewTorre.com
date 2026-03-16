@@ -1,4 +1,5 @@
-import { Link, NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTheme } from '../hooks/useTheme';
 
 function SunIcon() {
@@ -25,8 +26,28 @@ function MoonIcon() {
   );
 }
 
+const NAV_LINKS = [
+  { to: '/projects', label: 'Projects' },
+  { to: '/about', label: 'About' },
+  { to: '/experience', label: 'Experience' },
+  { to: '/writing', label: 'Writing' },
+];
+
 export default function Nav() {
   const { dark, toggle } = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Close drawer on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   return (
     <nav className="nav" aria-label="Main navigation">
@@ -35,39 +56,18 @@ export default function Nav() {
           Matthew Torre
         </Link>
 
+        {/* Desktop links — hidden on mobile via CSS */}
         <ul className="nav-links">
-          <li>
-            <NavLink
-              to="/projects"
-              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-            >
-              Projects
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/about"
-              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-            >
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/experience"
-              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-            >
-              Experience
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/writing"
-              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-            >
-              Writing
-            </NavLink>
-          </li>
+          {NAV_LINKS.map(({ to, label }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
         <div className="nav-actions">
@@ -81,8 +81,51 @@ export default function Nav() {
           <a href="/Matthew_Torre_Research_CV.pdf" download className="nav-cta">
             CV
           </a>
+          {/* Hamburger — visible only on mobile via CSS */}
+          <button
+            className={`nav-hamburger${menuOpen ? ' nav-hamburger--open' : ''}`}
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
       </div>
+
+      {/* Mobile drawer — rendered in DOM always, shown/hidden via CSS */}
+      <div className={`nav-drawer${menuOpen ? ' nav-drawer--open' : ''}`} aria-hidden={!menuOpen}>
+        <ul className="nav-drawer-links">
+          {NAV_LINKS.map(({ to, label }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                className={({ isActive }) => `nav-drawer-link${isActive ? ' active' : ''}`}
+                tabIndex={menuOpen ? 0 : -1}
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
+          <li>
+            <a
+              href="/Matthew_Torre_Research_CV.pdf"
+              download
+              className="nav-drawer-link"
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              Download CV
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Backdrop */}
+      {menuOpen && (
+        <div className="nav-backdrop" onClick={() => setMenuOpen(false)} aria-hidden="true" />
+      )}
     </nav>
   );
 }

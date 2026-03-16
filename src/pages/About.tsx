@@ -13,11 +13,30 @@ const graduateCourses = [
 const undergraduateCourses = [
   { label: 'CS131 Computer Vision', url: 'https://cs131.stanford.edu/' },
   { label: 'CS107 Computer Organization and Systems', url: 'https://web.stanford.edu/class/cs107/' },
+  { label: 'CS124 From Languages to Information', url: 'https://web.stanford.edu/class/cs124/' },
   { label: 'CS161 Algorithms', url: 'https://web.stanford.edu/class/cs161/' },
   { label: 'CS103 Mathematical Foundations of Computing', url: 'https://web.stanford.edu/class/cs103/' },
-  { label: 'MATH 51/52 Linear Algebra and Multivariable Calculus', url: 'https://web.stanford.edu/class/math51/' },
+  { label: 'CS111 Operating Systems Principles', url: 'https://web.stanford.edu/class/cs111/' },
+  { label: 'CS106A/B Programming Methodology and Abstractions', url: 'https://cs106b.stanford.edu/' },
+  { label: 'CS80E Dissecting the Modern Computer', url: 'https://web.stanford.edu/class/cs80e/' },
+  { label: 'MATH 51 Linear Algebra', url: 'https://web.stanford.edu/class/math51/' },
   { label: 'CS109 Probability for Computer Scientists', url: 'https://web.stanford.edu/class/cs109/' },
   { label: 'MS&E211DS Optimization for Data Science', url: 'https://web.stanford.edu/class/msande211x/' },
+  { label: 'CEE250 Product Management Fundamentals for the Real Economy', url: 'https://online.stanford.edu/courses/cee250-product-management-fundamentals-real-economy' },
+];
+
+const reading = [
+  {
+    id: 'cot',
+    title: 'Chain-of-Thought Prompting Elicits Reasoning in Large Language Models',
+    authors: 'Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, Denny Zhou',
+    venue: 'NeurIPS 2022',
+    year: '2022',
+    annotation:
+      'Foundational paper showing that prompting LLMs with intermediate reasoning steps dramatically improves performance on arithmetic, commonsense, and symbolic reasoning tasks — directly relevant to understanding when models reason vs. pattern-match.',
+    arxiv: 'https://arxiv.org/abs/2201.11903',
+    pdf: '/papers/reading/cot.pdf',
+  },
 ];
 
 const honors = [
@@ -39,7 +58,7 @@ export default function About() {
 
   return (
     <>
-      <section>
+      <section id="bio">
         <div className="container">
           <div className="section-header">
             <span className="section-label">About</span>
@@ -54,7 +73,7 @@ export default function About() {
             <div className="about-bio-text">
               <p>
                 I study computer science and data science at Stanford, with a focus on AI and
-                machine learning. My work sits at the intersection of research, engineering, and
+                machine learning. My work sits at the intersection of research, engineering,
                 product, and system design: I care about building tools that are technically rigorous, intuitive, 
                 and reproducible.
               </p>
@@ -76,7 +95,7 @@ export default function About() {
         </div>
       </section>
 
-      <section>
+      <section id="research">
         <div className="container">
           <div className="section-header reveal">
             <span className="section-label">Research Interests</span>
@@ -105,7 +124,32 @@ export default function About() {
         </div>
       </section>
 
-      <section>
+      <section id="reading">
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">Currently Reading</span>
+            <h2>On the Desk</h2>
+          </div>
+          <div className="reading-list reveal reveal-delay-1">
+            {reading.map((r) => (
+              <div key={r.id} className="reading-item">
+                <div className="reading-item-meta">
+                  <span className="reading-item-venue">{r.venue} &middot; {r.year}</span>
+                </div>
+                <p className="reading-item-title">{r.title}</p>
+                <p className="reading-item-authors">{r.authors}</p>
+                <p className="reading-item-annotation">{r.annotation}</p>
+                <div className="reading-item-links">
+                  <a href={r.arxiv} target="_blank" rel="noopener noreferrer" className="reading-link">arXiv</a>
+                  <a href={r.pdf} target="_blank" rel="noopener noreferrer" className="reading-link">PDF</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="education">
         <div className="container">
           <div className="section-header">
             <span className="section-label">Education</span>
@@ -192,7 +236,7 @@ export default function About() {
         </div>
       </section>
 
-      <section>
+      <section id="mentors">
         <div className="container">
           <div className="section-header">
             <span className="section-label">People</span>
@@ -208,62 +252,62 @@ export default function About() {
                 <span className="mentor-name">
                   <a href="https://vitercik.github.io/" target="_blank" rel="noopener noreferrer" className="mentor-link">Ellen Vitercik</a>
                 </span>
-                <span className="mentor-role">Assistant Professor, MS&amp;E and CS, Stanford · BS and MS advisor · algorithms and machine learning</span>
+                <span className="mentor-role">Assistant Professor, MS&amp;E and CS, Stanford · BS and MS Advisor · Algorithms and Machine Learning</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://www.cs.stanford.edu/people/jerry-cain" target="_blank" rel="noopener noreferrer" className="mentor-link">Jerry Cain</a>
                 </span>
-                <span className="mentor-role">Senior Lecturer, CS, Stanford · foundational CS teaching and mentorship</span>
+                <span className="mentor-role">Senior Lecturer, CS, Stanford · Foundational CS Teaching and Mentorship</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://mykel.kochenderfer.com/" target="_blank" rel="noopener noreferrer" className="mentor-link">Mykel J. Kochenderfer</a>
                 </span>
-                <span className="mentor-role">Professor, Aeronautics &amp; Astronautics, Stanford · Director, SISL · decision making under uncertainty and AI systems</span>
+                <span className="mentor-role">Professor, Aeronautics &amp; Astronautics, Stanford · Director, SISL · Decision Making Under Uncertainty and AI Systems</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://sites.google.com/site/marywootters/" target="_blank" rel="noopener noreferrer" className="mentor-link">Mary Wootters</a>
                 </span>
-                <span className="mentor-role">Associate Professor, CS and EE, Stanford · theoretical CS and information theory</span>
+                <span className="mentor-role">Associate Professor, CS and EE, Stanford · Theoretical CS and Information Theory</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://davidajoku.com/" target="_blank" rel="noopener noreferrer" className="mentor-link">David Ajoku</a>
                 </span>
-                <span className="mentor-role">AI strategist, product leader, and founder · AI strategy, product thinking, and career navigation</span>
+                <span className="mentor-role">AI Strategist, Product Leader, and Founder · AI Strategy, Product Thinking, and Career Navigation</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://www.reforge.com/profiles/anand-subramani" target="_blank" rel="noopener noreferrer" className="mentor-link">Anand Subramani</a>
                 </span>
-                <span className="mentor-role">SVP of Product, Path · previously VP of Product at Pilot, product leadership at Gusto, Dropbox, and Zynga · teaches product management at Stanford · advisor to ~50 startups</span>
+                <span className="mentor-role">SVP of Product, Path · Previously VP of Product at Pilot, Product Leadership at Gusto, Dropbox, and Zynga · Teaches Product Management at Stanford · Advisor to ~50 Startups</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://web.stanford.edu/~cgregg/chris-gregg/" target="_blank" rel="noopener noreferrer" className="mentor-link">Chris Gregg</a>
                 </span>
-                <span className="mentor-role">Senior Lecturer, CS, Stanford · research advisor and teaching mentor</span>
+                <span className="mentor-role">Senior Lecturer, CS, Stanford · Research Advisor and Teaching Mentor</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://www.linkedin.com/in/ali-lauer-cliff-144baa1a/" target="_blank" rel="noopener noreferrer" className="mentor-link">Ali Cliff</a>
                 </span>
-                <span className="mentor-role">Partner, Adams Street Partners · career and professional development mentorship</span>
+                <span className="mentor-role">Partner, Adams Street Partners · Career and Professional Development Mentorship</span>
               </li>
               <li>
                 <span className="mentor-name">
                   <a href="https://www.linkedin.com/in/wangfred/" target="_blank" rel="noopener noreferrer" className="mentor-link">Fred Wang</a>
                 </span>
-                <span className="mentor-role">Investor and venture advisor · product and career strategy</span>
+                <span className="mentor-role">Investor and Venture Advisor · Product and Career Strategy</span>
               </li>
             </ul>
           </div>
         </div>
       </section>
 
-      <section>
+      <section id="skills">
         <div className="container">
           <div className="section-header">
             <span className="section-label">Technical Skills</span>

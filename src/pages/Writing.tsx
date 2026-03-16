@@ -42,6 +42,12 @@ function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void
       </div>
       <h3 className="paper-card-title">{paper.title}</h3>
       <p className="paper-card-desc">{paper.description}</p>
+      {paper.abstract && (
+        <div className="paper-abstract-tip" role="tooltip">
+          <span className="paper-abstract-label">Abstract</span>
+          <p className="paper-abstract-text">{paper.abstract}</p>
+        </div>
+      )}
       <div className="paper-card-tags">
         {paper.tags.map((tag) => (
           <span key={tag} className="tag">{tag}</span>

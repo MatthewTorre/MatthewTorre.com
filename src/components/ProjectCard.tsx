@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Project } from '../data/projects';
 
 interface ProjectCardProps {
   project: Project;
+  forceTldr?: boolean;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
-  const [showTldr, setShowTldr] = useState(false);
+export default function ProjectCard({ project, forceTldr = false }: ProjectCardProps) {
+  const [showTldr, setShowTldr] = useState(forceTldr);
+
+  useEffect(() => {
+    setShowTldr(forceTldr);
+  }, [forceTldr]);
 
   return (
     <article className={`project-card${project.featured ? ' featured' : ''}`}>
