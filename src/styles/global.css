@@ -709,7 +709,8 @@ section + section {
   padding: 1.75rem;
   transition: box-shadow var(--t-slow) var(--ease-out),
               transform var(--t-slow) var(--ease-out),
-              border-color var(--t-base) var(--ease-out);
+              border-color var(--t-base) var(--ease-out),
+              opacity 0.25s var(--ease-out);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -3103,5 +3104,31 @@ section + section {
     width: calc(100vw - 2rem);
     max-width: 100%;
     padding: 1.5rem;
+  }
+}
+
+/* ── Ambient focus mode ─────────────────────────────────────────────────── */
+/* When hovering any card grid, non-hovered siblings gently fade back */
+
+.projects-grid:hover .project-card:not(:hover),
+.papers-grid:hover .paper-card:not(:hover),
+.posts-grid:hover .post-card:not(:hover) {
+  opacity: 0.45;
+}
+
+.paper-card,
+.post-card {
+  transition: box-shadow var(--t-slow) var(--ease-out),
+              transform var(--t-slow) var(--ease-out),
+              border-color var(--t-base) var(--ease-out),
+              opacity 0.25s var(--ease-out);
+}
+
+/* Disable on mobile — too easy to accidentally trigger on touch */
+@media (max-width: 768px) {
+  .projects-grid:hover .project-card:not(:hover),
+  .papers-grid:hover .paper-card:not(:hover),
+  .posts-grid:hover .post-card:not(:hover) {
+    opacity: 1;
   }
 }
