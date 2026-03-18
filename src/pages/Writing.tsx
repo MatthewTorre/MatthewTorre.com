@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { papers, Paper } from '../data/papers';
+import { linkedinPosts, LinkedInPost } from '../data/linkedinPosts';
 import { useRevealAll } from '../hooks/useReveal';
 
 function PaperModal({ paper, onClose }: { paper: Paper; onClose: () => void }) {
@@ -65,6 +66,41 @@ function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void
   );
 }
 
+function PostCard({ post }: { post: LinkedInPost }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <article className="post-card">
+      <div className="post-card-meta">
+        <span className="post-card-date">{post.date}</span>
+        <span className="post-card-impressions">{post.impressions.toLocaleString()} impressions</span>
+      </div>
+      <h3 className="post-card-title">{post.title}</h3>
+      <div className="post-card-body">
+        {expanded ? (
+          <p className="post-card-text">{post.fullText}</p>
+        ) : (
+          <p className="post-card-text">{post.excerpt}</p>
+        )}
+      </div>
+      <div className="post-card-footer">
+        <div className="post-card-tags">
+          {post.tags.map((tag) => (
+            <span key={tag} className="tag">{tag}</span>
+          ))}
+        </div>
+        <button
+          className="post-expand-btn"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+        >
+          {expanded ? 'Show less ↑' : 'Read more ↓'}
+        </button>
+      </div>
+    </article>
+  );
+}
+
 export default function Writing() {
   useRevealAll('.reveal');
   const [active, setActive] = useState<Paper | null>(null);
@@ -88,6 +124,27 @@ export default function Writing() {
             {papers.map((paper, i) => (
               <div key={paper.id} className={`reveal reveal-delay-${Math.min(i + 1, 7)}`}>
                 <PaperCard paper={paper} onOpen={setActive} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="posts-section">
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">Notes</span>
+            <h2>Field Notes</h2>
+            <p>
+              Reflections on talks, papers, and ideas from the Stanford AI ecosystem —
+              originally posted on LinkedIn.
+            </p>
+          </div>
+
+          <div className="posts-list">
+            {linkedinPosts.map((post, i) => (
+              <div key={post.id} className={`reveal reveal-delay-${Math.min(i + 1, 5)}`}>
+                <PostCard post={post} />
               </div>
             ))}
           </div>
