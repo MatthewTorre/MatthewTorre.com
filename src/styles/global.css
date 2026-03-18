@@ -2573,6 +2573,95 @@ section + section {
 }
 
 /* ============================================
+   GITHUB STRIP
+============================================ */
+.gh-strip {
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 3rem;
+}
+
+.gh-strip .container,
+.gh-strip {
+  width: 100%;
+  max-width: 100%;
+  padding-left: var(--container-px, 1.5rem);
+  padding-right: var(--container-px, 1.5rem);
+  box-sizing: border-box;
+}
+
+.gh-strip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gh-strip-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.gh-strip-link {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--t-fast);
+}
+
+.gh-strip-link:hover {
+  color: var(--accent);
+}
+
+.gh-grid {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+  scrollbar-width: none;
+}
+
+.gh-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.gh-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gh-day {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.gh-level-0 { background: var(--border); }
+.gh-level-1 { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.gh-level-2 { background: color-mix(in srgb, var(--accent) 50%, transparent); }
+.gh-level-3 { background: color-mix(in srgb, var(--accent) 75%, transparent); }
+.gh-level-4 { background: var(--accent); }
+
+[data-theme="dark"] .gh-level-0 { background: #21262d; }
+
+@media (max-width: 768px) {
+  .gh-day {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+/* ============================================
    LINKEDIN POSTS / FIELD NOTES
 ============================================ */
 .posts-section {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
+import GitHubStrip from '../components/GitHubStrip';
 import { projects } from '../data/projects';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 import { useRevealAll } from '../hooks/useReveal';
@@ -103,6 +104,8 @@ export default function Home() {
           <p className="hero-updated reveal reveal-delay-4">Last updated March 2026</p>
         </div>
       </section>
+
+      <GitHubStrip />
 
       <section>
         <div className="container">
