@@ -89,13 +89,25 @@ function PostCard({ post }: { post: LinkedInPost }) {
             <span key={tag} className="tag">{tag}</span>
           ))}
         </div>
-        <button
-          className="post-expand-btn"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-        >
-          {expanded ? 'Show less ↑' : 'Read more ↓'}
-        </button>
+        <div className="post-card-actions">
+          {post.link && (
+            <a
+              href={post.link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="post-link-btn"
+            >
+              {post.link.label} ↗
+            </a>
+          )}
+          <button
+            className="post-expand-btn"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+          >
+            {expanded ? 'Show less ↑' : 'Read more ↓'}
+          </button>
+        </div>
       </div>
     </article>
   );

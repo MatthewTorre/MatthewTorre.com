@@ -2655,6 +2655,24 @@ section + section {
   gap: 0.35rem;
 }
 
+.post-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.post-link-btn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
+.post-link-btn:hover {
+  color: var(--accent);
+}
+
 .post-expand-btn {
   background: none;
   border: none;
