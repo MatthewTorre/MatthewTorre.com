@@ -66,6 +66,11 @@ function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void
   );
 }
 
+function readingTime(text: string) {
+  const words = text.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+}
+
 function PostCard({ post }: { post: LinkedInPost }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -73,7 +78,7 @@ function PostCard({ post }: { post: LinkedInPost }) {
     <article className="post-card">
       <div className="post-card-meta">
         <span className="post-card-date">{post.date}</span>
-        <span className="post-card-impressions">{post.impressions.toLocaleString()} impressions</span>
+        <span className="post-card-impressions">{readingTime(post.fullText)} · {post.impressions.toLocaleString()} impressions</span>
       </div>
       <h3 className="post-card-title">{post.title}</h3>
       <div className="post-card-body">
