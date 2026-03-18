@@ -83,6 +83,18 @@ export const papers: Paper[] = [
     pdf: '/papers/prodprepai.pdf',
   },
   {
+    id: 'sb1047-policy-memo',
+    title: 'SB 1047 Policy Memorandum: Safe and Secure Innovation for Frontier AI',
+    course: 'CS182 · Ethics, Public Policy, and Technological Change',
+    year: '2024',
+    description:
+      'Policy analysis of California\'s SB 1047, examining its theory of impact, main components, stakeholder landscape, and structural weaknesses. Co-authored with Remington Graham, Kyran Romero, and Shuvi Jha under Profs. Sahami and Ho.',
+    abstract:
+      'SB 1047 attempts to shift AI governance from passive compliance to active pre-deployment regulation, drawing parallels to the EU AI Act. This memo analyzes the bill\'s core mechanisms including covered model definitions, positive safety determinations, and the proposed Frontier Model Division, identifying structural flaws and recommending multi-factor risk frameworks and standard-based safety determinations.',
+    tags: ['AI Policy', 'AI Safety', 'Regulation', 'SB 1047'],
+    pdf: '/papers/sb1047-policy-memo.pdf',
+  },
+  {
     id: 'mvp-stanford',
     title: 'MVP & Product Review: CEE250 Venture Design',
     course: 'CEE250 · Technology Entrepreneurship',
