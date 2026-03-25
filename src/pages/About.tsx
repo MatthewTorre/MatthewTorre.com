@@ -172,7 +172,7 @@ export default function About() {
               </div>
             </div>
             <div className="education-meta">
-              <span className="education-gpa">GPA: 3.74 / 4.00</span>
+              <span className="education-gpa">GPA: 3.77 / 4.00</span>
               <span>Stanford, CA</span>
             </div>
           </div>
