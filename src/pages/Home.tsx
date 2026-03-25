@@ -71,7 +71,7 @@ export default function Home() {
                 Stanford University &mdash; B.S. &amp; M.S. Computer Science, Artificial Intelligence
               </span>
               <span className="hero-credential-sub">
-                GPA 3.74 &middot; Expected June 2026 / 2027 &middot; Seeking MTS
+                GPA 3.77 &middot; Expected June 2026 / 2027 &middot; Seeking MTS
               </span>
             </div>
           </div>
