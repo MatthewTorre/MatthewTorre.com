@@ -16,7 +16,7 @@ export const experience: ExperienceItem[] = [
     location: 'Los Angeles, CA',
     description:
       'Leading a team of twelve building Feynman and the Truth Computing platform. Technology for good, technology for humanity: complex ideas, made beautifully simple.',
-    logo: '/images/logos/truth-computing.svg',
+    logo: '/images/logos/truth-computing.png',
     url: 'https://truth-computing.com',
   },
   {
@@ -25,9 +25,18 @@ export const experience: ExperienceItem[] = [
     dates: 'Mar – Jun 2026',
     location: 'Stanford, CA',
     description:
-      'Graduate research assistant working on language, data, and reasoning within SAIL.',
+      'Graduate research assistant working on language, data, and reasoning within SAIL. Mentored by Dr. Amin Saberi and Dr. Amin Karbasi.',
     logo: '/images/logos/sail.png',
     url: 'https://ai.stanford.edu/',
+  },
+  {
+    company: 'Synchrony',
+    role: 'AI Solutions',
+    dates: 'Jun 2026',
+    location: 'New York, NY',
+    description: 'Internship offer accepted; resigned prior to the start date.',
+    logo: '/images/logos/synchrony.jpeg',
+    url: 'https://www.synchrony.com/',
   },
   {
     company: 'Truth Computing Media',
@@ -36,7 +45,7 @@ export const experience: ExperienceItem[] = [
     location: 'Greater Los Angeles, CA',
     description:
       'Independent technology journalism under the Scattered Mind banner, demystifying the greatest technology of our time for a general audience.',
-    logo: '/images/logos/truth-computing.svg',
+    logo: '/images/logos/truth-computing.png',
     url: 'https://www.youtube.com/@Captured./shorts',
   },
   {
@@ -77,6 +86,16 @@ export const experience: ExperienceItem[] = [
       'Research advised by Professor Chris Gregg; focus areas included back-end web development and CS education research within the Stanford CS department.',
     logo: '/images/logos/stanford_university_department_of_computer_science_logo.jpeg',
     url: 'https://www.cs.stanford.edu/',
+  },
+  {
+    company: 'Stanford Medicine',
+    role: 'AI Researcher',
+    dates: '2025',
+    location: 'Stanford, CA',
+    description:
+      'Built computer vision systems for strabismus classification. The baseline classifier is published as research code, explicitly not a medical device and not intended for clinical use.',
+    logo: '/images/logos/stanford-medicine.jpeg',
+    url: 'https://med.stanford.edu/',
   },
   {
     company: 'Synchrony',
@@ -144,6 +163,7 @@ export const activities = [
   {
     org: 'ACM, Association for Computing Machinery',
     role: 'Member',
+    logo: '/images/logos/acm.png',
   },
   {
     org: 'Stanford Undergraduate Research Association',
@@ -157,7 +177,7 @@ export const activities = [
   },
   {
     org: 'Sigma Phi Epsilon',
-    role: 'Member',
+    role: 'Brother Mentor, Member',
     logo: '/images/logos/sigep.jpeg',
   },
   {

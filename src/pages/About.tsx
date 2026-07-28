@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { skillGroups } from '../data/skills';
 import { domains } from '../data/foundation';
+import { mentors } from '../data/mentors';
 import { useRevealAll } from '../hooks/useReveal';
 import portrait from '../assets/images/MATT_NEW.jpg';
 import stanfordLogo from '../assets/images/stanford-logo.png';
@@ -34,16 +35,77 @@ const certs = [
   { name: 'Convolutional Neural Networks', date: 'Nov 2024' },
 ];
 
-const mentors = [
-  { name: 'Ellen Vitercik', url: 'https://vitercik.github.io/', role: 'Assistant Professor, MS&E and CS, Stanford · B.S. and M.S. advisor · Algorithms and machine learning' },
-  { name: 'Jerry Cain', url: 'https://www.cs.stanford.edu/people/jerry-cain', role: 'Senior Lecturer, CS, Stanford · Foundational CS teaching and mentorship' },
-  { name: 'Mykel J. Kochenderfer', url: 'https://mykel.kochenderfer.com/', role: 'Professor, Aeronautics & Astronautics, Stanford · Director, SISL · Decision making under uncertainty' },
-  { name: 'Mary Wootters', url: 'https://sites.google.com/site/marywootters/', role: 'Associate Professor, CS and EE, Stanford · Theoretical CS and information theory' },
-  { name: 'David Ajoku', url: 'https://davidajoku.com/', role: 'AI strategist, product leader, and founder · AI strategy and career navigation' },
-  { name: 'Anand Subramani', url: 'https://www.reforge.com/profiles/anand-subramani', role: 'SVP of Product, Path · Previously VP of Product at Pilot, product leadership at Gusto, Dropbox, and Zynga · Teaches product management at Stanford' },
-  { name: 'Chris Gregg', url: 'https://web.stanford.edu/~cgregg/chris-gregg/', role: 'Senior Lecturer, CS, Stanford · Research advisor and teaching mentor' },
-  { name: 'Ali Cliff', url: 'https://www.linkedin.com/in/ali-lauer-cliff-144baa1a/', role: 'Partner, Adams Street Partners · Career and professional development mentorship' },
-  { name: 'Fred Wang', url: 'https://www.linkedin.com/in/wangfred/', role: 'Investor and venture advisor · Product and career strategy' },
+// Truth Computing's acknowledgments. Each entry describes a category of the
+// honors, roles, and institutions the people behind that work carry — the
+// people themselves are held privately and not named.
+const gratitude = [
+  {
+    label: 'Building and scaling businesses',
+    body: (
+      <>
+        A product leader who built and scaled multi-billion-dollar businesses at Google,
+        across payments (Google Wallet and Google Pay), the AdMob mobile-app monetization
+        platform, and AI-powered conversational products, and earlier at Siebel, Netscape,
+        and Oracle. Recipient of the Google Founders&rsquo; Award; Stanford MBA. From him we
+        learn how to build the repeatable processes that carry a business forward, and how
+        to scale what works without breaking it.
+      </>
+    ),
+  },
+  {
+    label: 'Honors & national academies',
+    body: (
+      <>
+        The A.M. Turing Award, the National Medal of Science, the Kyoto Prize, and the
+        Presidential Early Career Award for Scientists and Engineers &middot; members and
+        fellows of the National Academy of Sciences, the National Academy of Engineering,
+        the Royal Society, the French Academy of Sciences, and the Canadian Academy of
+        Engineering.
+      </>
+    ),
+  },
+  {
+    label: 'Fellowships & research awards',
+    body: (
+      <>
+        Sloan Research Fellowship &middot; Schmidt Sciences AI2050 Fellowship &middot;
+        Miller Fellowship &middot; NSF CAREER Awards &middot; DARPA Young Faculty Award
+        &middot; Google Research Scholar &middot; IEEE Fellow, and Fellows of SIAM and the
+        American Mathematical Society.
+      </>
+    ),
+  },
+  {
+    label: 'Where they studied and teach',
+    body: (
+      <>
+        Stanford &middot; MIT &middot; Caltech &middot; Carnegie Mellon &middot; Cambridge
+        &middot; Edinburgh &middot; Michigan &middot; Toronto &middot; Columbia &middot;
+        Swarthmore &middot; Johns Hopkins &middot; Harvard &middot; USC.
+      </>
+    ),
+  },
+  {
+    label: 'Research & public-service leadership',
+    body: (
+      <>
+        DARPA&rsquo;s Information Technology Office &middot; MIT Lincoln Laboratory &middot;
+        the National Science Foundation &middot; Stanford&rsquo;s Intelligent Systems
+        Laboratory, Center for AI Safety, and Institute for Human-Centered AI.
+      </>
+    ),
+  },
+  {
+    label: 'Bodies of work we learn from',
+    body: (
+      <>
+        Foundational texts on the analysis of algorithms and digital typesetting &middot;
+        coding and information theory &middot; decision-making under uncertainty and
+        aircraft collision avoidance &middot; active networks &middot; a lifetime of
+        computer-science teaching.
+      </>
+    ),
+  },
 ];
 
 export default function About() {
@@ -168,7 +230,8 @@ export default function About() {
               <div className="education-degree-row">
                 <span className="education-degree-title">B.S. Computer Science</span>
                 <span className="education-degree-detail">
-                  Artificial Intelligence Concentration &middot; Expected June 2026 &middot; GPA 3.8 / 4.00
+                  Artificial Intelligence Concentration &middot; Conferred June 2026, with
+                  distinction &middot; GPA 3.8 / 4.00
                 </span>
               </div>
               <div className="education-degree-row">
@@ -256,6 +319,74 @@ export default function About() {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="conversations">
+        <div className="frame" style={{ padding: '56px 48px' }}>
+          <div className="section-header reveal">
+            <span className="section-label">
+              <a
+                href="https://www.truth-computing.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mentor-link"
+              >
+                Truth Computing
+              </a>
+            </span>
+            <h2>In conversation with</h2>
+          </div>
+          <div className="ack-block reveal reveal-delay-1">
+            <p className="ack-lead">
+              Stanford Technology Ventures Program &middot; Association for Computing
+              Machinery &middot; researchers and leaders with whom we have discussed the
+              novelty and ethics of our work.
+            </p>
+            <p className="ack-disclaimer">
+              Listing reflects those conversations, not a formal relationship or endorsement.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="gratitude">
+        <div className="frame" style={{ padding: '56px 48px' }}>
+          <div className="section-header reveal">
+            <span className="section-label">Truth Computing</span>
+            <h2>With gratitude</h2>
+          </div>
+
+          <div className="ack-block reveal reveal-delay-1">
+            <p className="ack-lead">
+              The teachers, mentors, and colleagues who shaped us. We hold these
+              relationships privately and do not name them here, but their work, and the
+              traditions they come from, set the standard we build to. Among the honors,
+              fellowships, and institutions they carry:
+            </p>
+          </div>
+
+          <div className="ack-groups reveal reveal-delay-2">
+            {gratitude.map((g) => (
+              <div key={g.label} className="ack-group">
+                <span className="ack-group-label">{g.label}</span>
+                <p className="ack-group-body">{g.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="ack-block reveal reveal-delay-3" style={{ marginTop: '2.5rem' }}>
+            <span className="section-label">Friends &amp; early advisors</span>
+            <p className="ack-lead" style={{ marginTop: '8px' }}>
+              Sanjay Swamy, best friend and early advisor.
+            </p>
+            <p className="ack-disclaimer">
+              Held here in gratitude. These honors, roles, and affiliations describe each
+              person&rsquo;s own history and do not imply an advisory, financial, or
+              employment relationship with Truth Computing, nor an endorsement of Truth
+              Computing, its products, or any offering.
+            </p>
           </div>
         </div>
       </section>

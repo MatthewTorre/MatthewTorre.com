@@ -22,6 +22,12 @@ export interface Project {
   links: { label: string; url: string }[];
   featured?: boolean;
   tldr: ProjectTldr;
+  /** Named when the work was not solo. */
+  coauthors?: string[];
+  /** What Matthew specifically owned on a team project. */
+  contribution?: string;
+  /** Caveats about provenance, scope, or what is not published. */
+  note?: string;
 }
 
 export const projects: Project[] = [
@@ -56,14 +62,13 @@ export const projects: Project[] = [
       },
     ],
     tags: ['Monte Carlo', 'Python', 'Statistical Inference', 'Bootstrap CI', 'Discrete-Event Simulation', 'Empirical Calibration', 'CRN'],
-    links: [
-      { label: 'GitHub', url: 'https://github.com/MatthewTorre/Invariant-' },
-    ],
+    links: [],
+    note: 'The source repository for this project is not currently public, so the figures above cannot be checked against an artifact from here.',
     tldr: {
-      summary: 'Built a production-quality Monte Carlo simulation engine in pure Python — no external dependencies. Rigorous statistical methodology throughout: bootstrap confidence intervals, variance reduction, and empirically calibrated distributions from real API data.',
+      summary: 'Built a Monte Carlo simulation engine in pure Python — no external dependencies. Rigorous statistical methodology throughout: bootstrap confidence intervals, variance reduction, and empirically calibrated distributions from real API data.',
       signals: [
         'Designed a complete discrete-event engine from scratch: min-heap scheduler, DAG task graphs, 5 distribution families with moment-matched parameters',
-        'Applied bootstrap CIs on all P10/P50/P90 estimates; CRN variance reduction; Cohen\'s d + CI overlap to suppress spurious results',
+        "Applied bootstrap CIs on all P10/P50/P90 estimates; CRN variance reduction; Cohen's d + CI overlap to suppress spurious results",
         'Calibration pipeline pulls real cycle-time data from GitHub and Linear APIs to fit distributions — no hand-specified priors',
         'Deterministic Q&A router maps natural-language queries to traceable computations over simulation outputs',
       ],
@@ -73,39 +78,39 @@ export const projects: Project[] = [
   {
     id: 'cs238',
     title: 'Cognitive Effort Allocation Under Bounded Rationality',
-    oneliner: 'POMDP framework for studying decision fatigue; contextual bandits reproduce human behavioral signatures without an explicit fatigue model.',
-    problem: 'Can contextual bandit algorithms reproduce human-like decision-fatigue signatures without a fatigue model, and what does this reveal about the minimal inductive bias required for adaptive behavior?',
+    oneliner: 'A POMDP testbed for decision fatigue, comparing bandit policies on how they trade deliberation against accumulated effort.',
+    problem: 'How should an agent allocate cognitive effort between low-effort habitual choices and high-effort deliberation when fatigue accumulates over a time horizon?',
     context: 'CS238: Decision Making Under Uncertainty',
     year: '2025',
+    coauthors: ['Kim Ngo'],
     results: [
       {
-        text: 'POMDP environment with latent fatigue state; three action modes (habitual, deliberate, rest) with effort costs, fatigue-driven success penalties, and passive recovery; Gaussian observations (sigma=0.04) enforce partial observability',
+        text: 'Built a stochastic decision-making environment with a latent fatigue state tied to varying task difficulty; two action modes (habitual and deliberate) carry different effort-reward tradeoffs, and each mode feeds back into fatigue',
       },
       {
-        text: 'Benchmarked 6 algorithms across 50 independent episodes x 200 timesteps: LinUCB (alpha=0.5, 1.0, 2.0), UCB, Thompson Sampling, epsilon-greedy, discrete value iteration (20 states), particle filter POMDP (500 particles)',
+        text: 'Compared four bandit policies — epsilon-greedy, LinUCB, Thompson Sampling, and UCB — logging reward, fatigue, and efficiency trajectories across episodes of roughly 140 time steps',
       },
       {
-        text: 'LinUCB (alpha=2.0) achieved ',
-        metric: '70% of POMDP-optimal reward (58.86 vs. 83.70)',
+        text: 'Efficiency (reward per unit effort) separated the policies: Thompson Sampling converged near 1.9, LinUCB near 1.7, and epsilon-greedy settled around 1.5',
       },
       {
-        text: 'Reproduced canonical decision-fatigue signature: habitual usage ',
-        metric: '+5.1 pp across episode phases',
+        text: 'Epsilon-greedy drove fatigue to saturation near 1.0, indicating over-deliberation without recovery; LinUCB stabilized slightly below saturation, reflecting more balanced action selection',
       },
       {
-        text: 'Context-free UCB used 44% more rest actions than LinUCB yet achieved 31% lower reward, isolating context-awareness as the mechanism, not rest frequency',
+        text: 'Limitations stated in the report rather than omitted: a minimal belief representation with no full particle filter, binary task difficulty, and no explicit rest or delegation actions',
       },
     ],
     tags: ['POMDP', 'Contextual Bandits', 'LinUCB', 'Thompson Sampling', 'Python', 'Decision Theory', 'Behavioral Modeling'],
     links: [
       { label: 'GitHub', url: 'https://github.com/MatthewTorre/cs238_final' },
+      { label: 'Paper', url: '/papers/bounded-rationality.pdf' },
     ],
     tldr: {
-      summary: 'Modeled human decision fatigue as a POMDP and showed contextual bandits reproduce behavioral signatures without ever modeling fatigue explicitly. The key insight: context-awareness, not rest frequency, drives performance.',
+      summary: 'Modeled decision fatigue as a partially observable environment and compared four bandit policies on how efficiently each spends effort as fatigue accumulates.',
       signals: [
-        'Ran a controlled experiment: 6 algorithms × 50 independent episodes × 200 timesteps each — results are statistically grounded, not cherry-picked',
-        'LinUCB reached 70% of POMDP-optimal; isolated context-awareness as the mechanism by comparing against UCB which rested 44% more but scored 31% lower',
-        'Built the POMDP environment from scratch with latent fatigue state, partial observability, and passive recovery dynamics',
+        'Built the environment from scratch: latent fatigue state, varying task difficulty, and habitual versus deliberate action modes with distinct effort costs',
+        'Compared epsilon-greedy, LinUCB, Thompson Sampling, and UCB on reward, fatigue, and efficiency — Thompson Sampling held the highest efficiency near 1.9',
+        'Named the limits plainly in the write-up: no particle filter, binary difficulty, and no rest action, each listed as future work',
       ],
       skills: ['Reinforcement Learning', 'POMDP Theory', 'Contextual Bandits', 'Experimental Design', 'Behavioral Modeling', 'Python'],
     },
@@ -117,9 +122,13 @@ export const projects: Project[] = [
     problem: 'Can the FPS and GRD algorithms from Raghavan et al. be faithfully reproduced in C++, and what implementation gaps does replication expose?',
     context: 'CS244C: Advanced Networking and Distributed Systems',
     year: '2025',
+    coauthors: ['Amy Chang', 'Andy Wang'],
     results: [
       {
         text: 'Reimplemented all four algorithms in C++: Central Token Bucket (CTB), Global Token Bucket (GTB), Global Random Drop (GRD), Flow Proportional Share (FPS); gossip via UDP datagrams; Redis-based peer discovery; NFQUEUE packet verdicts',
+      },
+      {
+        text: "Reproduced the paper's Figure 3 setup under Mininet: a 10 Mbps global limit across two relays, seven unbottlenecked flows to relay 1 and three to relay 2, at 40 ms inter-relay RTT",
       },
       {
         text: 'FPS converged to ',
@@ -130,22 +139,24 @@ export const projects: Project[] = [
         metric: '~20 Mbps',
       },
       {
-        text: 'GRD stabilization required EWMA smoothing (alpha=0.3), early-drop at 90% of limit, 50% more aggressive drop rate; gossip lag identified as root cause of oscillation via convergence timeline analysis',
+        text: 'GRD stabilization required EWMA smoothing (alpha=0.3), early-drop at 90% of limit, and a 50% more aggressive drop rate; gossip lag identified as root cause of oscillation via convergence timeline analysis',
       },
       {
-        text: 'GRD achieved better per-flow Jain fairness index than FPS (confirmed against paper Figure 5); FPS achieved smoother convergence with more stable inter-limiter split',
+        text: 'GRD achieved better per-flow Jain fairness than FPS, matching the paper; FPS achieved smoother convergence with a more stable inter-limiter split',
       },
       {
         text: 'Gossip scalability: branching factor 2 gives O(log N) convergence; 1,000 relays converge in ~10 rounds at 100ms each',
       },
     ],
     tags: ['C++', 'Distributed Systems', 'Rate Limiting', 'FPS', 'GRD', 'Mininet', 'Gossip Protocol', 'NFQUEUE', 'Replication Study'],
-    links: [],
+    links: [
+      { label: 'Paper', url: '/papers/distributed-rate-limiter.pdf' },
+    ],
     tldr: {
       summary: 'Replicated a SIGCOMM 2007 distributed rate-limiting paper in C++ end-to-end — real UDP gossip, Redis peer discovery, kernel-level packet verdicts. Diagnosed why GRD oscillated and fixed it.',
       signals: [
         'Implemented all 4 algorithms from the paper with production-level networking: UDP gossip, Redis, NFQUEUE packet verdicts in Linux',
-        'FPS converged correctly to 6.2/3.6 Mbps; traced GRD\'s ~20 Mbps overshoot to gossip lag via convergence timeline analysis',
+        "FPS converged correctly to 6.2/3.6 Mbps; traced GRD's ~20 Mbps overshoot to gossip lag via convergence timeline analysis",
         'Fixed oscillation with EWMA smoothing (α=0.3) and early-drop at 90% — understood the paper deeply enough to improve on it',
       ],
       skills: ['C++', 'Distributed Systems', 'Network Protocols', 'Root Cause Analysis', 'Replication Study', 'Linux Networking'],
@@ -178,6 +189,7 @@ export const projects: Project[] = [
     ],
     tags: ['VGG-16', 'Transfer Learning', 'SIFT', 'ORB', 'CNNs', 'PyTorch', 'Ablation Study', 'Computer Vision'],
     links: [],
+    note: 'Neither the report nor the source for this project is published here, so the figures above cannot be checked against an artifact.',
     tldr: {
       summary: 'Fine-tuned VGG-16 on out-of-domain NASA rover imagery. The ablation finding is the result: adding SIFT and ORB keypoint channels hurt performance, showing handcrafted features constrain learned representations rather than augmenting them.',
       signals: [
@@ -191,102 +203,251 @@ export const projects: Project[] = [
   {
     id: 'cs230',
     title: 'ProdPrepAI: Adaptive Interview Evaluation via BERT and Deep RL',
-    oneliner: 'BERT multi-label classifier and DQN agent for adaptive, multi-dimensional evaluation of PM interview responses.',
-    problem: 'Can a jointly trained classifier and RL agent produce adaptive, multi-dimensional evaluation of open-ended interview responses?',
+    oneliner: 'BERT multi-label classifier feeding a reinforcement learning agent that chooses adaptive follow-ups during PM interview practice.',
+    problem: 'Can a language classifier and a reinforcement learning agent be combined to produce adaptive, multi-dimensional evaluation of open-ended interview responses?',
     context: 'CS230: Deep Learning',
     year: '2024',
+    coauthors: ['Tanaya Yadav', 'Arpit Ranasaria'],
+    contribution: 'model fine-tuning, hyperparameter optimization, research, and report writing',
     results: [
       {
-        text: 'BERT fine-tuned (AdamW, lr=2e-5, 128-token max) on 200 labeled PM Q&A pairs; 4-head multi-label classifier across clarity, completeness, product thinking, and feasibility (1-5 scale)',
+        text: 'BERT fine-tuned for 4-head multi-label classification across clarity, completeness, product thinking, and feasibility on a 1-5 scale',
       },
       {
         text: 'Per-label F1: completeness 0.859, product thinking 0.855, clarity 0.827, feasibility 0.766',
       },
       {
-        text: 'DQN (Stable-Baselines3, 10,000 timesteps): state = BERT embedding + 4 classifier scores; episode reward improved from -34.7 (ep 4) to ',
-        metric: '41.3 (ep 72), +219% improvement',
+        text: 'The RL agent (Stable-Baselines3) takes the BERT embedding plus the four classifier scores as state and selects follow-up actions such as asking for details, reframing, or moving on; mean episode reward rose from ',
+        metric: '-34.7 at episode 4 to 41.3 at episode 72',
       },
       {
-        text: 'Agent F1=0.749; class 1 (Reframe) is primary confusion pair due to semantic overlap with Ask for Details',
+        text: 'Agent F1 = 0.749; the classifier predicted extreme scores (1 and 5) reliably and struggled with intermediate labels (3 and 4), which the report attributes to overlapping feature representations and limited training data',
       },
     ],
-    tags: ['BERT', 'DQN', 'Multi-Label Classification', 'PyTorch', 'Stable-Baselines3', 'NLP', 'Reinforcement Learning'],
+    tags: ['BERT', 'Multi-Label Classification', 'PyTorch', 'Stable-Baselines3', 'NLP', 'Reinforcement Learning'],
     links: [
-      { label: 'Paper', url: 'https://github.com/MatthewTorre/ALLUNDERGRADPROJECTS-PAPERS/blob/main/ProdPrepAI.pdf' },
+      { label: 'Paper', url: '/papers/prodprepai.pdf' },
     ],
     tldr: {
-      summary: 'Fine-tuned BERT for multi-dimensional interview evaluation, then trained a DQN agent that uses those embeddings to make adaptive follow-up decisions. Language understanding feeds directly into RL decision-making.',
+      summary: 'A fine-tuned BERT classifier scores interview answers on four dimensions, and a reinforcement learning agent uses those scores to decide what to ask next. Two models, one system.',
       signals: [
-        'BERT fine-tuned for 4-head multi-label classification; F1 up to 0.859 on completeness dimension',
-        'DQN agent improved episode reward +219% over training — from −34.7 at episode 4 to +41.3 at episode 72',
-        'Joint architecture: NLP classifier output feeds as state to the RL agent — two models, one coherent system',
+        'BERT fine-tuned for 4-head multi-label classification; F1 from 0.766 to 0.859 across the four dimensions',
+        'Classifier output feeds the agent as state, so language understanding drives the follow-up decision',
+        'Report is explicit about where the model is weak: intermediate scores confuse it, and the training set was small',
       ],
-      skills: ['NLP', 'Deep Reinforcement Learning', 'BERT Fine-tuning', 'Multi-Label Classification', 'PyTorch', 'Stable-Baselines3'],
+      skills: ['NLP', 'BERT Fine-tuning', 'Multi-Label Classification', 'PyTorch', 'Deep Reinforcement Learning'],
     },
   },
   {
     id: 'cs221',
     title: 'Benchmarking ML Models for UFC Fight Outcome Prediction',
-    oneliner: 'Replication study of Hitkul et al. (2019) logistic regression baseline on 4,896 UFC fights; comparative evaluation against feed-forward neural networks.',
+    oneliner: 'Replication of the Hitkul et al. (2019) logistic regression baseline on 4,896 UFC fights, benchmarked against feed-forward networks.',
     problem: 'Can the Hitkul et al. baseline be faithfully replicated, and do deeper architectures provide a generalization advantage at this dataset scale?',
     context: 'CS221: Artificial Intelligence',
     year: '2024',
+    coauthors: ['Luis Arizmendi', 'Austin Salcedo', 'Saba Weatherspoon'],
     results: [
       {
-        text: 'Dataset: 4,896 UFC fights, 119 features (physical attributes, records, rankings, fight odds); label encoding, NA imputation, StandardScaler normalization',
+        text: "Dataset: 4,896 UFC fights, 119 attributes (physical attributes, records, rankings, fight odds); label encoding, NA imputation, and normalization following the reference paper's feature engineering",
       },
       {
-        text: 'LR accuracy: ',
-        metric: '66.4% (reference paper: 66.7%, within 0.3 pp delta)',
+        text: 'Logistic regression accuracy: ',
+        metric: '66.4% (reference paper: 66.7%)',
       },
       {
-        text: 'FF-NN (128->64 ReLU): 63.4%; Dropout-NN: 65.2%; LR outperformed both deeper architectures',
+        text: 'Feed-forward NN (128->64 ReLU): 63.4%; the same network with dropout layers: 65.2%; logistic regression outperformed both deeper architectures',
       },
       {
-        text: 'Finding: dataset size (n=4,896) insufficient for NN generalization advantage over LR baseline',
+        text: 'Comparing training against validation loss indicated some overfitting, which the report flags rather than sets aside',
+      },
+      {
+        text: 'Finding: at n=4,896 the dataset size, not the architecture, is the binding constraint on accuracy',
       },
     ],
-    tags: ['Logistic Regression', 'Neural Networks', 'Replication Study', 'scikit-learn', 'Python', 'Evaluation Methodology'],
-    links: [],
+    tags: ['Logistic Regression', 'Neural Networks', 'Replication Study', 'PyTorch', 'Python', 'Evaluation Methodology'],
+    links: [
+      { label: 'Paper', url: '/papers/cs221-final-report.pdf' },
+    ],
+    note: 'The report gives two different accuracies for logistic regression — 66.4% in its results table and 63.4% in its discussion. The table value is used here.',
     tldr: {
-      summary: 'Replicated a published ML baseline to within 0.3pp accuracy. The point was rigorous evaluation, not novelty: showing a deeper NN does not generalize better when dataset size is the binding constraint.',
+      summary: 'Replicated a published ML baseline and showed a deeper network does not generalize better when dataset size is the binding constraint.',
       signals: [
-        'Reproduced Hitkul et al. LR baseline at 66.4% vs. 66.7% reference — close enough to confirm the implementation is faithful',
-        'Tested FF-NN (128→64 ReLU) and Dropout-NN; both underperformed LR — result is clean and interpretable',
-        'Demonstrates evaluation discipline: the right conclusion here is "architecture doesn\'t matter at n=4,896," not "add more layers"',
+        'Reproduced the Hitkul et al. logistic regression baseline at 66.4% against a 66.7% reference',
+        'Tested a feed-forward net and a dropout-regularized variant; both underperformed the linear baseline',
+        'Right conclusion drawn: at n=4,896 the answer is more data, not more layers',
       ],
-      skills: ['Evaluation Methodology', 'Replication Study', 'Logistic Regression', 'scikit-learn', 'Statistical Thinking', 'Python'],
+      skills: ['Evaluation Methodology', 'Replication Study', 'Logistic Regression', 'PyTorch', 'Statistical Thinking', 'Python'],
+    },
+  },
+  {
+    id: 'strabismus',
+    title: 'Strabismus Baseline Classifier',
+    oneliner: 'Baseline computer vision classifier for strabismus screening from eye images, written as research code at Stanford Medicine.',
+    problem: 'What baseline does a straightforward image classifier establish for detecting ocular misalignment, and what would have to be true before such a model belonged anywhere near a clinic?',
+    context: 'AI Researcher, Stanford Medicine',
+    year: '2025',
+    results: [
+      {
+        text: 'Built and trained a baseline image classifier for strabismus (ocular misalignment) as part of computer vision research at Stanford Medicine',
+      },
+      {
+        text: 'Implemented as an annotated notebook so preprocessing, the training loop, and evaluation are readable end to end rather than hidden behind a framework',
+      },
+      {
+        text: 'Scoped deliberately as a baseline: the purpose is to establish a floor that later work has to beat, not to claim a clinical result',
+      },
+    ],
+    tags: ['Computer Vision', 'Medical Imaging', 'Classification', 'PyTorch', 'Jupyter', 'Research Code'],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/MatthewTorre/Strabismus-Baseline-Classifier' },
+    ],
+    note: 'Research code. Not a medical device, not FDA-cleared, and not for clinical use. The repository carries no write-up, so no performance figures are claimed here.',
+    tldr: {
+      summary: 'A baseline classifier for detecting strabismus from eye images, written as research code at Stanford Medicine and published with explicit limits on how it may be used.',
+      signals: [
+        'Computer vision applied to a real clinical screening question, built inside a medical research setting',
+        'Published as a readable notebook rather than an opaque pipeline',
+        'Carries an explicit non-clinical disclaimer instead of implying medical validity it does not have',
+      ],
+      skills: ['Computer Vision', 'Medical Imaging', 'Research Code', 'PyTorch', 'Responsible Scoping'],
+    },
+  },
+  {
+    id: 'syncedin',
+    title: 'Synced-In: Embedding-Based Expert Search',
+    oneliner: "A retrieval system that finds the right internal expert from a plain-language question, built during Synchrony's generative AI incubation.",
+    problem: 'Inside a large organization the person who can answer your question is usually findable in principle and unfindable in practice. Can embedding retrieval beat keyword search at locating them?',
+    context: 'Enterprise Architect (BLP), Synchrony',
+    year: '2025',
+    results: [
+      {
+        text: 'Built an embedding-based retrieval system that maps a natural-language question to the internal experts most likely to be able to answer it',
+      },
+      {
+        text: 'Implemented in Flask with semantic ranking over profile embeddings, exposed through modular APIs designed for integration into existing enterprise tooling',
+      },
+      {
+        text: 'Benchmarked retrieval quality against a keyword-search baseline rather than assessing the system on its own terms',
+      },
+      {
+        text: 'Placed top 10 of 140+ teams at the internal hackathon (190+ attendees)',
+      },
+    ],
+    tags: ['RAG', 'Embeddings', 'Semantic Search', 'Flask', 'Python', 'Enterprise Integration'],
+    links: [],
+    note: 'Built internally at Synchrony; the source is not publicly available.',
+    tldr: {
+      summary: 'An expert-search system for a large enterprise: ask a question in plain language, get the people who can answer it, ranked by embedding similarity rather than keyword overlap.',
+      signals: [
+        'Chose the right baseline to beat — keyword search — and measured against it instead of reporting absolute numbers alone',
+        'Designed modular APIs for integration rather than building a standalone demo',
+        'Top 10 of 140+ teams at the internal hackathon',
+      ],
+      skills: ['RAG', 'Embedding Retrieval', 'Evaluation Design', 'Flask', 'Enterprise Software'],
+    },
+  },
+  {
+    id: 'feynman',
+    title: 'Feynman',
+    oneliner: 'A free AI learning platform that rebuilds university-level coursework as a five-rung Learning Ladder, built for first-generation and low-income students.',
+    problem: 'University-level material is gated less by difficulty than by access: who explains it to you, how many times you are allowed to ask, and whether anyone notices when you fall behind.',
+    context: 'Founder · A Truth Computing mission project',
+    year: '2026',
+    results: [
+      {
+        text: 'Rebuilds university-level coursework as a five-rung "Learning Ladder", so a learner climbs from first exposure to fluency in defined steps rather than being handed a syllabus',
+      },
+      {
+        text: 'Built for first-generation and low-income students, the group least likely to have someone at home who has already taken the course',
+      },
+      {
+        text: 'Free to use, and carried forward as a mission project under Truth Computing rather than run as a commercial product',
+      },
+    ],
+    tags: ['Education', 'Applied AI', 'Access', 'Product', 'Web'],
+    links: [
+      { label: 'learn-feynman.com', url: 'https://learn-feynman.com' },
+    ],
+    tldr: {
+      summary: 'A free platform that rebuilds university coursework into a five-step ladder from first exposure to fluency, built for students without a household expert to ask.',
+      signals: [
+        'Structures material as a ladder with defined rungs instead of shipping another content library',
+        'Targets a specific population — first-generation and low-income students — rather than a general audience',
+        'Kept free and run as a mission project rather than converted into a product',
+      ],
+      skills: ['Product Design', 'Applied AI', 'Education Technology', 'Web Engineering'],
+    },
+  },
+  {
+    id: 'ezrecruit',
+    title: 'EzRecruit',
+    oneliner: 'Recruit-management MVP for university varsity coaches, scoped from interviews with Stanford coaching staff.',
+    problem: 'Varsity coaches work 12-hour days and spend a large share of them filtering inbound recruit interest across email, forms, and spreadsheets — time that comes directly out of coaching.',
+    context: 'CEE250: Technology Entrepreneurship',
+    year: '2024',
+    coauthors: ['Austin Salcedo', 'Nick Walker', 'Chloe Widner'],
+    results: [
+      {
+        text: "Defined the problem space through interviews with Stanford varsity coaches, including the head coach of Stanford Women's Volleyball, who described receiving 220 emails a day of which 140 came from recruits",
+      },
+      {
+        text: 'Enumerated the specific manual steps consuming coach time: filtering inbound forms and emails, transferring information into tracking spreadsheets, keeping track of last contact, reaching high school coaches for game schedules, and updating call notes',
+      },
+      {
+        text: 'Scoped an MVP against those named inefficiencies rather than an assumed feature list, establishing target customer, goals, and needs before proposing any product',
+      },
+    ],
+    tags: ['Product', 'User Research', 'MVP Scoping', 'Entrepreneurship'],
+    links: [
+      { label: 'MVP document', url: '/papers/mvp-stanford.pdf' },
+    ],
+    tldr: {
+      summary: 'A recruit-management tool for college coaches, scoped from direct interviews rather than assumptions about what coaches need.',
+      signals: [
+        'Grounded the problem in interviews with actual varsity coaches, quoting the volume of inbound recruit email directly',
+        'Wrote down the manual steps consuming time before designing anything to replace them',
+        'Scoped the MVP against named inefficiencies instead of a speculative feature list',
+      ],
+      skills: ['User Research', 'Product Scoping', 'Problem Framing', 'Venture Design'],
     },
   },
   {
     id: 'qaoa',
     title: 'Quantum Approximate Optimization for the Traveling Salesman Problem',
-    oneliner: 'QAOA implementation in Google Cirq for combinatorial TSP instances; analysis of amplitude amplification mechanism.',
+    oneliner: 'QAOA implemented in Google Cirq for small TSP instances, written as an introduction to how the algorithm navigates a combinatorial landscape.',
     problem: 'How does the QAOA cost-mixer alternating structure navigate a combinatorial optimization landscape, and what are its practical limits at small instance sizes?',
-    context: 'Independent Research',
+    context: 'Physics 14N: Quantum Computing',
     year: '2024',
+    coauthors: ['Kai Roybal'],
     results: [
       {
-        text: 'QAOA circuit: cost Hamiltonian H<sub>C</sub> over pairwise city distances; alternating unitaries U<sub>C</sub> = e<sup>&#8722;i&#947;H<sub>C</sub></sup> and U<sub>M</sub> = e<sup>&#8722;i&#946;H<sub>M</sub></sup>, p=1 layers; classical optimization via scipy.optimize; 1,000-shot simulation',
+        text: 'QAOA circuit in Google Cirq: cost Hamiltonian H<sub>C</sub> over pairwise city distances, alternating with a mixer Hamiltonian at p=1, simulated at 1,000 shots',
         html: true,
       },
       {
-        text: 'Validated on n=4, n=8, n=15 city instances; brute-force verified for n=4',
+        text: 'Run on n=4, n=8, and n=15 city instances, alongside a survey of classical and quantum approaches to TSP and the complexity results that motivate them',
       },
       {
-        text: 'Connected QUBO formulation to portfolio optimization and logistics routing as isomorphic instances',
+        text: 'The n=8 and n=15 runs returned an all-ones bitstring, which decodes to the identity ordering rather than a solved tour — a limit of the one-qubit-per-city encoding at p=1, not a result',
+      },
+      {
+        text: 'Related the formulation to logistics routing and economic optimization, where the same combinatorial structure appears',
       },
     ],
-    tags: ['QAOA', 'Google Cirq', 'Quantum Computing', 'QUBO', 'Combinatorial Optimization', 'Python'],
-    links: [],
+    tags: ['QAOA', 'Google Cirq', 'Quantum Computing', 'Combinatorial Optimization', 'Python'],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/MatthewTorre/Quantum-Approximate-Optimization-Algorithm-As-Applied-to-Traveling-Salesman-Problem' },
+      { label: 'Paper', url: '/papers/qaoa-tsp.pdf' },
+    ],
+    note: 'An introductory course project. It demonstrates the algorithm rather than benchmarking it against classical solvers.',
     tldr: {
-      summary: 'Implemented QAOA in Google Cirq for combinatorial TSP instances and analyzed how the cost-mixer alternating structure navigates the optimization landscape. Validated results against brute-force on small instances.',
+      summary: 'Implemented QAOA in Google Cirq for small TSP instances and traced how the cost-mixer structure explores the landscape — including where the encoding breaks down.',
       signals: [
-        'Built the full circuit from scratch: cost Hamiltonian, alternating unitaries, classical parameter optimization via scipy',
-        'Validated across 3 instance sizes (n=4, 8, 15); brute-force verified on n=4 — results are grounded, not just plausible',
-        'Connected QUBO formulation to portfolio optimization and logistics routing as isomorphic problem instances',
+        'Built the circuit from scratch: cost Hamiltonian over pairwise distances, alternating unitaries, Cirq simulation at 1,000 shots',
+        'Reported the degenerate all-ones output at n=8 and n=15 as an encoding limit instead of presenting it as a solved tour',
+        'Connected the formulation to logistics routing and economic optimization',
       ],
-      skills: ['Quantum Computing', 'Combinatorial Optimization', 'Algorithm Analysis', 'Google Cirq', 'QUBO Formulation', 'Python'],
+      skills: ['Quantum Computing', 'Combinatorial Optimization', 'Algorithm Analysis', 'Google Cirq', 'Python'],
     },
   },
 ];

@@ -92,7 +92,8 @@ export default function Home() {
                 Stanford University &mdash; B.S. &amp; M.S. Computer Science, Artificial Intelligence
               </span>
               <span className="hero-credential-sub">
-                B.S. GPA 3.8 &middot; M.S. GPA 4.0 &middot; Expected June 2026 / 2027 &middot; Seeking MTS
+                B.S. conferred June 2026, with distinction &middot; GPA 3.8 &middot; M.S. expected
+                June 2027 &middot; GPA 4.0
               </span>
             </div>
           </div>
@@ -120,7 +121,19 @@ export default function Home() {
           </div>
 
           <div className="hero-actions">
-            <Link to="/work" className="btn btn-primary">View the work</Link>
+            <a
+              href="https://calendar.app.google/LQAMNbiZ6fCzmfLx9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 3v4M16 3v4" />
+              </svg>
+              Book a meeting
+            </a>
+            <Link to="/work" className="btn btn-outline">View the work</Link>
             <a
               href="https://github.com/MatthewTorre"
               target="_blank"

@@ -23,7 +23,7 @@ export default function Experience() {
           <div className="experience-list">
             {experience.map((item, i) => (
               <div
-                key={item.company}
+                key={`${item.company}-${item.dates}`}
                 className={`experience-row reveal reveal-delay-${Math.min(i + 1, 7)}`}
               >
                 <div className="experience-left">

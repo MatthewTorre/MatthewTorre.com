@@ -3,12 +3,13 @@ import ProjectCard from '../components/ProjectCard';
 import { projects } from '../data/projects';
 import { useRevealAll } from '../hooks/useReveal';
 
-type Category = 'All' | 'ML & AI' | 'Systems' | 'Quantum';
+type Category = 'All' | 'ML & AI' | 'Systems' | 'Product' | 'Quantum';
 
 const CATEGORIES: { label: Category; ids: string[] }[] = [
   { label: 'All', ids: [] },
-  { label: 'ML & AI', ids: ['cs238', 'cs230', 'cs131', 'cs221'] },
+  { label: 'ML & AI', ids: ['cs238', 'cs230', 'cs131', 'cs221', 'strabismus', 'syncedin'] },
   { label: 'Systems', ids: ['invariant', 'cs244c'] },
+  { label: 'Product', ids: ['feynman', 'ezrecruit'] },
   { label: 'Quantum', ids: ['qaoa'] },
 ];
 
@@ -29,9 +30,10 @@ export default function Work() {
           <p className="page-eyebrow">Work</p>
           <h1 className="page-title">Systems built and measured.</h1>
           <p className="page-desc">
-            Each project starts from a research question and ends at a number. Simulation
-            engines, distributed systems, and applied ML, with the results stated as they
-            came out rather than as they were hoped for.
+            Simulation engines, distributed systems, applied ML, and products, with the
+            results stated as they came out rather than as they were hoped for. Team projects
+            name their collaborators, and anything I cannot point you to an artifact for says
+            so on the card.
           </p>
         </div>
       </header>

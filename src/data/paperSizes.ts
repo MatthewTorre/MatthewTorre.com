@@ -4,7 +4,6 @@
 export const paperSizeMB: Record<string, number> = {
   '/papers/bounded-rationality.pdf': 1,
   '/papers/cs221-final-report.pdf': 0.2,
-  '/papers/deep-learning-mars.pdf': 19.1,
   '/papers/distributed-rate-limiter.pdf': 0.7,
   '/papers/mvp-stanford.pdf': 1.5,
   '/papers/prodprepai.pdf': 0.5,

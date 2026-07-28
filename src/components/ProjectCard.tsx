@@ -39,6 +39,13 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
             <p className="project-oneliner">{project.oneliner}</p>
           </div>
 
+          {project.coauthors && (
+            <p className="project-authors">
+              Team project with {project.coauthors.join(', ')}
+              {project.contribution ? `. My part: ${project.contribution}` : ''}
+            </p>
+          )}
+
           <p className="project-problem">{project.problem}</p>
 
           <ul className="project-results">
@@ -78,6 +85,8 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
               ))}
             </div>
           )}
+
+          {project.note && <p className="project-note">{project.note}</p>}
         </>
       )}
 

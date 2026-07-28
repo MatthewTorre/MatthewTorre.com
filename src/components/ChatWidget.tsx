@@ -82,13 +82,35 @@ export default function ChatWidget() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next }),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setMessages([...next, { role: 'assistant', content: `Error: ${data.error ?? res.status}` }]);
-      } else {
-        setMessages([...next, { role: 'assistant', content: data.reply ?? 'No response received.' }]);
+
+      if (!res.ok || !res.body) {
+        // Errors still come back as JSON; only success streams plain text.
+        const detail = await res.json().catch(() => null);
+        setMessages([
+          ...next,
+          { role: 'assistant', content: detail?.error ?? 'Something went wrong. Try again.' },
+        ]);
+        return;
       }
-    } catch (e) {
+
+      // Append an empty turn, then fill it as tokens arrive.
+      setMessages([...next, { role: 'assistant', content: '' }]);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let reply = '';
+
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        reply += decoder.decode(value, { stream: true });
+        setMessages([...next, { role: 'assistant', content: reply }]);
+      }
+
+      if (!reply.trim()) {
+        setMessages([...next, { role: 'assistant', content: 'No response received.' }]);
+      }
+    } catch {
       setMessages([...next, { role: 'assistant', content: 'Could not reach the server. Try again.' }]);
     } finally {
       setLoading(false);
@@ -103,6 +125,8 @@ export default function ChatWidget() {
   }
 
   const showSuggested = messages.length === 0;
+  const last = messages[messages.length - 1];
+  const streaming = loading && last?.role === 'assistant' && last.content !== '';
 
   return (
     <div className="chat-widget">
@@ -124,12 +148,16 @@ export default function ChatWidget() {
                 Ask me anything about Matthew — his research, projects, experience, or background.
               </p>
             )}
-            {messages.map((m, i) => (
-              <div key={i} className={`chat-bubble chat-bubble--${m.role}`}>
-                {m.content}
-              </div>
-            ))}
-            {loading && (
+            {messages.map((m, i) =>
+              // The in-flight turn starts empty; the dots below stand in for it
+              // until the first token lands.
+              m.content ? (
+                <div key={i} className={`chat-bubble chat-bubble--${m.role}`}>
+                  {m.content}
+                </div>
+              ) : null
+            )}
+            {loading && !streaming && (
               <div className="chat-bubble chat-bubble--assistant chat-typing">
                 <span /><span /><span />
               </div>

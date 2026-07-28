@@ -6,80 +6,94 @@ export interface Paper {
   description: string;
   abstract: string;
   tags: string[];
-  pdf: string;
+  /** Absent when the report itself is not published here. */
+  pdf?: string;
+  /** Co-authors, listed when the work was not solo. */
+  coauthors?: string[];
+  /** What Matthew specifically owned, where the paper records a split. */
+  contribution?: string;
+  /** Shown in place of the PDF when there is nothing to link. */
+  unavailableNote?: string;
 }
 
 export const papers: Paper[] = [
   {
     id: 'distributed-rate-limiter',
-    title: 'Approximating Central Rate Limits for Distributed Traffic',
+    title: 'Distributed Rate Limiter',
     course: 'CS244C · Advanced Networking and Distributed Systems',
     year: '2025',
+    coauthors: ['Amy Chang', 'Andy Wang'],
     description:
-      'Designs and evaluates a distributed token-bucket rate-limiter that approximates a central controller using gossip-based state synchronization. Benchmarks throughput, fairness, and convergence latency under bursty traffic patterns and node churn.',
+      'A C++ re-implementation of Cloud Control with Distributed Rate Limiting (Raghavan et al., SIGCOMM 2007). Reproduces the paper\'s Figure 3 across all four algorithms and diagnoses why Global Random Drop oscillates.',
     abstract:
-      'Centralized rate limiters provide strong fairness guarantees but introduce a single point of failure and high coordination overhead. This paper designs a distributed token-bucket system that approximates central control via gossip-based state synchronization, achieving sub-100ms convergence with bounded per-node error under realistic bursty and churn conditions.',
-    tags: ['Distributed Systems', 'Networking', 'Rate Limiting', 'Go'],
+      'Distributed rate limiting enforces a global traffic limit across geographically separated sites without a central coordinator. This paper reproduces the main experimental results of Raghavan et al., implementing Central Token Bucket, Global Token Bucket, Global Random Drop, and Flow Proportional Share in C++ under the original 7:3 sender split and 40 ms inter-relay RTT. Global Token Bucket enforces the global limit but allocates bandwidth unfairly; Flow Proportional Share converges smoothly to a 6.2 / 3.6 Mbps split. Stabilizing Global Random Drop required EWMA smoothing and early-drop heuristics to compensate for lag in gossip-based load estimation.',
+    tags: ['C++', 'Distributed Systems', 'Rate Limiting', 'Gossip Protocol', 'Replication Study'],
     pdf: '/papers/distributed-rate-limiter.pdf',
   },
   {
     id: 'bounded-rationality',
-    title: 'Bounded Rationality and Decision-Making Under Uncertainty',
+    title: 'Learning Efficient Cognitive Effort Allocation Under Bounded Rationality',
     course: 'CS238 · Decision Making Under Uncertainty',
     year: '2025',
+    coauthors: ['Kim Ngo'],
     description:
-      'Analyzes how bounded rationality constraints interact with MDP-based planning. Derives tractable approximation schemes and evaluates policy quality degradation as computational budgets shrink, connecting theory to practical RLHF reward-shaping concerns.',
+      'Builds a compact POMDP testbed for bounded-resource decision making, where an agent allocates effort between low-effort habitual choices and high-effort deliberation as fatigue accumulates.',
     abstract:
-      'Classical MDP planning assumes unlimited computation, but real agents operate under hard resource constraints that force trade-offs between policy quality and tractability. This paper derives approximation schemes for bounded-rational agents and empirically characterizes how policy value degrades as planning budgets shrink, with implications for reward-model design in RLHF pipelines.',
-    tags: ['Reinforcement Learning', 'MDPs', 'Decision Theory', 'Python'],
+      'Humans and autonomous agents rarely act optimally, because attention, time, and computation are bounded. This paper builds a stochastic decision-making environment with a latent fatigue state tied to varying task difficulty, with two action modes — habitual and deliberate — that carry different effort-reward tradeoffs. Bandit policies are compared over roughly 140 time steps per episode, logging reward, fatigue, and efficiency trajectories. Persistent deliberation boosts short-term performance but accumulates fatigue, while shifting toward habitual actions maintains more stable efficiency over longer horizons.',
+    tags: ['POMDP', 'Contextual Bandits', 'Decision Theory', 'Python'],
     pdf: '/papers/bounded-rationality.pdf',
   },
   {
     id: 'cs221-final',
-    title: 'AI Planning and Search: CS221 Final Project',
+    title: 'Predicting MMA Fight Outcomes: CS221 Final Report',
     course: 'CS221 · Artificial Intelligence',
     year: '2024',
+    coauthors: ['Luis Arizmendi', 'Austin Salcedo', 'Saba Weatherspoon'],
     description:
-      "Final project for Stanford's core AI course. Implements and compares heuristic search strategies (A*, beam search, iterative deepening) on structured planning benchmarks, with analysis of optimality-vs-efficiency trade-offs.",
+      'Replicates the Hitkul et al. (2019) logistic-regression baseline for UFC fight prediction on 4,896 fights, then tests whether feed-forward networks improve on it at that dataset size.',
     abstract:
-      "Heuristic search algorithms differ sharply in the optimality guarantees and computational costs they impose on structured planning tasks. This project implements A*, beam search, and iterative deepening on Stanford's CS221 planning benchmarks, quantifying the optimality-efficiency frontier across varying problem complexities and heuristic quality levels.",
-    tags: ['Search', 'Planning', 'Heuristics', 'Python'],
+      'Predicting the outcome of a mixed martial arts bout involves many interacting factors, and prior work reports logistic regression as a strong baseline. Using a 4,896-fight dataset with 119 attributes, this report reproduces the feature engineering of Hitkul et al. (2019) and compares logistic regression against a two-layer feed-forward network and a dropout-regularized variant. Logistic regression outperformed both deeper architectures, and evaluation on training versus validation data indicated some overfitting, suggesting dataset size rather than architecture is the binding constraint.',
+    tags: ['Logistic Regression', 'Neural Networks', 'Replication Study', 'PyTorch'],
     pdf: '/papers/cs221-final-report.pdf',
   },
   {
     id: 'deep-learning-mars',
-    title: 'Deep Learning for Mars Terrain Classification',
-    course: 'CS230 · Deep Learning',
-    year: '2024',
+    title: 'Transfer Learning for Mars Surface Image Classification',
+    course: 'CS131 · Computer Vision',
+    year: '2025',
     description:
-      'Applies convolutional neural networks to satellite and rover imagery for Martian terrain classification. Explores transfer learning from ImageNet, data augmentation strategies, and uncertainty quantification for deployment in low-data regimes.',
+      'Fine-tunes VGG-16 on NASA MSL Curiosity rover imagery and ablates handcrafted SIFT and ORB keypoint channels against the learned representation.',
     abstract:
-      'Autonomous Mars surface operations require reliable terrain classification from orbital and rover imagery under severe data scarcity. This paper applies transfer learning from ImageNet-pretrained CNNs with targeted augmentation strategies, achieving strong classification accuracy on Martian terrain categories while surfacing calibrated uncertainty estimates for safety-critical deployment.',
-    tags: ['Deep Learning', 'Computer Vision', 'CNN', 'Transfer Learning'],
-    pdf: '/papers/deep-learning-mars.pdf',
+      'Pre-trained convolutional networks transfer unevenly to out-of-domain planetary imagery. This project fine-tunes an ImageNet-pretrained VGG-16 with a custom classifier head on NASA MSL Curiosity surface and instrument classes, searching across learning rate, dropout, and batch size. An ablation adds SIFT and ORB keypoint heat-map channels alongside RGB, and finds that the handcrafted channels constrain rather than augment the learned representation.',
+    tags: ['VGG-16', 'Transfer Learning', 'Ablation Study', 'PyTorch', 'Computer Vision'],
+    unavailableNote:
+      'The report for this project is not published here. The work is described on the Work page.',
   },
   {
     id: 'qaoa-tsp',
-    title: 'QAOA Applied to the Traveling Salesman Problem',
+    title: 'Quantum Optimization and the Traveling Salesman Problem',
     course: 'Physics 14N · Quantum Computing',
     year: '2024',
+    coauthors: ['Kai Roybal'],
     description:
-      'Implements the Quantum Approximate Optimization Algorithm on small TSP instances. Analyzes circuit depth scaling, parameter landscape geometry, and approximation ratio versus classical greedy baselines as problem size grows.',
+      'An introduction to the Quantum Approximate Optimization Algorithm applied to TSP, implemented in Google Cirq and run on 4-, 8-, and 15-city instances.',
     abstract:
-      'The Quantum Approximate Optimization Algorithm (QAOA) offers a near-term path to quantum advantage on combinatorial optimization, but its practical performance on structured problems like TSP remains poorly characterized. This paper implements QAOA on small TSP instances using Qiskit, analyzing circuit depth scaling and parameter landscape geometry, and benchmarks approximation ratios against classical greedy baselines as instance size grows.',
-    tags: ['Quantum Computing', 'QAOA', 'Optimization', 'Qiskit'],
+      'The Traveling Salesman Problem is NP-hard, which makes it a standard benchmark for optimization methods. This paper introduces QAOA as an approach to TSP, covering classical and quantum treatments of the problem, computational complexity, and the principles behind quantum algorithms. A cost Hamiltonian over pairwise city distances is alternated with a mixer Hamiltonian at p=1 using Google Cirq, simulated at 1,000 shots across three instance sizes. The write-up is an introductory survey and demonstration rather than a benchmark against classical solvers.',
+    tags: ['QAOA', 'Google Cirq', 'Quantum Computing', 'Combinatorial Optimization'],
     pdf: '/papers/qaoa-tsp.pdf',
   },
   {
     id: 'prodprepai',
-    title: 'ProdPrepAI: LLM-Powered Interview Preparation',
-    course: 'Independent · Applied ML',
+    title: 'ProdPrepAI: Multi-Label Classification and Reinforcement Learning for Interview Preparation',
+    course: 'CS230 · Deep Learning',
     year: '2024',
+    coauthors: ['Tanaya Yadav', 'Arpit Ranasaria'],
+    contribution: 'Model fine-tuning, hyperparameter optimization, research, and report writing.',
     description:
-      'Designs and evaluates a retrieval-augmented generation system for technical interview preparation. Studies prompt design, context window management, and self-evaluation loops to improve response quality on structured coding and system-design questions.',
+      'Couples a fine-tuned BERT multi-label classifier with a reinforcement learning agent that chooses adaptive follow-ups during product-management interview practice.',
     abstract:
-      'Large language models show promise for personalized interview preparation but degrade significantly without careful retrieval and prompt structure. This paper designs and evaluates ProdPrepAI, a RAG system that couples structured document retrieval with self-evaluation loops to improve response quality on coding and system-design interview questions.',
-    tags: ['LLMs', 'RAG', 'Prompt Engineering', 'Python'],
+      'Existing AI interview tools offer generic feedback with inconsistent evaluation metrics and little domain adaptation. ProdPrepAI processes question-response pairs with a BERT-based model to score four attributes — clarity, completeness, product thinking, and feasibility — and layers a reinforcement learning agent that selects follow-up actions such as asking for details, reframing, or moving to a new question. The classifier reached F1 scores between 0.766 and 0.859 across the four attributes; the agent reached F1 0.749, performing well on clear-cut responses and struggling to distinguish clarification from elaboration.',
+    tags: ['BERT', 'Reinforcement Learning', 'Multi-Label Classification', 'PyTorch', 'NLP'],
     pdf: '/papers/prodprepai.pdf',
   },
   {
@@ -87,8 +101,9 @@ export const papers: Paper[] = [
     title: 'SB 1047 Policy Memorandum: Safe and Secure Innovation for Frontier AI',
     course: 'CS182 · Ethics, Public Policy, and Technological Change',
     year: '2024',
+    coauthors: ['Remington Graham', 'Kyran Romero', 'Shuvi Jha'],
     description:
-      'Policy analysis of California\'s SB 1047, examining its theory of impact, main components, stakeholder landscape, and structural weaknesses. Co-authored with Remington Graham, Kyran Romero, and Shuvi Jha under Profs. Sahami and Ho.',
+      "Policy analysis of California's SB 1047, examining its theory of impact, main components, stakeholder landscape, and structural weaknesses. Written for Profs. Mehran Sahami and Daniel Ho.",
     abstract:
       'SB 1047 attempts to shift AI governance from passive compliance to active pre-deployment regulation, drawing parallels to the EU AI Act. This memo analyzes the bill\'s core mechanisms including covered model definitions, positive safety determinations, and the proposed Frontier Model Division, identifying structural flaws and recommending multi-factor risk frameworks and standard-based safety determinations.',
     tags: ['AI Policy', 'AI Safety', 'Regulation', 'SB 1047'],
@@ -96,14 +111,15 @@ export const papers: Paper[] = [
   },
   {
     id: 'mvp-stanford',
-    title: 'MVP & Product Review: CEE250 Venture Design',
+    title: 'EzRecruit: Minimum Viable Product and Problem Space',
     course: 'CEE250 · Technology Entrepreneurship',
     year: '2024',
+    coauthors: ['Austin Salcedo', 'Nick Walker', 'Chloe Widner'],
     description:
-      "Product and market analysis for a venture concept developed through Stanford's engineering entrepreneurship program. Covers user discovery, MVP scoping, go-to-market framing, and technical feasibility review.",
+      'Venture design document for EzRecruit, a recruit-management tool for university varsity coaches. Covers the problem space, target customer, user interviews, and MVP scoping.',
     abstract:
-      "Translating technical capability into viable product requires disciplined user discovery and honest scoping of what an MVP must prove. This report documents the full venture design process from Stanford's CEE250 program: user interviews, MVP definition, go-to-market strategy, and technical feasibility analysis for an early-stage product concept.",
-    tags: ['Product', 'Entrepreneurship', 'Market Analysis'],
+      'University varsity coaches spend a large share of long working weeks managing inbound recruit interest across email, forms, and spreadsheets, leaving less time for coaching. This document defines the problem space through interviews with Stanford coaches, enumerates the manual steps that consume their time — filtering inbound forms, transferring information into spreadsheets, tracking last contact, and coordinating schedules — and scopes a minimum viable product against those specific inefficiencies.',
+    tags: ['Product', 'Entrepreneurship', 'User Research', 'MVP'],
     pdf: '/papers/mvp-stanford.pdf',
   },
 ];

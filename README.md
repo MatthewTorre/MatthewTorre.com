@@ -71,6 +71,41 @@ array at render time, so the stat strip can never drift from the list.
 Papers above 8 MB open in a new tab instead of loading into the inline viewer.
 Regenerate it if you replace a PDF.
 
+## The chat assistant
+
+`api/chat.ts` proxies to Groq. Its context is **not** a hand-written prompt —
+`api/_prompt.ts` assembles it from the same `src/data/` modules the pages
+render, so adding a project or a role updates the assistant with no second
+edit. It is built once per cold start and cached.
+
+That context currently runs about 6k tokens and covers every role, project
+(with its exact metrics), paper, all 76 coursework modules, skills, and
+mentors. Having the real figures in context is what stops the model inventing
+them; if you would rather trade some of that for cost, trim the sections in
+`_prompt.ts` rather than editing facts by hand.
+
+Cost and abuse are bounded at the edges instead:
+
+| Control | Value |
+| --- | --- |
+| History forwarded | last 8 turns |
+| Per-message limit | 2,000 chars |
+| Per-conversation limit | 16,000 chars |
+| Output cap | 400 tokens |
+| Rate limit | 12 requests / minute / IP |
+
+Responses stream, so the first words appear immediately rather than after the
+whole completion. Only `user` and `assistant` turns are accepted — a caller
+cannot inject a `system` turn to override the brief — and upstream errors are
+logged server-side but never returned to the browser.
+
+Environment: `GROQ_API_KEY` is required. `GROQ_MODEL` optionally overrides the
+default (`llama-3.3-70b-versatile`).
+
+The rate limiter holds state per warm container, so it throttles a single
+abusive caller rather than enforcing a global ceiling. A hard limit needs
+shared state such as Vercel KV.
+
 ## Deploying
 
 Vercel, per `vercel.json` — it builds to `dist/` and serves `api/chat.ts` as a

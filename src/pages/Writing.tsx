@@ -7,7 +7,10 @@ import { useRevealAll } from '../hooks/useReveal';
 /** Above this, the PDF opens in a new tab instead of loading into the modal. */
 const INLINE_LIMIT_MB = 8;
 
-function PaperModal({ paper, onClose }: { paper: Paper; onClose: () => void }) {
+/** Only ever rendered for papers that actually have a PDF. */
+type ReadablePaper = Paper & { pdf: string };
+
+function PaperModal({ paper, onClose }: { paper: ReadablePaper; onClose: () => void }) {
   const size = paperSizeMB[paper.pdf];
   const heavy = size !== undefined && size > INLINE_LIMIT_MB;
 
@@ -61,7 +64,9 @@ function PaperModal({ paper, onClose }: { paper: Paper; onClose: () => void }) {
   );
 }
 
-function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void }) {
+function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: ReadablePaper) => void }) {
+  const { pdf } = paper;
+
   return (
     <article className="paper-card">
       <div className="paper-card-meta">
@@ -69,6 +74,12 @@ function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void
         <span className="paper-card-year">{paper.year}</span>
       </div>
       <h3 className="paper-card-title">{paper.title}</h3>
+      {paper.coauthors && (
+        <p className="paper-card-authors">
+          With {paper.coauthors.join(', ')}
+          {paper.contribution ? ` · My part: ${paper.contribution.replace(/\.$/, '')}` : ''}
+        </p>
+      )}
       <p className="paper-card-desc">{paper.description}</p>
       <div className="paper-card-tags">
         {paper.tags.map((tag) => (
@@ -76,12 +87,18 @@ function PaperCard({ paper, onOpen }: { paper: Paper; onOpen: (p: Paper) => void
         ))}
       </div>
       <div className="paper-card-actions">
-        <button className="paper-read-btn" onClick={() => onOpen(paper)}>
-          Read paper <span className="arw">&rarr;</span>
-        </button>
-        <a href={paper.pdf} download className="paper-dl-link">
-          PDF{paperSizeMB[paper.pdf] ? ` · ${paperSizeMB[paper.pdf]} MB` : ''}
-        </a>
+        {pdf ? (
+          <>
+            <button className="paper-read-btn" onClick={() => onOpen({ ...paper, pdf })}>
+              Read paper <span className="arw">&rarr;</span>
+            </button>
+            <a href={pdf} download className="paper-dl-link">
+              PDF{paperSizeMB[pdf] ? ` · ${paperSizeMB[pdf]} MB` : ''}
+            </a>
+          </>
+        ) : (
+          <p className="paper-card-unavailable">{paper.unavailableNote}</p>
+        )}
       </div>
     </article>
   );
@@ -129,7 +146,7 @@ function PostCard({ post }: { post: LinkedInPost }) {
 }
 
 export default function Writing() {
-  const [active, setActive] = useState<Paper | null>(null);
+  const [active, setActive] = useState<ReadablePaper | null>(null);
   useRevealAll('.reveal');
 
   return (
@@ -142,8 +159,8 @@ export default function Writing() {
           <h1 className="page-title">Papers, reports, and notes.</h1>
           <p className="page-desc">
             Course papers, independent research, and technical reports across distributed
-            systems, machine learning, quantum computing, and AI policy. Each one opens in
-            place; every one is downloadable.
+            systems, machine learning, quantum computing, and AI policy. Most open in place
+            and download directly. Co-authors are named where the work was not solo.
           </p>
         </div>
       </header>

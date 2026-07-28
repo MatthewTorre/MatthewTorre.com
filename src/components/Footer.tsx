@@ -83,6 +83,16 @@ export default function Footer() {
           <li>
             <a href="mailto:mtorre04@stanford.edu">mtorre04@stanford.edu</a>
           </li>
+          <li>
+            <a
+              href="https://calendar.app.google/LQAMNbiZ6fCzmfLx9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link--focus"
+            >
+              Book a meeting
+            </a>
+          </li>
         </ul>
 
         <div className="footer-socials">

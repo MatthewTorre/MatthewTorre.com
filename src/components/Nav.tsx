@@ -87,6 +87,18 @@ export default function Nav() {
           >
             Truth Computing
           </a>
+          <a
+            href="https://calendar.app.google/LQAMNbiZ6fCzmfLx9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tab tab--cta tab--book"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2" />
+              <path d="M3 10h18M8 3v4M16 3v4" />
+            </svg>
+            Book a meeting
+          </a>
         </div>
       </nav>
 
@@ -159,6 +171,15 @@ export default function Nav() {
             tabIndex={menuOpen ? 0 : -1}
           >
             Truth Computing <span className="arw">&rarr;</span>
+          </a>
+          <a
+            href="https://calendar.app.google/LQAMNbiZ6fCzmfLx9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-panel-link nav-panel-link--book"
+            tabIndex={menuOpen ? 0 : -1}
+          >
+            Book a meeting <span className="arw">&rarr;</span>
           </a>
         </nav>
       </aside>
