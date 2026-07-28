@@ -20,7 +20,7 @@ import { leadershipRoles } from '../src/data/leadership.js';
 // characteristic to an anonymous stranger is a different act from a person
 // choosing to write it about himself. First-generation stays, because his own
 // prose ties it directly to why Feynman exists.
-const PROFILE = `Matthew Torre is the co-founder, CEO, and CTO of Truth Computing, and a Stanford University coterm student. B.S. Computer Science, Artificial Intelligence concentration with a minor focus in data science and systems, conferred June 2026 with distinction, GPA 3.8/4.00. M.S. Computer Science, Artificial Intelligence and Theoretical Computer Science, expected June 2027, GPA 4.0/4.00. He is a first-generation college student.
+const PROFILE = `Matthew Torre is the co-founder, CEO, and CTO of Truth Computing, and a Stanford University coterm student, currently on leave from the program. B.S. Computer Science, Artificial Intelligence concentration with a minor focus in data science and systems, conferred June 2026 with distinction, GPA 3.8/4.00. M.S. Computer Science, Artificial Intelligence and Theoretical Computer Science, in progress and currently on leave, GPA 4.0/4.00. He is a first-generation college student.
 
 His research interest is the mechanics of reasoning under reinforcement learning: how reward signals during post-training shape the internal computations a model uses to solve problems, when chain-of-thought reflects genuine intermediate reasoning rather than post-hoc rationalization, and how process reward models succeed or fail at telling those apart. He also works on interpretability, meta-learning, deep multi-task learning, and evaluation methodology.
 

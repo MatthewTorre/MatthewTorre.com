@@ -54,7 +54,7 @@ export const ROUTES: RouteMeta[] = [
     path: '/about',
     title: 'About — Matthew Torre',
     description:
-      'Co-founder and CEO of Truth Computing, building AI for high-consequence work in healthcare and law. Stanford CS coterm in AI and theoretical computer science.',
+      'Co-founder and CEO of Truth Computing, building AI for high-consequence work in healthcare and law. Stanford CS coterm in AI and theoretical computer science, currently on leave.',
     priority: 0.9,
   },
 ];

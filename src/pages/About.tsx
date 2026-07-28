@@ -57,6 +57,12 @@ const practice = [
   },
 ];
 
+/**
+ * `partner` is named only where the partner has cleared being named. It is a
+ * separate field rather than a clause inside `note` so that removing a name is
+ * a one-line deletion that leaves the description standing, and so the status
+ * word — which is verbatim and never upgraded — is never rewritten to carry it.
+ */
 const arms = [
   {
     name: 'Truth Computing Legal',
@@ -68,13 +74,18 @@ const arms = [
     name: 'Truth Computing Health',
     field: 'Vision care',
     status: 'Design partnership',
-    note: 'Human-gated clinical AI for an optometry practice, spanning intake, imaging workflows, and clinical documentation, each reviewed by a clinician before it enters the record.',
+    partner: 'Affordable Family Vision',
+    note: 'Human-gated clinical AI across intake, imaging workflows, and clinical documentation, each reviewed by a clinician before it enters the record.',
   },
   {
     name: 'Truth Computing Concierge',
     field: 'Automotive',
     status: 'Design partnership',
-    note: 'Constraint-driven inventory matching and customer communication for a luxury dealership.',
+    // A dealership, not the manufacturer. "Porsche dealership" is the accurate
+    // description of the counterparty; "Porsche" alone would claim a
+    // relationship with Porsche AG that does not exist.
+    partner: 'A Porsche dealership',
+    note: 'Constraint-driven inventory matching and customer communication.',
   },
   {
     name: 'Truth Computing Logistics',
@@ -106,7 +117,8 @@ export default function About() {
             Co-founder, Chief Executive Officer, and Chief Technology Officer of Truth
             Computing. I build AI for high-consequence work in healthcare and law, where every
             output carries its sources and waits on a human before anything happens. Stanford
-            CS coterm in artificial intelligence and theoretical computer science.
+            CS coterm in artificial intelligence and theoretical computer science, currently
+            on leave.
           </p>
         </div>
       </header>
@@ -121,7 +133,8 @@ export default function About() {
                 Truth Computing, where we go into businesses in
                 regulated fields, take on the workflows they cannot afford to get wrong, and rebuild
                 them around AI that stays traceable, auditable, and gated on a person. I am also a
-                Stanford CS coterm in artificial intelligence and theoretical computer science. My work sits at the intersection of
+                Stanford CS coterm in artificial intelligence and theoretical computer science,
+                currently on leave from the program. My work sits at the intersection of
                 research, engineering, product, and system design, and I care about building tools
                 that are technically rigorous, intuitive, and reproducible.
               </p>
@@ -292,7 +305,15 @@ export default function About() {
                     <span className="arm-name">{a.name}</span>
                     <span className="arm-status">{a.status}</span>
                   </div>
-                  <p className="arm-field">{a.field}</p>
+                  <p className="arm-field">
+                    {a.field}
+                    {a.partner && (
+                      <>
+                        <span className="arm-sep" aria-hidden="true">·</span>
+                        <span className="arm-partner">{a.partner}</span>
+                      </>
+                    )}
+                  </p>
                   <p className="arm-note">{a.note}</p>
                 </div>
               ))}
@@ -419,8 +440,8 @@ export default function About() {
               <div className="education-degree-row">
                 <span className="education-degree-title">M.S. Computer Science</span>
                 <span className="education-degree-detail">
-                  Artificial Intelligence and Theoretical Computer Science &middot; Expected
-                  June 2027 &middot; GPA 4.0 / 4.00
+                  Artificial Intelligence and Theoretical Computer Science &middot; In progress,
+                  currently on leave &middot; GPA 4.0 / 4.00
                 </span>
               </div>
             </div>

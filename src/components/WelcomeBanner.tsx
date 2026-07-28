@@ -54,7 +54,7 @@ export default function WelcomeBanner() {
 
         <div className="welcome-footer">
           <span className="welcome-tip">
-            💬 Ask the chat bubble anything about my background
+            Ask the chat bubble anything about my background
           </span>
           <button className="welcome-cta" onClick={dismiss}>
             Explore the site →

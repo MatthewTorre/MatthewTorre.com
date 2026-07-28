@@ -92,12 +92,6 @@ export default function Home() {
         <div className="frame">
           <p className="hero-greeting">{greeting()}</p>
           <h1 className="hero-name">Matthew Torre</h1>
-          <p className="hero-standfirst">
-            I design and empirically evaluate probabilistic machine learning systems, and I
-            care most about the point where a result stops being plausible and starts being
-            measured.
-          </p>
-
           <a
             href="https://www.truth-computing.com/"
             target="_blank"
@@ -123,8 +117,8 @@ export default function Home() {
                 and Theoretical Computer Science
               </span>
               <span className="hero-credential-sub">
-                B.S. conferred June 2026, with distinction &middot; GPA 3.8 &middot; M.S. expected
-                June 2027 &middot; GPA 4.0
+                B.S. conferred June 2026, with distinction &middot; GPA 3.8 &middot; M.S. in
+                progress, currently on leave &middot; GPA 4.0
               </span>
             </div>
           </div>
