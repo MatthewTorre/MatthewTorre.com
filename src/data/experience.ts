@@ -152,7 +152,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     company: 'Demystifyd',
-    role: 'Product Engineer',
+    role: 'First Product Manager',
     dates: 'Feb – Sep 2024',
     location: 'Dallas, TX (Remote)',
     description:
