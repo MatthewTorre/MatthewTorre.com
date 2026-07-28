@@ -1,7 +1,25 @@
+/**
+ * `essay` is first-person writing that stands on its own. `note` is a
+ * reflection on someone else's talk, paper, or idea. They are rendered as
+ * separate sections because the second one promises the reader a particular
+ * thing — notes from the Stanford AI ecosystem — that the first would break.
+ */
+export type PostKind = 'essay' | 'note';
+
 export interface LinkedInPost {
   id: string;
-  title: string;
+  kind: PostKind;
+  /** Display label. Month precision, which is all LinkedIn reliably gives. */
   date: string;
+  /**
+   * Sort key, never displayed. LinkedIn reports a post's age relatively
+   * ("1w"), so the day component here is derived from that and is approximate
+   * to within a few days. Nothing user-facing depends on it: `date` stays at
+   * month precision, which the derivation cannot get wrong. Ties keep their
+   * array order, since Array.prototype.sort is stable.
+   */
+  iso: string;
+  title: string;
   tags: string[];
   excerpt: string;
   fullText: string;
@@ -11,9 +29,84 @@ export interface LinkedInPost {
 
 export const linkedinPosts: LinkedInPost[] = [
   {
+    id: 'tech-genius',
+    kind: 'essay',
+    title: "What “Tech Genius” Leaves Out: On Imposter Syndrome and Untangling Worth From Work",
+    date: 'July 2026',
+    iso: '2026-07-21',
+    tags: ['First-Generation', 'Imposter Syndrome', 'Stanford'],
+    impressions: 3302,
+    excerpt: `Tech Genius are two words I've heard thrown at me the last few weeks. I don't think that is the case at all. I had a 1220 SAT in high school. I got a 1 on my AP Calculus AB exam. And before stepping onto Stanford's campus, I had never written a single line of code in my life.`,
+    fullText: `Tech Genius are two words I've heard thrown at me the last few weeks. "Matthew has an IQ of 160-180", "He is on a different planet in terms of AI", "You are the next Elon Musk". "I can't even understand half the things you say". "You must be so proud of yourself".
+
+I don't think that is the case at all.
+
+I had a 1220 SAT in high school.
+I got a 1 on my AP Calculus AB exam. And before stepping onto Stanford's campus, I had never written a single line of code in my life.
+
+By every standard higher-education metric, I wasn't supposed to make it here. I didn't have the pedigree, the early tech camps, or the generational blueprint. I failed my first midterms and was scared I was going to drop out. I was a first-generation low income student working 20-30 hours a week just to fix up my car and keep money in my pocket for a rainy day. Sometimes I would only sleep 3-4 hours, others I would pull all nighters, isolated, alone, away from friends, and away from family and anything that made me feel at home. I did this everyday and would tell no one. Because the happiness and service that I could provide others always meant more to me than my personal wellbeing. I dealt with immense pressure everyday of my life to this point. Lots of grief, loss, and pain.
+
+When I got to Stanford CS, the imposter syndrome did not just knock on the door, it lived with me. I was sitting in lecture halls next to peers who had been coding since elementary school, while I was still trying to understand the basic alphabet of computer science. I had to put in double the time just to survive. I knew even one bad week could kill it all. That one slip up that would kill any potential for social stratification.
+
+There were so many nights I wanted to quit. Times where I had less than $100 to my name, trying to balance my family's survival back home with the brutal pace of work, research, and coursework at Stanford.
+
+But I didn't quit.
+Today, I'm a Stanford CS BS/MS candidate. I'm the Co-founder of Truth Computing. And we built Feynman; an AI tool designed explicitly to break down advanced coursework into K-12 lessons, because no kid should be gatekept from their potential just because they don't have a parent who can teach them calculus at the kitchen table.
+
+But if I'm being completely honest, the hardest part of this journey wasn't the code or the math. It was untangling my worth from my work.
+When you fight that hard to prove you belong, you accidentally build a trap where you only feel loved when you are useful. You start believing you are only worth the titles you carry or the infrastructure you build.
+
+To anyone out there who is starting a new journey or with their own mind: You are not a machine. Your human worth is not tied to your output, your GPA, or your funding rounds.
+
+I'm proud of what we are building at Truth Computing. But I'm learning to be prouder of the resilience it took to get here.
+
+Ideas over hierarchy. Community over credentials. Let's keep building.`,
+  },
+  {
+    id: 'ceo-humility',
+    kind: 'essay',
+    title: 'Your Job as CEO Is to Make Your Team More Capable Than You',
+    date: 'July 2026',
+    iso: '2026-07-21',
+    tags: ['Leadership', 'Company Building', 'Truth Computing'],
+    impressions: 731,
+    excerpt: `A great leader is there with their team no matter what. They are not perfect and they should never be the smartest. Your whole job as a CEO is to make your team MORE capable than yourself. This takes humility and absence of ego.`,
+    fullText: `A great leader is there with their team no matter what. Through the bad times and through the good times, they are strong. They are not perfect and they should never be the smartest. Your whole job as a CEO is to make your team MORE capable than yourself. This takes humility and absence of ego. My team at Truth Computing believes that and they are learning and executing at a rate I haven't seen before.
+
+Truth Computing is not just a business to me, it's a philosophy that I believe in very ardently. Jobs did it: he believed in personal computing and knew it would be difficult to convince people of what this new technology is capable of. But in spite of that challenge, he achieved and brought computing to the world, undeniably and forever. His leadership is something I admire but I know he had his faults; short-tempered, apathetic, and overbearing. I learn about their weaknesses so I can understand their challenge and see how I can improve upon the principles they laid out. I learn from the best and combine the best traits and qualities of the leaders and technologists I admire into a cohesive whole
+
+I believe in what I am fighting for. I want to usher in a new era where people are less scared of technology. Where they can use it to empower themselves. I was highly dissatisfied with the leadership in the Silicon Valley. My outlook on the world is that it is filled with communities with people who want to give their kids a better future. I don't see a bright future for generations ahead without a change. It is on the leadership in technology and especially those from Stanford to carry forward this mission of improvement of the human condition.`,
+  },
+  {
+    id: 'first-car',
+    kind: 'essay',
+    title: 'A 2002 Mustang, a Junkyard, and What Persistence Actually Costs',
+    date: 'July 2026',
+    iso: '2026-07-14',
+    tags: ['Resourcefulness', 'Entrepreneurship', 'First-Generation'],
+    impressions: 1161,
+    excerpt: `At the beginning of my journey, I was working to buy my first car — 20-30 hours a week alongside a full course load and wrestling. I ended up with an old 2002 Mustang New Edge. It had a lot of problems, but I took pride fixing it up with my dad with parts from the junkyard.`,
+    fullText: `At the beginning of my journey, I was working to buy my first car. I worked 20-30 hours a week, whilst managing a full course load and being a committed wrestler. I ended up buying an old 2002 Mustang New Edge. It had a lot of problems but I took pride fixing it up with my dad with parts from the junkyard. We worked on that car together every weekend. It was never much, but I was so proud that this car was mine and I earned it.
+
+I've always had to be resourceful. During college, I had no more than $100 dollars to my name at any time. I was working to support myself and support my family back home. Every internship and job I worked: I saved. I did everything I could to make this dream possible. One thing persisted in my head, many times I was ready to quit: that if I put in my time, that I would live the rest of my life doing what I love. By the end of Stanford, I put in double the amount of time needed to become a master at my craft. I want other entrepreneurs on this journey to know that nothing else matters except your persistence and your willingness to fight everyday for what you believe in. For me, I plan to empower my community with the necessary resources and support, for the rest of my life.`,
+  },
+  {
+    id: 'max-nikias',
+    kind: 'note',
+    title: 'On Institutions That Last: A Conversation With Max Nikias',
+    date: 'July 2026',
+    iso: '2026-07-25',
+    tags: ['AI Ethics', 'Institutions', 'Leadership'],
+    impressions: 816,
+    excerpt: `Had a very impassioned discussion with Chrysostomos L. "Max" Nikias, former president of USC. He is a leading scholar on AI ethics and one of the most intelligent men I have run into on this journey.`,
+    fullText: `Had a very impassioned discussion with Chrysostomos L Max Nikias, former president of USC. He is a leading scholar on AI ethics and one of the most intelligent men I have run into on this Journey. Excited to continue building relationships with the men who built respected institutions that last.`,
+  },
+  {
     id: 'jeff-dean-gemini',
+    kind: 'note',
     title: '15 Years of ML Progress in 90 Minutes: What Jeff Dean Shared at Stanford',
     date: 'December 2025',
+    iso: '2025-12-01',
     tags: ['ML Systems', 'Google DeepMind', 'AI'],
     impressions: 1358,
     link: { label: 'View on LinkedIn', url: 'https://www.linkedin.com/in/mtorrestanford/recent-activity/all/' },
@@ -44,8 +137,10 @@ A few things that stand out:
   },
   {
     id: 'cs238-bounded-rationality',
+    kind: 'note',
     title: 'Bounded Rationality: My CS238 Project on Decision Fatigue in AI Agents',
     date: 'December 2025',
+    iso: '2025-12-01',
     tags: ['ML Research', 'Decision Making', 'POMDP'],
     impressions: 6610,
     link: { label: 'View on LinkedIn', url: 'https://www.linkedin.com/in/mtorrestanford/recent-activity/all/' },
@@ -64,8 +159,10 @@ Special thanks to Kim Ngo for her awesome contributions to this project.`,
   },
   {
     id: 'llm-rationality-nlp',
+    kind: 'note',
     title: 'Can Language Models Actually Be Rational? Notes from Stanford NLP',
     date: 'December 2025',
+    iso: '2025-12-01',
     tags: ['LLMs', 'AI Research', 'NLP'],
     impressions: 1882,
     link: { label: 'Read the paper', url: 'https://arxiv.org/abs/2406.03442' },
@@ -88,8 +185,10 @@ Paper: "Are language models rational? The case of coherence norms and belief rev
   },
   {
     id: 'pat-gelsinger-leadership',
+    kind: 'note',
     title: 'What Pat Gelsinger Taught Me About Leading Through Uncertainty',
     date: 'March 2026',
+    iso: '2026-03-01',
     tags: ['Tech Leadership', 'Semiconductors', 'Strategy'],
     impressions: 1036,
     link: { label: 'View on LinkedIn', url: 'https://www.linkedin.com/in/mtorrestanford/recent-activity/all/' },
@@ -108,8 +207,10 @@ How he integrates faith, values, and ambition in the workplace, refusing to silo
   },
   {
     id: 'felicis-aydin-senkut',
+    kind: 'note',
     title: 'Asymmetric Risk and the AI Venture Shift: Notes from Aydin Senkut at Stanford GSB',
     date: 'December 2025',
+    iso: '2025-12-01',
     tags: ['Venture', 'AI', 'Startups'],
     impressions: 4476,
     link: { label: 'View post', url: 'https://www.instagram.com/p/DRQ6SW9Edny/' },

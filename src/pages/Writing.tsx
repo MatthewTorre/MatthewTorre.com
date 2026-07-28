@@ -111,6 +111,11 @@ function readingTime(text: string) {
 
 function PostCard({ post }: { post: LinkedInPost }) {
   const [expanded, setExpanded] = useState(false);
+  /**
+   * Short posts carry an excerpt equal to the whole post. Rendering the toggle
+   * for those gives the reader a control that visibly does nothing.
+   */
+  const hasMore = post.fullText.length > post.excerpt.length;
 
   return (
     <article className="post-card">
@@ -122,7 +127,7 @@ function PostCard({ post }: { post: LinkedInPost }) {
       </div>
       <h3 className="post-card-title">{post.title}</h3>
       <div className="post-card-body">
-        <p className="post-card-text">{expanded ? post.fullText : post.excerpt}</p>
+        <p className="post-card-text">{expanded && hasMore ? post.fullText : post.excerpt}</p>
       </div>
       <div className="post-card-footer">
         <div className="post-card-tags">
@@ -136,14 +141,26 @@ function PostCard({ post }: { post: LinkedInPost }) {
               {post.link.label} &#8599;
             </a>
           )}
-          <button className="post-expand-btn" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
-            {expanded ? 'Show less' : 'Read more'}
-          </button>
+          {hasMore && (
+            <button className="post-expand-btn" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
+              {expanded ? 'Show less' : 'Read more'}
+            </button>
+          )}
         </div>
       </div>
     </article>
   );
 }
+
+/**
+ * Newest first. `iso` is compared as a string, which is correct for
+ * zero-padded YYYY-MM-DD and avoids constructing dates in the visitor's
+ * timezone for a value that is only ever a sort key.
+ */
+const byNewest = (a: LinkedInPost, b: LinkedInPost) => b.iso.localeCompare(a.iso);
+
+const essays = linkedinPosts.filter((p) => p.kind === 'essay').sort(byNewest);
+const notes = linkedinPosts.filter((p) => p.kind === 'note').sort(byNewest);
 
 export default function Writing() {
   const [active, setActive] = useState<ReadablePaper | null>(null);
@@ -156,11 +173,12 @@ export default function Writing() {
       <header className="page-header">
         <div className="frame">
           <p className="page-eyebrow">Writing</p>
-          <h1 className="page-title">Papers, reports, and notes.</h1>
+          <h1 className="page-title">Papers, essays, and notes.</h1>
           <p className="page-desc">
             Course papers, independent research, and technical reports across distributed
             systems, machine learning, quantum computing, and AI policy. Most open in place
-            and download directly. Co-authors are named where the work was not solo.
+            and download directly. Co-authors are named where the work was not solo. Below
+            them, essays written in my own voice and notes on other people's work.
           </p>
         </div>
       </header>
@@ -171,6 +189,27 @@ export default function Writing() {
             {papers.map((paper, i) => (
               <div key={paper.id} className={`reveal reveal-delay-${Math.min(i + 1, 7)}`}>
                 <PaperCard paper={paper} onOpen={setActive} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="frame" style={{ padding: '56px 48px 0' }}>
+          <div className="section-header reveal">
+            <span className="section-label">Essays</span>
+            <h2>In my own voice</h2>
+            <p>
+              Writing on leadership, building, and the road to Stanford as a
+              first-generation student. Originally posted on LinkedIn.
+            </p>
+          </div>
+
+          <div className="posts-list">
+            {essays.map((post, i) => (
+              <div key={post.id} className={`reveal reveal-delay-${Math.min(i + 1, 5)}`}>
+                <PostCard post={post} />
               </div>
             ))}
           </div>
@@ -189,7 +228,7 @@ export default function Writing() {
           </div>
 
           <div className="posts-list">
-            {linkedinPosts.map((post, i) => (
+            {notes.map((post, i) => (
               <div key={post.id} className={`reveal reveal-delay-${Math.min(i + 1, 5)}`}>
                 <PostCard post={post} />
               </div>

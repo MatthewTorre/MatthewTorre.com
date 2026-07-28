@@ -509,10 +509,19 @@ export const projects: Project[] = [
         text: 'Rebuilds university-level coursework as a five-rung "Learning Ladder", so a learner climbs from first exposure to fluency in defined steps rather than being handed a syllabus',
       },
       {
+        text: 'Translates advanced Stanford technology coursework into standards-aligned K-12 lessons, so the material arrives in a form a teacher can actually teach from rather than a form only a university course can carry',
+      },
+      {
+        text: 'Students learn through interactive visual discovery rather than reading, and the AI tutor runs on-device, so student data stays on the student\'s machine instead of being sent somewhere to be processed',
+      },
+      {
         text: 'Built for first-generation and low-income students, the group least likely to have someone at home who has already taken the course',
       },
       {
         text: 'Free to use, and carried forward as a mission project under Truth Computing rather than run as a commercial product',
+      },
+      {
+        text: 'Live at learn-feynman.com as of July 2026; in conversation with the XCITE leadership team at UC Riverside about bringing Feynman to the Riverside community, which is a partnership being explored rather than one that is signed',
       },
     ],
     tags: ['Education', 'Applied AI', 'Access', 'Product', 'Web'],
@@ -524,9 +533,10 @@ export const projects: Project[] = [
       signals: [
         'Structures material as a ladder with defined rungs instead of shipping another content library',
         'Targets a specific population — first-generation and low-income students — rather than a general audience',
+        'Runs the tutor on-device, so the privacy claim is a property of where the model sits rather than a policy promise',
         'Kept free and run as a mission project rather than converted into a product',
       ],
-      skills: ['Product Design', 'Applied AI', 'Education Technology', 'Web Engineering'],
+      skills: ['Product Design', 'Applied AI', 'Education Technology', 'On-Device Inference', 'Web Engineering'],
     },
   },
   {
