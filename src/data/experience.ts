@@ -1,25 +1,30 @@
 export interface ExperienceItem {
   company: string;
   role: string;
-  dates: string;
+  /**
+   * Omitted where the range is not yet confirmed. The row renders without a
+   * date rather than with a placeholder: a recruiter reading "TODO" on a
+   * public page draws a worse conclusion than one reading nothing.
+   */
+  dates?: string;
   description: string;
   logo?: string;
   location?: string;
   url?: string;
   /**
    * Specifics that would not survive being compressed into `description`:
-   * figures, scope, named collaborators, advisors. Rendered as a list under
-   * the paragraph and read verbatim by api/_prompt.ts, so every number here
-   * has to be one Matthew can stand behind.
+   * figures and scope. Rendered as a list under the paragraph and read
+   * verbatim by api/_prompt.ts, so every number here has to be one Matthew
+   * can stand behind on request.
+   *
+   * Two things stay out. Anything an employer or client would regard as
+   * internal — headcounts, rankings, internal event results, named client
+   * deliverables — because a standard intern agreement covers it. And bare
+   * "Advisor: <name>" attributions, because a third party's name is not
+   * Matthew's credential to spend.
    */
   highlights?: string[];
 }
-
-/**
- * Placeholder for a date range not yet confirmed. Renders visibly so an
- * unfilled entry cannot ship unnoticed.
- */
-const DATES_TODO = 'TODO: add dates';
 
 export const experience: ExperienceItem[] = [
   {
@@ -41,15 +46,6 @@ export const experience: ExperienceItem[] = [
       'Graduate research assistant working on language, data, and reasoning within SAIL. Mentored by Dr. Amin Saberi and Dr. Amin Karbasi.',
     logo: '/images/logos/sail.png',
     url: 'https://ai.stanford.edu/',
-  },
-  {
-    company: 'Synchrony',
-    role: 'AI Solutions',
-    dates: 'Jun 2026',
-    location: 'New York, NY',
-    description: 'Internship offer accepted; resigned prior to the start date.',
-    logo: '/images/logos/synchrony.jpeg',
-    url: 'https://www.synchrony.com/',
   },
   {
     company: 'Truth Computing Media',
@@ -118,11 +114,15 @@ export const experience: ExperienceItem[] = [
   },
   {
     company: 'Synchrony',
-    role: 'Enterprise Architect (Business Leadership Program), Generative AI Incubation',
+    // Named at the program level. "Business Leadership Program, Enterprise
+    // Architecture" is what the offer and the org chart say, and it is the part
+    // a reference check confirms; a shorter title that outruns the record is
+    // the thing that costs an offer later.
+    role: 'Business Leadership Program — Enterprise Architecture, Generative AI Incubation',
     dates: 'Jun – Aug 2025',
     location: 'New York, NY',
     description:
-      'Built technology in a highly regulated environment and managed the tech stack for a multi-billion dollar company. Developed Synced-In, an embedding-based RAG system for natural-language expert search (Flask, semantic ranking); benchmarked retrieval quality against keyword baselines; ranked top 10 of 140+ teams at the internal hackathon (190+ attendees).',
+      'Built and shipped generative AI inside a regulated financial environment, where a system has to satisfy model risk, audit, and review before it reaches anyone. Developed Synced-In, an embedding-based retrieval system for natural-language expert search (Flask, semantic ranking), and benchmarked its retrieval quality against a keyword baseline rather than reporting it on its own terms.',
     logo: '/images/logos/synchrony.jpeg',
     url: 'https://www.synchrony.com/',
   },
@@ -148,7 +148,6 @@ export const experience: ExperienceItem[] = [
     highlights: [
       'Assisted in data-related tasks drawing on survey data from over 6,300 participants across 32 countries, 9 regions, and 23 different languages, shaping Meta’s platform governance policies',
       'Worked on the America in One Room project and the Metaverse project',
-      'Research advisor: Alice Siu',
     ],
   },
   {
@@ -164,7 +163,6 @@ export const experience: ExperienceItem[] = [
       'Led the development of multiple features working with agile methodologies, data analysis, and product design to increase user engagement, reaching 100 daily active users and a 10% premium conversion rate',
       'Authored the Product Requirements Document (PRD) for multiple features, covering feature overview, target audience, user research, A/B testing, usability studies, technical requirements, and go-to-market strategy',
       'Collaborated with the Founder/CTO, Marketing, and UX Designers to execute six months of growth strategy including content calendars, virtual conferences, and sponsorship management',
-      'Advisor: David Ajoku',
     ],
   },
   {
@@ -185,20 +183,22 @@ export const experience: ExperienceItem[] = [
   {
     company: 'Stanford Management Group',
     role: 'Project Manager',
-    dates: DATES_TODO,
     location: 'Stanford, CA',
+    // Clients are described by sector, not by name. A student consulting group
+    // engages under the client's terms, and the method — team, research volume,
+    // how a recommendation got built — is the part that is Matthew's to tell
+    // and the part a prospective client actually wants to read.
     description:
-      'Led an eight-week consulting engagement for Lumiere Education, managing a team of six consultants through expansion into new verticals.',
+      'Led an eight-week engagement for an education technology client, managing a team of six consultants through an expansion into new verticals. Also consulted for two large technology companies.',
     logo: '/images/logos/stanford-marketing.jpeg',
     highlights: [
-      'Led an 8-week project for Lumiere Education managing a team of 6 consultants, ensuring alignment on deliverables, expansion into new verticals, primary research directions, and recommendation frameworks',
-      'Synthesized insights from 30+ user interviews and 140+ primary research surveys, leading to actionable recommendations that improved user engagement and project outcomes',
+      'Led a team of 6 consultants across an 8-week engagement, holding alignment on deliverables, primary research directions, and recommendation frameworks',
+      'Synthesized 30+ user interviews and 140+ primary research surveys into recommendations the client could act on directly',
     ],
   },
   {
     company: 'Stanford Healthcare Consulting Group',
     role: 'Project Lead',
-    dates: DATES_TODO,
     location: 'Stanford, CA',
     description:
       'Led Stanford’s Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, working from physician interviews and workflow surveys toward evidence-based changes to the electronic health record.',
@@ -206,7 +206,10 @@ export const experience: ExperienceItem[] = [
     highlights: [
       'Oversaw Stanford’s effort on the Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, leading a team of 5 consultants synthesizing and analyzing 15+ physician interviews and 3 workflow sentiment surveys',
       'Proposed and substantiated 3 evidence-based interventions for user interface improvements in the Electronic Health Record (EHR)',
-      'Developed an implementation strategy for physician workflow optimization, drafting fishbone diagrams and sustainability plans to bring the Standardized Infection Ratio (SIR) at Stanford Health Care to ≤ 0.7 in Fiscal Year 2024–2025',
+      // The hospital's own SIR target for the fiscal year was in this line. A
+      // named hospital's internal quality goal is theirs to publish, not a
+      // student consultant's, and the strategy is the credential regardless.
+      'Developed an implementation strategy for physician workflow optimization, drafting fishbone diagrams and sustainability plans against the initiative’s infection-rate reduction target',
     ],
   },
   {
@@ -222,7 +225,6 @@ export const experience: ExperienceItem[] = [
   {
     company: 'Journalismera',
     role: 'Founder and Producer',
-    dates: DATES_TODO,
     description:
       'Produced and invested in a digital content production business, working across journalism, filmmaking, stop motion, and travel to deliver tailored high-quality content across four major media platforms.',
     logo: '/images/logos/journalismera.jpeg',
@@ -237,7 +239,6 @@ export const experience: ExperienceItem[] = [
   {
     company: 'Joby for Congress (CA-16)',
     role: 'Campaign Associate',
-    dates: DATES_TODO,
     location: 'California',
     description:
       'Created, wrote, filmed, and produced four campaign advertisements with Mark Torre, delivered across paid video, connected TV, programmatic, and social.',
@@ -275,7 +276,7 @@ export const activities = [
   },
   {
     org: 'Stanford Management Group',
-    role: 'Consultant (Google, Microsoft, Lumiere client projects)',
+    role: 'Project Manager, Consultant',
     logo: '/images/logos/stanford-marketing.jpeg',
   },
   {

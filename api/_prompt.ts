@@ -11,9 +11,16 @@ import { skillGroups } from '../src/data/skills.ts';
 import { mentors } from '../src/data/mentors.ts';
 import { reading } from '../src/data/reading.ts';
 import { domains, PROVENANCE_LABEL } from '../src/data/foundation.ts';
+import { leadershipRoles } from '../src/data/leadership.ts';
 
 /** Facts that live in prose on the pages rather than in a data module. */
-const PROFILE = `Matthew Torre is a Stanford University coterm student. B.S. Computer Science, Artificial Intelligence concentration with a minor focus in data science and systems, conferred June 2026 with distinction, GPA 3.8/4.00. M.S. Computer Science, Artificial Intelligence and Theoretical Computer Science, expected June 2027, GPA 4.0/4.00. He is a first-generation college student and a member of the AAPI community.
+// Matthew states his AAPI background himself on the About page, where it is his
+// to state. It is deliberately not here: a chat assistant asked "what is his
+// ethnicity" would answer from this text, and a bot volunteering a protected
+// characteristic to an anonymous stranger is a different act from a person
+// choosing to write it about himself. First-generation stays, because his own
+// prose ties it directly to why Feynman exists.
+const PROFILE = `Matthew Torre is the co-founder, CEO, and CTO of Truth Computing, and a Stanford University coterm student. B.S. Computer Science, Artificial Intelligence concentration with a minor focus in data science and systems, conferred June 2026 with distinction, GPA 3.8/4.00. M.S. Computer Science, Artificial Intelligence and Theoretical Computer Science, expected June 2027, GPA 4.0/4.00. He is a first-generation college student.
 
 His research interest is the mechanics of reasoning under reinforcement learning: how reward signals during post-training shape the internal computations a model uses to solve problems, when chain-of-thought reflects genuine intermediate reasoning rather than post-hoc rationalization, and how process reward models succeed or fail at telling those apart. He also works on interpretability, meta-learning, deep multi-task learning, and evaluation methodology.
 
@@ -27,6 +34,8 @@ const RULES = `You are the assistant on Matthew Torre's portfolio site. Answer q
 - Use only what the reference states. If it is not there, say you do not know and point to mtorre04@stanford.edu.
 - Never invent a date, number, employer, result, or course.
 - Quote figures exactly as written. Do not round or restate them.
+- Clients and design partners are described by sector, never named, and the reference does not name them. If asked which company a client, design partner, or consulting engagement was, say that is not something the site discloses and point to mtorre04@stanford.edu. Do not guess, and do not infer a name from a sector, a city, or a date.
+- Do not discuss Matthew's ethnicity, race, religion, health, age, or family. If asked, say the site does not cover that.
 - Write plainly. No bullet lists unless asked, no headings, no bold.`;
 
 function section(title: string, body: string) {
@@ -42,10 +51,12 @@ function buildExperience() {
     const detail = e.highlights?.length
       ? `\n${e.highlights.map((h) => `    · ${h}`).join('\n')}`
       : '';
-    return `- ${e.company} — ${e.role} (${e.dates}${where}). ${e.description}${detail}`;
+    const when = e.dates ? `${e.dates}${where}` : where.replace(/^, /, '');
+    return `- ${e.company} — ${e.role}${when ? ` (${when})` : ''}. ${e.description}${detail}`;
   };
-  const current = experience.filter((e) => /present/i.test(e.dates));
-  const past = experience.filter((e) => !/present/i.test(e.dates));
+  // `dates` is optional, so an unconfirmed range must not read as "Present".
+  const current = experience.filter((e) => /present/i.test(e.dates ?? ''));
+  const past = experience.filter((e) => !/present/i.test(e.dates ?? ''));
 
   return (
     section('Current roles', current.map(line).join('\n')) +
@@ -55,6 +66,14 @@ function buildExperience() {
       activities.map((a) => `- ${a.org} — ${a.role}`).join('\n')
     )
   );
+}
+
+function buildLeadership() {
+  const roles = leadershipRoles
+    .map((r) => `- ${r.org} — ${r.role}${r.dates ? ` (${r.dates})` : ''}. ${r.scope}`)
+    .join('\n');
+
+  return section('Leadership', roles);
 }
 
 function buildProjects() {
@@ -77,7 +96,8 @@ function buildProjects() {
         : '';
       // Tags are dropped: they restate words already in the oneliner and
       // results, and cost tokens on every request.
-      return `- ${p.title} (${p.context}, ${p.year})\n    ${p.oneliner}${credit}\n${results}`;
+      const where = p.context ? `${p.context}, ` : '';
+      return `- ${p.title} (${where}${p.year})\n    ${p.oneliner}${credit}\n${results}`;
     })
     .join('\n');
 
@@ -159,6 +179,7 @@ export function systemPrompt(): string {
     '\n\n---\n' +
     section('Profile', PROFILE) +
     buildExperience() +
+    buildLeadership() +
     buildProjects() +
     buildPapers() +
     buildCoursework() +

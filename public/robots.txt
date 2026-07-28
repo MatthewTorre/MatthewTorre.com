@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The chat function is not content; crawling it only costs money.
+Disallow: /api/
+
+Sitemap: https://matthewtorre.com/sitemap.xml

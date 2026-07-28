@@ -195,6 +195,16 @@ export default function ChatWidget() {
               <SendIcon />
             </button>
           </div>
+
+          {/*
+            Notice at collection. What a visitor types leaves this site for a
+            third-party model provider, and that has to be said before they
+            type it, not in a policy page they will not open.
+          */}
+          <p className="chat-disclosure">
+            Messages are sent to Groq to generate a reply and are not stored by this
+            site. Please don&rsquo;t enter anything confidential.
+          </p>
         </div>
       )}
 

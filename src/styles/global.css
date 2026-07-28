@@ -1454,6 +1454,51 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
   .thread-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
+/* ===== Leadership ===== */
+.leadership-block { max-width: 720px; }
+.leadership-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0 0 24px; }
+.leadership-list { display: flex; flex-direction: column; }
+.leadership-row { display: grid; grid-template-columns: 30px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+.leadership-row:first-child { border-top: 1px solid var(--hairline); }
+.leadership-logo { width: 30px; height: 30px; object-fit: contain; border-radius: 5px; margin-top: 2px; }
+.leadership-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.leadership-role { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
+.leadership-dates { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.leadership-org { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.leadership-scope { font-size: 13.5px; line-height: 1.7; color: var(--ink); margin: 8px 0 0; }
+
+.leadership-early-note { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 20px 0 0; }
+
+/* ===== Where it started ===== */
+.early-block { max-width: 720px; margin-top: 40px; }
+.early-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 10px 0 22px; }
+.early-standing { display: flex; flex-wrap: wrap; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; margin-bottom: 22px; }
+.early-stat { flex: 1 1 160px; background: var(--bg); padding: 18px 22px; }
+.early-stat-value { display: block; font-family: var(--font-mono); font-size: 19px; color: var(--ink); letter-spacing: -0.01em; }
+.early-stat-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 6px; }
+.early-honors { display: flex; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 640px) {
+  .leadership-row { grid-template-columns: 1fr; gap: 10px; }
+  .leadership-head { flex-direction: column; gap: 4px; }
+}
+
+/* ===== Legal notices — present, readable, deliberately quiet ===== */
+.marks-notice { max-width: 680px; margin: 32px 0 0; font-size: 11.5px; line-height: 1.65; color: var(--muted); opacity: 0.8; }
+.reading-license { font-size: 11.5px; color: var(--muted); opacity: 0.8; }
+.chat-disclosure { padding: 0 14px 12px; font-size: 10.5px; line-height: 1.5; color: var(--muted); opacity: 0.85; margin: 0; }
+
+/* ===== 404 ===== */
+.notfound-path { font-family: var(--font-mono); font-size: 0.92em; color: var(--ink); }
+.notfound-routes { list-style: none; margin: 32px 0 0; padding: 0; max-width: 680px; border-top: 1px solid var(--hairline); }
+.notfound-routes li { display: grid; grid-template-columns: 160px 1fr; gap: 20px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+.notfound-routes a { font-family: var(--font-display); font-size: 18px; color: var(--ink); }
+.notfound-routes span { font-size: 14px; line-height: 1.6; color: var(--muted); }
+
+@media (max-width: 640px) {
+  .notfound-routes li { grid-template-columns: 1fr; gap: 4px; }
+}
+
 /* ---- 15. Reduced motion (keep last) ----------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

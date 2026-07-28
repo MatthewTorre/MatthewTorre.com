@@ -8,14 +8,67 @@
     <meta property="og:title" content="Matthew Torre" />
     <meta property="og:description" content="Stanford B.S. and M.S. Computer Science, Artificial Intelligence and Theoretical Computer Science. Probabilistic ML systems, evaluation methodology, and the coursework underneath them." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:site_name" content="Matthew Torre" />
+    <meta property="og:url" content="https://matthewtorre.com/" />
+    <meta property="og:image" content="https://matthewtorre.com/og-image.jpg" />
+    <meta property="og:image:alt" content="Matthew Torre" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:image" content="https://matthewtorre.com/og-image.jpg" />
+    <link rel="canonical" href="https://matthewtorre.com/" />
+    <!--
+      Structured data. This is what search engines read to establish that the site is
+      about a specific person rather than a company or a topic. Every claim here is
+      also stated on a page; do not add one that is not.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://matthewtorre.com/#matthew-torre",
+        "name": "Matthew Torre",
+        "url": "https://matthewtorre.com",
+        "image": "https://matthewtorre.com/og-image.jpg",
+        "email": "mtorre04@stanford.edu",
+        "jobTitle": "Co-founder and Chief Executive Officer",
+        "description": "Designs and empirically evaluates probabilistic machine learning systems. Co-founder and CEO of Truth Computing.",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Truth Computing",
+          "url": "https://truth-computing.com"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Stanford University",
+          "url": "https://www.stanford.edu"
+        },
+        "knowsAbout": [
+          "Machine learning systems",
+          "Probabilistic modeling",
+          "Evaluation methodology",
+          "Distributed systems",
+          "Theoretical computer science"
+        ],
+        "sameAs": [
+          "https://github.com/MatthewTorre",
+          "https://www.linkedin.com/in/mtorrestanford/"
+        ]
+      }
+    </script>
     <meta name="theme-color" content="#ffffff" id="themeColor" />
-    <link rel="icon" type="image/png" href="/matt-logo.png" />
-    <link rel="apple-touch-icon" href="/matt-logo.png" />
+    <!-- Sized icons. The 512px source is 360 KB and was being fetched as the favicon. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin />
-    <!-- Resolve the theme before first paint so the page never flashes light. -->
+    <!--
+      Resolve the theme before first paint so the page never flashes light.
+
+      Inline, so it runs with no round trip — which means the Content-Security-
+      Policy in vercel.json has to allowlist it by sha256 hash. Editing this by
+      one character invalidates the hash and the browser silently refuses to run
+      it. `npm run build` recomputes and verifies the hash, and fails the build
+      on a mismatch, so this cannot ship broken. Run `npm run csp:hash -- --write`
+      to update vercel.json after an intentional edit.
+    -->
     <script>
       (function () {
         var t = localStorage.getItem('theme');

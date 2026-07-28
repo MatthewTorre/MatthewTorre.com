@@ -1,7 +1,11 @@
+/**
+ * `text` is rendered as text, never as markup. An `html` escape hatch used to
+ * exist here for one subscript; it was removed so the card has no raw-HTML
+ * sink at all rather than a disused one waiting to be reused carelessly.
+ */
 export interface ResultItem {
   text: string;
   metric?: string;
-  html?: boolean;
 }
 
 export interface ProjectTldr {
@@ -15,7 +19,12 @@ export interface Project {
   title: string;
   oneliner: string;
   problem: string;
-  context: string;
+  /**
+   * The setting the work was done in. Omitted where that is not settled — the
+   * badge then does not render, which is quieter and more credible than a
+   * card telling a visiting client that its own author has not filled it in.
+   */
+  context?: string;
   year: string;
   results: ResultItem[];
   tags: string[];
@@ -134,12 +143,6 @@ export const projects: Project[] = [
       },
       {
         text: 'Across those 800 rollouts, sample-level exact correctness was 0.311 and the mean verifier score was 0.371, so the pass@16 figure reflects sampling breadth rather than per-attempt reliability',
-      },
-      {
-        text: 'Curriculum against uniform sampling: [FIGURE NEEDED: pass@k for the Elo-curriculum RLOO run versus the uniform-sampling RLOO baseline, and whether the curriculum reached comparable pass@k in fewer environment steps]',
-      },
-      {
-        text: '[FIGURE NEEDED: what the Elo approach showed — whether problem ratings separated by difficulty as intended, and whether the agent rating tracked its actual solve rate]',
       },
     ],
     tags: ['RLOO', 'IPO', 'Curriculum Learning', 'Elo Rating', 'Qwen 2.5', 'PyTorch', 'Verifier-Based Reward', 'LLM Post-Training'],
@@ -404,8 +407,7 @@ export const projects: Project[] = [
     title: 'Swish: Shot Outcome Classification from Video',
     oneliner: 'A ResNet-18 video classifier that labels a basketball clip made or missed, served behind a FastAPI inference endpoint.',
     problem: 'Can a small video model decide whether a shot went in from the clip alone, without ball tracking, pose estimation, or court geometry?',
-    context: '[CONTEXT NEEDED: the setting this was built in — course, employer, or independent]',
-    year: '2025–2026',
+      year: '2025–2026',
     results: [
       {
         text: 'ResNet-18 backbone applied per frame with temporal average pooling: 16 frames sampled evenly across the clip, resized to 224x224 and ImageNet-normalized, pooled to a single 512-dimensional feature, then classified made or missed',
@@ -418,9 +420,6 @@ export const projects: Project[] = [
       },
       {
         text: 'Trained weights are committed to the repository, so the endpoint runs without a training step first',
-      },
-      {
-        text: '[FIGURE NEEDED: dataset size — how many made and missed clips — and validation accuracy]',
       },
     ],
     tags: ['Video Classification', 'ResNet-18', 'Temporal Pooling', 'PyTorch', 'FastAPI', 'OpenCV', 'Inference API'],
@@ -455,8 +454,11 @@ export const projects: Project[] = [
       {
         text: 'Benchmarked retrieval quality against a keyword-search baseline rather than assessing the system on its own terms',
       },
+      // The internal hackathon placing, field size, and attendance were here.
+      // Those are the employer's numbers about the employer's event, and a
+      // standard intern agreement covers them. The system is the credential.
       {
-        text: 'Placed top 10 of 140+ teams at the internal hackathon (190+ attendees)',
+        text: 'Exposed through modular APIs so the retrieval layer could be integrated into existing tooling rather than shipped as a standalone demo',
       },
     ],
     tags: ['RAG', 'Embeddings', 'Semantic Search', 'Flask', 'Python', 'Enterprise Integration'],
@@ -467,7 +469,7 @@ export const projects: Project[] = [
       signals: [
         'Chose the right baseline to beat — keyword search — and measured against it instead of reporting absolute numbers alone',
         'Designed modular APIs for integration rather than building a standalone demo',
-        'Top 10 of 140+ teams at the internal hackathon',
+        'Built inside a regulated financial institution, where a retrieval system has to clear review before it reaches anyone',
       ],
       skills: ['RAG', 'Embedding Retrieval', 'Evaluation Design', 'Flask', 'Enterprise Software'],
     },
@@ -477,23 +479,10 @@ export const projects: Project[] = [
     title: 'Technology Assessment Optimization',
     oneliner: 'A retrieval system that automates the evidence-extraction step of a technology assessment against SOC 2 compliance reports. Python.',
     problem: 'Can retrieval replace manual evidence-gathering in a domain where a wrong citation is not a bad answer but an audit finding?',
-    context: '[CONTEXT NEEDED: the setting this was built in — course, employer, or independent]',
-    year: '2025',
+      year: '2025',
     results: [
       {
         text: 'Retrieval-augmented pipeline over SOC 2 compliance reports, automating the step where a reviewer reads the report to find the passage that evidences a given control. Implemented in Python',
-      },
-      {
-        text: '[FIGURE NEEDED: corpus size — how many reports, and roughly how many pages, the system indexes]',
-      },
-      {
-        text: '[FIGURE NEEDED: retrieval stack — embedding model, index or vector store, and the model used to extract the evidence]',
-      },
-      {
-        text: '[FIGURE NEEDED: extraction accuracy and the method behind it — gold-labeled control set, citation correctness rate, or human review of sampled extractions]',
-      },
-      {
-        text: '[FIGURE NEEDED: the baseline this was measured against — manual evidence-gathering time, or keyword search over the same corpus]',
       },
     ],
     tags: ['RAG', 'Retrieval', 'Evidence Extraction', 'SOC 2', 'Compliance', 'Python'],
@@ -504,7 +493,6 @@ export const projects: Project[] = [
       signals: [
         'Targets the specific manual step that consumes reviewer time: locating the passage that evidences a control',
         'Built on a corpus where precision of the citation matters more than fluency of the answer',
-        '[FIGURE NEEDED: the evaluation result that would make this card checkable]',
       ],
       skills: ['RAG', 'Retrieval Systems', 'Evaluation Design', 'Compliance Domain', 'Python'],
     },
@@ -551,7 +539,11 @@ export const projects: Project[] = [
     coauthors: ['Austin Salcedo', 'Nick Walker', 'Chloe Widner'],
     results: [
       {
-        text: "Defined the problem space through interviews with Stanford varsity coaches, including the head coach of Stanford Women's Volleyball, who described receiving 220 emails a day of which 140 came from recruits",
+        // The interviewee is described by category, not by a title that names one
+        // living person. The figures are what carry the point; the identity does
+        // not, and publishing it attributes a private statement to someone who
+        // agreed to a student interview, not to a public quote.
+        text: 'Defined the problem space through interviews with Stanford varsity coaches, one of whom described receiving 220 emails a day of which 140 came from recruits',
       },
       {
         text: 'Enumerated the specific manual steps consuming coach time: filtering inbound forms and emails, transferring information into tracking spreadsheets, keeping track of last contact, reaching high school coaches for game schedules, and updating call notes',
@@ -584,8 +576,7 @@ export const projects: Project[] = [
     coauthors: ['Kai Roybal'],
     results: [
       {
-        text: 'QAOA circuit in Google Cirq: cost Hamiltonian H<sub>C</sub> over pairwise city distances, alternating with a mixer Hamiltonian at p=1, simulated at 1,000 shots',
-        html: true,
+        text: 'QAOA circuit in Google Cirq: cost Hamiltonian H_C over pairwise city distances, alternating with a mixer Hamiltonian at p=1, simulated at 1,000 shots',
       },
       {
         text: 'Run on n=4, n=8, and n=15 city instances, alongside a survey of classical and quantum approaches to TSP and the complexity results that motivate them',

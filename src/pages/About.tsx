@@ -3,6 +3,8 @@ import { skillGroups } from '../data/skills';
 import { domains } from '../data/foundation';
 import { mentors } from '../data/mentors';
 import { reading } from '../data/reading';
+import { leadershipRoles } from '../data/leadership';
+import OrgMark from '../components/OrgMark';
 import { useRevealAll } from '../hooks/useReveal';
 import portrait from '../assets/images/MATT_NEW.jpg';
 import stanfordLogo from '../assets/images/stanford-logo.png';
@@ -31,7 +33,7 @@ const practice = [
   {
     principle: 'Consequential outputs wait on a person.',
     detail:
-      'In the clinical communication pipeline I designed for our vision care partner, the highest-consequence class of message cannot be sent automatically under any configuration. It waits for a licensed clinician to release it.',
+      'In a clinical communication pipeline I designed, the highest-consequence class of message cannot be sent automatically under any configuration. It waits for a licensed clinician to release it.',
   },
   {
     principle: 'Every claim carries its source.',
@@ -49,9 +51,9 @@ const practice = [
       'The coordination platform I own the requirements for states plainly what it will never do: it does not allocate housing, override prioritization policy, replace the system of record, or make eligibility determinations. Knowing what a system must refuse is the design.',
   },
   {
-    principle: 'The security posture is published honestly.',
+    principle: 'The security posture is graded, not asserted.',
     detail:
-      'I wrote the security and safety plan for our healthcare platform with a three-state vocabulary: in place, partial, and required before production. It names what is not yet built and forbids real patient data until that list closes.',
+      'I write our safety plans with a three-state vocabulary: in place, partial, and required before production. A control is never described as done because it is planned, and real patient data does not enter a system until the third list is empty.',
   },
 ];
 
@@ -337,10 +339,60 @@ export default function About() {
                       PDF
                     </a>
                   )}
+                  {/* Attribution for the re-hosted copy, required by its license. */}
+                  {r.pdf && r.license && (
+                    <span className="reading-license">
+                      Copy hosted here under{' '}
+                      <a
+                        href={r.license.url}
+                        target="_blank"
+                        rel="noopener noreferrer license"
+                        className="reading-link"
+                      >
+                        {r.license.label}
+                      </a>
+                      , unmodified.
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="leadership">
+        <div className="frame" style={{ padding: '56px 48px' }}>
+          <div className="section-header reveal">
+            <span className="section-label">Leadership</span>
+            <h2>Teams I have been responsible for</h2>
+          </div>
+
+          <div className="leadership-block reveal reveal-delay-1">
+            <p className="leadership-intro">
+              Most of what I have built was built with other people, and the number in each
+              line below is the number I was actually accountable for. The habit started at
+              home. I love my community, and the work I want to spend my life on is turning
+              Southern California into the next tech capital of the world.
+            </p>
+
+            <div className="leadership-list">
+              {leadershipRoles.map((r) => (
+                <div key={`${r.org}-${r.role}`} className="leadership-row">
+                  <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
+                  <div className="leadership-body">
+                    <div className="leadership-head">
+                      <span className="leadership-role">{r.role}</span>
+                      {r.dates && <span className="leadership-dates">{r.dates}</span>}
+                    </div>
+                    <p className="leadership-org">{r.org}</p>
+                    <p className="leadership-scope">{r.scope}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -353,7 +405,7 @@ export default function About() {
 
           <div className="education-block reveal reveal-delay-1">
             <div className="education-block-header">
-              <img src={stanfordLogo} alt="" className="education-logo" />
+              <img src={stanfordLogo} alt="" className="education-logo" loading="lazy" decoding="async" />
               <p className="education-school">Stanford University</p>
             </div>
             <div className="education-degrees">
@@ -400,7 +452,7 @@ export default function About() {
             <div className="cert-grid">
               {certs.map((cert) => (
                 <div key={cert.name} className="cert-row">
-                  <img src="/images/logos/deeplearningai.jpeg" alt="" className="cert-logo" />
+                  <img src="/images/logos/deeplearningai.jpeg" alt="" className="cert-logo" loading="lazy" decoding="async" />
                   <div className="cert-info">
                     <span className="cert-name">{cert.name}</span>
                     <span className="cert-meta">
@@ -441,6 +493,10 @@ export default function About() {
             <p className="mentors-intro">
               I am grateful to the researchers, educators, and practitioners who have shaped
               how I think about research, engineering, and strategy.
+            </p>
+            <p className="ack-disclaimer" style={{ margin: '0 0 18px' }}>
+              Named with their knowledge as advisors of record. Nothing here implies their
+              endorsement of Truth Computing or of any claim on this site.
             </p>
             <ul className="mentors-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {mentors.map((m) => (

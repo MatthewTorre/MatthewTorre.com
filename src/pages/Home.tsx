@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
+import OrgMark from '../components/OrgMark';
 import { projects } from '../data/projects';
 import { papers } from '../data/papers';
 import { experience } from '../data/experience';
 import { domains } from '../data/foundation';
+import { leadershipRoles } from '../data/leadership';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 import { useRevealAll } from '../hooks/useReveal';
 
@@ -30,8 +32,8 @@ const truthComputingWork = [
     desc: 'I own the requirements for a homelessness-coordination platform. It states plainly what it will not do: allocate housing, override prioritization policy, replace a system of record, or decide eligibility.',
   },
   {
-    title: 'Publishing an incomplete security posture accurately',
-    desc: 'I own the safety plan for a design-partner platform. It separates controls that are implemented from those that are partial, and blocks real regulated data until the gap list closes.',
+    title: 'A security posture written in three states',
+    desc: 'Every platform I own carries a safety plan that grades each control as in place, partial, or required before production — and no real regulated data enters a system until that third list is empty.',
   },
   {
     title: 'Grounded by construction, not by checking',
@@ -107,9 +109,9 @@ export default function Home() {
               Truth Computing <span className="arw">&rarr;</span>
             </span>
             <span className="hero-focus-desc">
-              Co-founder, Chief Executive Officer, and Chief Technology Officer. Where this
-              work is heading: systems that hold their claims to a measurable standard.
-              truth-computing.com
+              Co-founder, Chief Executive Officer, and Chief Technology Officer, leading a
+              team of twelve. Where this work is heading: systems that hold their claims to a
+              measurable standard. truth-computing.com
             </span>
           </a>
 
@@ -237,6 +239,45 @@ export default function Home() {
           </div>
           <div className="reveal reveal-delay-1">
             <ProjectCard project={featured} />
+          </div>
+        </div>
+      </section>
+
+      <section className="home-section">
+        <div className="frame">
+          <div className="section-header reveal">
+            <span className="section-label">Leadership</span>
+            <h2>Teams I have been responsible for</h2>
+            <p>
+              Most of what I have built was built with other people, and the number in each
+              line is the number I was actually accountable for. I love my community, and the
+              work I want to spend my life on is turning Southern California into the next tech
+              capital of the world.
+            </p>
+          </div>
+
+          <div className="leadership-block reveal reveal-delay-1">
+            <div className="leadership-list">
+              {leadershipRoles.slice(0, 4).map((r) => (
+                <div key={`${r.org}-${r.role}`} className="leadership-row">
+                  <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
+                  <div className="leadership-body">
+                    <div className="leadership-head">
+                      <span className="leadership-role">{r.role}</span>
+                      {r.dates && <span className="leadership-dates">{r.dates}</span>}
+                    </div>
+                    <p className="leadership-org">{r.org}</p>
+                    <p className="leadership-scope">{r.scope}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="home-cta-row reveal reveal-delay-2">
+            <Link to="/about#leadership" className="btn btn-outline">
+              All {leadershipRoles.length} roles <span className="arw">&rarr;</span>
+            </Link>
           </div>
         </div>
       </section>

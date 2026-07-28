@@ -10,6 +10,13 @@ export interface ReadingEntry {
   url: string;
   /** Local copy, when one is kept. */
   pdf?: string;
+  /**
+   * Required whenever `pdf` is set. Re-hosting someone else's paper is only
+   * lawful under a license that permits it, and CC BY in particular requires
+   * the license be named alongside the copy. No license, no local PDF — link
+   * to `url` instead.
+   */
+  license?: { label: string; url: string };
 }
 
 /**
@@ -32,5 +39,6 @@ export const reading: ReadingEntry[] = [
     note: 'The paper that made intermediate reasoning steps a lever rather than a curiosity. It is also where my question starts: the steps improve the answer, which is not the same as the steps being the reason for the answer.',
     url: 'https://arxiv.org/abs/2201.11903',
     pdf: '/papers/reading/cot.pdf',
+    license: { label: 'CC BY 4.0', url: 'https://creativecommons.org/licenses/by/4.0/' },
   },
 ];

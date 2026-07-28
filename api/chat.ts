@@ -17,6 +17,9 @@ const MAX_MESSAGE_CHARS = 2_000;
 const MAX_TOTAL_CHARS = 16_000;
 const MAX_OUTPUT_TOKENS = 400;
 
+/** Upstream is cut off rather than left to hold the function open. */
+const UPSTREAM_TIMEOUT_MS = 30_000;
+
 /**
  * Per-instance rate limiting. Serverless means this is per warm container, not
  * global, so it throttles a single abusive caller rather than guaranteeing a
@@ -25,6 +28,15 @@ const MAX_OUTPUT_TOKENS = 400;
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 12;
 const hits = new Map<string, number[]>();
+
+/**
+ * Cost backstop. Per-IP limits do nothing against a caller who rotates
+ * addresses, and every request past this point is billed to a personal
+ * account. Set well above what a real reader generates so the ceiling is only
+ * ever reached by abuse.
+ */
+const GLOBAL_MAX_PER_WINDOW = 240;
+let globalHits: number[] = [];
 
 function rateLimited(ip: string): boolean {
   const now = Date.now();
@@ -39,6 +51,43 @@ function rateLimited(ip: string): boolean {
     }
   }
   return recent.length > RATE_MAX;
+}
+
+function globalLimited(): boolean {
+  const now = Date.now();
+  globalHits = globalHits.filter((t) => now - t < RATE_WINDOW_MS);
+  globalHits.push(now);
+  return globalHits.length > GLOBAL_MAX_PER_WINDOW;
+}
+
+/**
+ * Hosts allowed to call this endpoint from a browser.
+ *
+ * A request with no Origin (curl, the test harness, a server-side script) is
+ * not blocked — Origin is trivially omitted, so treating its absence as proof
+ * of anything would be theatre. What this does stop is another site embedding
+ * the widget and spending Matthew's Groq budget, which is the realistic abuse.
+ */
+const ALLOWED_HOSTS = new Set(
+  (process.env.ALLOWED_ORIGINS ?? 'matthewtorre.com,www.matthewtorre.com,localhost')
+    .split(',')
+    .map((h) => h.trim().toLowerCase())
+    .filter(Boolean)
+);
+
+function originAllowed(req: VercelRequest): boolean {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  let host: string;
+  try {
+    host = new URL(origin).hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  if (ALLOWED_HOSTS.has(host)) return true;
+  // Same-origin, and Vercel preview deployments of this project.
+  const self = (req.headers.host ?? '').split(':')[0].toLowerCase();
+  return host === self || host.endsWith('.vercel.app');
 }
 
 interface Turn {
@@ -87,9 +136,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'Chat is not configured.' });
   }
 
+  if (!originAllowed(req)) {
+    return res.status(403).json({ error: 'Not allowed from this origin.' });
+  }
+
   const ip =
     (req.headers['x-forwarded-for'] as string | undefined)?.split(',')[0].trim() ?? 'unknown';
-  if (rateLimited(ip)) {
+  if (rateLimited(ip) || globalLimited()) {
     res.setHeader('Retry-After', '60');
     return res.status(429).json({ error: 'Too many messages. Give it a minute.' });
   }
@@ -99,28 +152,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Invalid request body.' });
   }
 
-  const upstream = await fetch(GROQ_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: 'system', content: systemPrompt() },
-        ...turns.slice(-HISTORY_TURNS),
-      ],
-      max_tokens: MAX_OUTPUT_TOKENS,
-      // Low: this assistant recites facts about one person. Variety is not a
-      // virtue here, and higher values invite invented specifics.
-      temperature: 0.2,
-      top_p: 0.9,
-      stream: true,
-    }),
-  });
+  const abort = new AbortController();
+  const timeout = setTimeout(() => abort.abort(), UPSTREAM_TIMEOUT_MS);
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(GROQ_URL, {
+      signal: abort.signal,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt() },
+          ...turns.slice(-HISTORY_TURNS),
+        ],
+        max_tokens: MAX_OUTPUT_TOKENS,
+        // Low: this assistant recites facts about one person. Variety is not a
+        // virtue here, and higher values invite invented specifics.
+        temperature: 0.2,
+        top_p: 0.9,
+        stream: true,
+      }),
+    });
+  } catch (err) {
+    clearTimeout(timeout);
+    console.error('Groq request failed', err);
+    return res.status(502).json({ error: 'The model is unavailable right now.' });
+  }
 
   if (!upstream.ok || !upstream.body) {
+    clearTimeout(timeout);
     // Log the upstream detail; return none of it. Provider error bodies can
     // echo the request and are not the caller's business.
     console.error('Groq error', upstream.status, await upstream.text().catch(() => ''));
@@ -154,6 +219,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const payload = line.slice(6).trim();
         if (payload === '[DONE]') {
+          clearTimeout(timeout);
           return res.end();
         }
 
@@ -167,6 +233,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   } catch (err) {
     console.error('Stream interrupted', err);
+  } finally {
+    clearTimeout(timeout);
   }
 
   return res.end();

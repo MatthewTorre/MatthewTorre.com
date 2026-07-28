@@ -38,10 +38,14 @@ function mockRes() {
   return { res, out };
 }
 
-const req = (body: any, method = 'POST', ip = '1.2.3.4') => ({
+const req = (body: any, method = 'POST', ip = '1.2.3.4', origin?: string) => ({
   method,
   body,
-  headers: { 'x-forwarded-for': ip },
+  headers: {
+    'x-forwarded-for': ip,
+    host: 'matthewtorre.com',
+    ...(origin ? { origin } : {}),
+  },
 });
 
 let pass = 0, fail = 0;
@@ -124,6 +128,32 @@ stubFetch(true, [
   const big = Array.from({ length: 12 }, () => ({ role: 'user', content: 'y'.repeat(1900) }));
   await handler(req({ messages: big }) as any, res);
   check('rejects an oversized conversation', out.status === 400);
+}
+
+// --- 4b. Origin allowlist ---------------------------------------------------
+// A browser on another site must not be able to spend the Groq budget. A
+// request with no Origin is still allowed: omitting the header is trivial, so
+// treating its absence as a signal would only inconvenience honest callers.
+{
+  const { res, out } = mockRes();
+  await handler(
+    req({ messages: [{ role: 'user', content: 'hi' }] }, 'POST', '2.2.2.1', 'https://evil.example') as any,
+    res
+  );
+  check('rejects a foreign origin', out.status === 403, `got ${out.status}`);
+}
+{
+  const { res, out } = mockRes();
+  await handler(
+    req({ messages: [{ role: 'user', content: 'hi' }] }, 'POST', '2.2.2.2', 'https://matthewtorre.com') as any,
+    res
+  );
+  check('allows the site itself', out.status !== 403);
+}
+{
+  const { res, out } = mockRes();
+  await handler(req({ messages: [{ role: 'user', content: 'hi' }] }, 'POST', '2.2.2.3') as any, res);
+  check('allows a request with no Origin', out.status !== 403);
 }
 
 // --- 5. Upstream failure leaks nothing --------------------------------------

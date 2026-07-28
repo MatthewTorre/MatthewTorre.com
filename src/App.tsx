@@ -6,6 +6,7 @@ import Foundation from './pages/Foundation';
 import About from './pages/About';
 import Experience from './pages/Experience';
 import Writing from './pages/Writing';
+import NotFound from './pages/NotFound';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -20,7 +21,7 @@ function AnimatedRoutes() {
         <Route path="/about" element={<About />} />
         {/* The projects page was renamed; keep old links alive. */}
         <Route path="/projects" element={<Navigate to="/work" replace />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

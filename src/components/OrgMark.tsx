@@ -20,7 +20,16 @@ export default function OrgMark({
   const [failed, setFailed] = useState(false);
 
   if (logo && !failed) {
-    return <img src={logo} alt="" className={className} onError={() => setFailed(true)} />;
+    return (
+      <img
+        src={logo}
+        alt=""
+        className={className}
+        loading="lazy"
+        decoding="async"
+        onError={() => setFailed(true)}
+      />
+    );
   }
 
   const initials = name

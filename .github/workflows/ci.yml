@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only: this workflow checks the code, it never publishes it.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Typecheck, build, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - run: npm ci
+
+      # `npm run build` is tsc, then vite, then the CSP hash check — so a drifted
+      # Content-Security-Policy fails here rather than silently in production.
+      - name: Build
+        run: npm run build
+
+      - name: Test the chat endpoint
+        run: npm test

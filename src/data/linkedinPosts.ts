@@ -49,16 +49,16 @@ A few things that stand out:
     tags: ['ML Research', 'Decision Making', 'POMDP'],
     impressions: 6610,
     link: { label: 'View on LinkedIn', url: 'https://www.linkedin.com/in/mtorrestanford/recent-activity/all/' },
-    excerpt: `Just finished my final paper for Stanford's CS238: Decision Making Under Uncertainty, focused on how bounded rationality shapes the way real agents make decisions when they don't have unlimited compute, time, or perfect information. Our key finding: contextual bandits show human-like decision fatigue, while context-free algorithms fail to discover strategic rest patterns.`,
+    excerpt: `Just finished my final paper for Stanford's CS238: Decision Making Under Uncertainty, focused on how bounded rationality shapes the way real agents make decisions when they don't have unlimited compute, time, or perfect information. Our key finding: contextual bandits show human-like decision fatigue, while context-free algorithms keep deliberating until fatigue saturates.`,
     fullText: `Just finished a fun one this quarter!
 
 For Stanford's CS238: Decision Making Under Uncertainty, I wrote a final paper on how bounded rationality shapes the way real agents make decisions when they don't have unlimited compute, time, or perfect information.
 
 Humans and autonomous agents alike rarely act in a conventionally or mathematically optimal manner because of attention, time, and computational constraints. This project studies how an agent should allocate cognitive effort between low-effort habitual choices, high-effort deliberation, and strategic rest when fatigue accumulates over time.
 
-We built a stochastic decision-making environment with latent fatigue tied to varying task difficulty. There are three action modes (habitual, deliberate, rest) that incur different effort-reward tradeoffs and influence fatigue dynamics. We systematically compared 4 bandit algorithms and 2 POMDP solvers across 50 episodes of 200 timesteps each.
+We built a stochastic decision-making environment with latent fatigue tied to varying task difficulty. There are two action modes, habitual and deliberate, that incur different effort-reward tradeoffs and influence fatigue dynamics. We compared four bandit policies against simple baselines, including rest-heavy schedules, across 25 episodes of horizon 150.
 
-Our key finding: contextual bandits (LinUCB) show human-like decision fatigue, while context-free algorithms fail to discover strategic rest patterns. This framework provides a reproducible testbed for studying computational models of bounded rationality and decision fatigue.
+Our key finding: contextual bandits (LinUCB) show human-like decision fatigue, while context-free algorithms keep deliberating until fatigue saturates. Full POMDP solvers are the planned next step rather than something we ran. This framework provides a reproducible testbed for studying computational models of bounded rationality and decision fatigue.
 
 Special thanks to Kim Ngo for her awesome contributions to this project.`,
   },

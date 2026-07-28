@@ -30,7 +30,9 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
         <>
           <div className="project-card-badges">
             {project.featured && <span className="badge badge-featured">Featured</span>}
-            <span className="badge badge-course">{project.context}</span>
+            {project.context && (
+              <span className="badge badge-course">{project.context}</span>
+            )}
             <span className="badge badge-year">{project.year}</span>
           </div>
 
@@ -52,14 +54,10 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
             {project.results.map((result, i) => (
               <li key={i} className="project-result">
                 <span className="result-bullet" aria-hidden="true" />
-                {result.html ? (
-                  <span dangerouslySetInnerHTML={{ __html: result.text }} />
-                ) : (
-                  <span>
-                    {result.text}
-                    {result.metric && <strong className="metric">{result.metric}</strong>}
-                  </span>
-                )}
+                <span>
+                  {result.text}
+                  {result.metric && <strong className="metric">{result.metric}</strong>}
+                </span>
               </li>
             ))}
           </ul>

@@ -23,12 +23,12 @@ export default function Experience() {
           <div className="experience-list">
             {experience.map((item, i) => (
               <div
-                key={`${item.company}-${item.dates}`}
+                key={`${item.company}-${item.role}`}
                 className={`experience-row reveal reveal-delay-${Math.min(i + 1, 7)}`}
               >
                 <div className="experience-left">
                   <OrgMark name={item.company} logo={item.logo} className="experience-logo" />
-                  <p className="experience-dates">{item.dates}</p>
+                  {item.dates && <p className="experience-dates">{item.dates}</p>}
                   {item.location && <p className="experience-location">{item.location}</p>}
                 </div>
                 <div>
@@ -81,6 +81,17 @@ export default function Experience() {
               </div>
             ))}
           </div>
+
+          {/*
+            Nominative use: the marks identify the organizations described, and
+            nothing here is a claim of sponsorship. Saying so plainly is the
+            cheapest answer to a brand-enforcement letter.
+          */}
+          <p className="marks-notice">
+            Organization names and logos are the trademarks of their respective owners and
+            appear here only to identify the roles described. Their use does not imply
+            sponsorship, affiliation, or endorsement by those organizations.
+          </p>
         </div>
       </section>
     </>

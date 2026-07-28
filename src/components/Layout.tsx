@@ -4,6 +4,7 @@ import Nav from './Nav';
 import Footer from './Footer';
 import ChatWidget from './ChatWidget';
 import WelcomeBanner from './WelcomeBanner';
+import DocumentMeta from './DocumentMeta';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -33,6 +34,14 @@ function ScrollRestorer() {
     const saved = sessionStorage.getItem(`scroll:${location.key}`);
     if (saved) {
       requestAnimationFrame(() => window.scrollTo(0, parseInt(saved, 10)));
+    } else if (location.hash) {
+      // A cross-page anchor: the target section mounts with this render, so wait
+      // a frame before looking for it, and fall back to the top if it is absent.
+      requestAnimationFrame(() => {
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView();
+        else window.scrollTo(0, 0);
+      });
     } else {
       window.scrollTo(0, 0);
     }
@@ -77,6 +86,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
+      <DocumentMeta />
       <ScrollRestorer />
       <ReadingProgress />
       <Nav />
