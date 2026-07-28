@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { systemPrompt } from './_prompt.ts';
+import { systemPrompt } from './_prompt.js';
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 

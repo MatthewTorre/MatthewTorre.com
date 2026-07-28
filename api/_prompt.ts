@@ -4,14 +4,14 @@
 //
 // Built once per cold start and cached in module scope.
 
-import { experience, activities } from '../src/data/experience.ts';
-import { projects } from '../src/data/projects.ts';
-import { papers } from '../src/data/papers.ts';
-import { skillGroups } from '../src/data/skills.ts';
-import { mentors } from '../src/data/mentors.ts';
-import { reading } from '../src/data/reading.ts';
-import { domains, PROVENANCE_LABEL } from '../src/data/foundation.ts';
-import { leadershipRoles } from '../src/data/leadership.ts';
+import { experience, activities } from '../src/data/experience.js';
+import { projects } from '../src/data/projects.js';
+import { papers } from '../src/data/papers.js';
+import { skillGroups } from '../src/data/skills.js';
+import { mentors } from '../src/data/mentors.js';
+import { reading } from '../src/data/reading.js';
+import { domains, PROVENANCE_LABEL } from '../src/data/foundation.js';
+import { leadershipRoles } from '../src/data/leadership.js';
 
 /** Facts that live in prose on the pages rather than in a data module. */
 // Matthew states his AAPI background himself on the About page, where it is his
@@ -84,10 +84,7 @@ function buildProjects() {
       // what stops the model inventing one. The metric stays on its own bullet
       // so a number cannot be paired with the wrong result.
       const results = p.results
-        .map((r) => {
-          const text = r.html ? r.text.replace(/<[^>]+>/g, '') : r.text;
-          return `    · ${text}${r.metric ? ` ${r.metric}` : ''}`;
-        })
+        .map((r) => `    · ${r.text}${r.metric ? ` ${r.metric}` : ''}`)
         .join('\n');
       const credit = p.coauthors?.length
         ? `\n    Team project with ${p.coauthors.join(', ')}.${
