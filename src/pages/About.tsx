@@ -2,24 +2,11 @@ import { Link } from 'react-router-dom';
 import { skillGroups } from '../data/skills';
 import { domains } from '../data/foundation';
 import { mentors } from '../data/mentors';
+import { reading } from '../data/reading';
 import { useRevealAll } from '../hooks/useReveal';
 import portrait from '../assets/images/MATT_NEW.jpg';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 
-const reading = [
-  {
-    id: 'cot',
-    title: 'Chain-of-Thought Prompting Elicits Reasoning in Large Language Models',
-    authors:
-      'Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, Denny Zhou',
-    venue: 'NeurIPS 2022',
-    year: '2022',
-    annotation:
-      'Foundational paper showing that prompting LLMs with intermediate reasoning steps improves performance on arithmetic, commonsense, and symbolic reasoning tasks — directly relevant to understanding when models reason and when they pattern-match.',
-    arxiv: 'https://arxiv.org/abs/2201.11903',
-    pdf: '/papers/reading/cot.pdf',
-  },
-];
 
 const honors = [
   { label: 'Rising Bird Fellowship', url: 'https://careered.stanford.edu/risingbirdfellows' },
@@ -169,27 +156,90 @@ export default function About() {
         <div className="frame" style={{ padding: '56px 48px' }}>
           <div className="section-header reveal">
             <span className="section-label">Research interests</span>
-            <h2>What I think about</h2>
+            <h2>Whether a model&rsquo;s stated reason is its actual reason</h2>
           </div>
           <div className="research-interests reveal reveal-delay-1">
             <p className="research-interest-text">
-              My interests span the mathematical foundations of modern ML and the systems
-              infrastructure that makes it tractable at scale. Interpretability is the lens I
-              keep returning to: understanding what representations models learn, how they use
-              them, and where they fail informs both better architectures and better evaluation
-              methodology. Meta-learning and deep multi-task learning are a growing interest,
-              where the goal is to design algorithms that learn to learn, so models adapt to new
-              tasks from very limited data by exploiting the structure across many related ones.
+              This is the question I keep returning to, and it has held my attention longer
+              than anything else I work on. Chain-of-thought reads like intermediate work,
+              and sometimes it is. Sometimes it is a fluent account assembled after the fact,
+              and from the outside the two are difficult to tell apart. A process reward model
+              scores the reasoning rather than the answer, which only helps if the signal can
+              separate genuine intermediate computation from its appearance.
             </p>
             <p className="research-interest-text">
-              A direction I am actively moving toward: how reward model failures propagate into
-              downstream behavior, and whether the signals used in post-training measure what
-              they intend to. This connects to work I have already done. Invariant was built
-              around the gap between optimal and actual behavior under constraint, and around
-              designing evaluation frameworks honest about what they can and cannot measure.
-              Those questions reappear at the heart of RLHF: a reward model is an evaluation
-              function, and optimizing against an imperfect metric carries the same structural
-              risks at much higher stakes.
+              I have not seen convincing evidence that current methods make that separation. A
+              good deal of published faithfulness work measures whether an explanation is
+              plausible to a human reader and reports the result as faithfulness, which are
+              different properties with different failure modes. The same gap shows up in
+              probing: a classifier recovering a feature from activations establishes that the
+              information is present, and establishing that the model uses it to produce the
+              output takes a causal intervention rather than a correlation.
+            </p>
+            <p className="research-interest-text">
+              What follows from that is a preference for methods that can be checked. Ablations
+              over narratives, interventions over correlations, and evaluation frameworks that
+              state their own limits. It is also why reward modeling interests me: a reward
+              model is an evaluation function, and optimizing hard against an imperfect metric
+              carries the same structural risk at far higher stakes.
+            </p>
+          </div>
+
+          <div className="thread-block reveal reveal-delay-2">
+            <span className="section-label">The thread</span>
+            <p className="thread-intro">
+              The coursework was assigned; the question I brought to it was not. Read in order,
+              the projects on this site are one investigation.
+            </p>
+            <div className="thread-list">
+              <div className="thread-row">
+                <span className="thread-year">2024</span>
+                <p className="thread-text">
+                  Replicating a published UFC prediction baseline to within 0.3pp, and finding
+                  that dataset size rather than architecture was the binding constraint. The
+                  useful result was about where the explanatory power actually lived, not about
+                  the model.
+                </p>
+              </div>
+              <div className="thread-row">
+                <span className="thread-year">2025</span>
+                <p className="thread-text">
+                  Ablating handcrafted SIFT and ORB keypoint channels against a fine-tuned
+                  VGG-16 on Mars imagery. The features constrained the learned representation
+                  rather than augmenting it, which is a claim about what the network had
+                  already encoded internally.
+                </p>
+              </div>
+              <div className="thread-row">
+                <span className="thread-year">2025</span>
+                <p className="thread-text">
+                  Building a POMDP testbed where the interesting quantity was the gap between
+                  optimal and actual behavior under bounded compute, rather than the reward
+                  total on its own.
+                </p>
+              </div>
+              <div className="thread-row">
+                <span className="thread-year">2025</span>
+                <p className="thread-text">
+                  Invariant, built around bootstrap intervals and variance reduction so the
+                  simulation reports what it can support and no more.
+                </p>
+              </div>
+            </div>
+            <p className="thread-close">
+              Different courses, one habit: distrust the stated explanation until something
+              causal backs it.
+            </p>
+          </div>
+
+          <div className="limits-block reveal reveal-delay-3">
+            <span className="section-label">What I do not claim</span>
+            <p className="limits-text">
+              I have not published in interpretability, and none of the above is a result in
+              the field. This is a reading and reasoning position, held for several years and
+              argued from the literature, not from my own experiments. Where my work touches
+              these questions it does so through evaluation methodology and ablation, which are
+              the parts I can actually defend.
             </p>
           </div>
         </div>
@@ -260,8 +310,12 @@ export default function About() {
       <section id="reading">
         <div className="frame" style={{ padding: '56px 48px' }}>
           <div className="section-header reveal">
-            <span className="section-label">Currently reading</span>
-            <h2>On the desk</h2>
+            <span className="section-label">Reading trail</span>
+            <h2>What the position is built on</h2>
+            <p>
+              Oldest first. The order is the argument, and the note on each says why it
+              earned a place rather than what it contains.
+            </p>
           </div>
           <div className="reading-list reveal reveal-delay-1">
             {reading.map((r) => (
@@ -273,10 +327,16 @@ export default function About() {
                 </div>
                 <p className="reading-item-title">{r.title}</p>
                 <p className="reading-item-authors">{r.authors}</p>
-                <p className="reading-item-annotation">{r.annotation}</p>
+                <p className="reading-item-annotation">{r.note}</p>
                 <div className="reading-item-links">
-                  <a href={r.arxiv} target="_blank" rel="noopener noreferrer" className="reading-link">arXiv</a>
-                  <a href={r.pdf} target="_blank" rel="noopener noreferrer" className="reading-link">PDF</a>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" className="reading-link">
+                    Source
+                  </a>
+                  {r.pdf && (
+                    <a href={r.pdf} target="_blank" rel="noopener noreferrer" className="reading-link">
+                      PDF
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

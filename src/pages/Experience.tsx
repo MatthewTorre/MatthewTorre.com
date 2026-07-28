@@ -48,6 +48,15 @@ export default function Experience() {
                     )}
                   </p>
                   <p className="experience-description">{item.description}</p>
+                  {item.highlights && (
+                    <ul className="experience-highlights">
+                      {item.highlights.map((h) => (
+                        <li key={h} className="experience-highlight">
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             ))}

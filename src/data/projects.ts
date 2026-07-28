@@ -32,6 +32,43 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'truth-computing',
+    title: 'Truth Computing',
+    oneliner: "Approval-gated infrastructure for automated client communication in professional settings, where the message goes out under a person's name.",
+    problem: 'What has to be true before a professional will let an AI system speak to their client in their name?',
+    context: 'Co-founder and CEO',
+    year: '2025–2026',
+    results: [
+      {
+        text: 'Designed an approval-gated architecture for high-consequence automated communication: the system prepares the communication, and a human approval step stands between the model and the client',
+      },
+      {
+        text: 'Model output is verified against the source documents it draws from before delivery rather than checked after the fact',
+      },
+      {
+        text: 'Applied the same architecture to a second, unrelated vertical, which tested whether the approval and verification structure was general or specific to the first domain',
+      },
+      {
+        text: 'Wrote an engineering testing standard organized around claim-level invariants, so tests assert properties that must hold of what the system claims rather than spot-checking sampled outputs',
+      },
+    ],
+    tags: ['Applied AI', 'Verification', 'Human Approval', 'Product', 'Company Building'],
+    links: [
+      { label: 'truth-computing.com', url: 'https://www.truth-computing.com/' },
+    ],
+    note: 'The work is proprietary and not published here. This card stays at case-study altitude on purpose: no architecture detail, no thresholds, no customer names, and no figures. The company site is the place to go for anything further.',
+    tldr: {
+      summary: "Infrastructure for letting an AI system communicate with a professional's clients under that professional's name, built around human approval before delivery and verification of output against source documents.",
+      signals: [
+        'Treated approval as architecture rather than as a review habit, so nothing reaches a client without a person clearing it',
+        'Verification runs against the source documents before delivery, which is where a wrong claim is still cheap to catch',
+        'Ported the same structure to a second, unrelated vertical to test whether it generalized',
+        'Wrote a testing standard around claim-level invariants instead of output sampling',
+      ],
+      skills: ['Systems Architecture', 'Applied AI', 'Verification Design', 'Product Leadership', 'Company Building'],
+    },
+  },
+  {
     id: 'invariant',
     title: 'Invariant',
     oneliner: 'Domain-agnostic Monte Carlo simulation platform for probabilistic operational planning; pure Python, zero external dependencies.',
@@ -76,11 +113,57 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'cs224r',
+    title: 'RL Fine-Tuning of Language Models',
+    oneliner: 'SFT, IPO, and online RLOO on a verifier-checked arithmetic reasoning task, extended with an Elo-rated curriculum over training prompts.',
+    problem: 'In verifier-based RL fine-tuning, most early rollouts earn zero reward. Does ordering training prompts by measured difficulty recover more signal per step than sampling them uniformly?',
+    context: 'Deep Reinforcement Learning',
+    year: '2025',
+    coauthors: ['Donnie Raymond'],
+    contribution: 'the SFT training pipeline and the design and implementation of the Elo-based curriculum sampler for RLOO',
+    results: [
+      {
+        text: 'Fine-tuned Qwen 2.5 0.5B on the Countdown arithmetic task across three post-training methods — supervised fine-tuning, IPO preference optimization, and online RLOO — scored by a rule-based verifier that checks formatting, single use of each provided number, and arithmetic equality with the target',
+      },
+      {
+        text: 'The extension replaces uniform prompt sampling in RLOO with an Elo curriculum: every training prompt carries its own rating and the agent carries one moving rating, updated from the fraction of a sampled rollout group that solved the prompt. The verifier, rollout generation, and RLOO loss are left unchanged, which isolates the effect of prompt ordering from everything else',
+      },
+      {
+        text: 'SFT checkpoint evaluated on 50 held-out Countdown prompts at 16 samples each, 800 rollouts in total: ',
+        metric: 'pass@1 0.36, pass@8 0.68, pass@16 0.78',
+      },
+      {
+        text: 'Across those 800 rollouts, sample-level exact correctness was 0.311 and the mean verifier score was 0.371, so the pass@16 figure reflects sampling breadth rather than per-attempt reliability',
+      },
+      {
+        text: 'Curriculum against uniform sampling: [FIGURE NEEDED: pass@k for the Elo-curriculum RLOO run versus the uniform-sampling RLOO baseline, and whether the curriculum reached comparable pass@k in fewer environment steps]',
+      },
+      {
+        text: '[FIGURE NEEDED: what the Elo approach showed — whether problem ratings separated by difficulty as intended, and whether the agent rating tracked its actual solve rate]',
+      },
+    ],
+    tags: ['RLOO', 'IPO', 'Curriculum Learning', 'Elo Rating', 'Qwen 2.5', 'PyTorch', 'Verifier-Based Reward', 'LLM Post-Training'],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/MatthewTorre/RL-Fine-Tuning-of-Language-Models-Torre-Raymond' },
+    ],
+    note: 'The repository holds the proposal, the SFT milestone write-up, and per-checkpoint evaluation outputs for the SFT baseline, IPO, uniform RLOO, and the curriculum runs. It carries no final write-up of the curriculum comparison, so the pass@k figures above are the SFT baseline and the curriculum result is not stated here.',
+    tldr: {
+      summary: 'Post-trained a 0.5B language model on a verifier-checked arithmetic task through SFT, IPO, and online RLOO, then replaced uniform prompt sampling with an Elo-rated difficulty curriculum to test whether ordering the data improves sample efficiency.',
+      signals: [
+        'Built the full post-training stack — SFT, IPO, and online RLOO against a rule-based verifier — on Qwen 2.5 0.5B',
+        'Designed the extension to change only the sampling distribution, holding verifier, rollouts, and loss fixed so the comparison isolates data ordering',
+        'Rated prompts and the agent on a shared Elo scale updated from group solve fraction, so difficulty is measured against the current policy rather than assigned by hand',
+        'SFT baseline reported at pass@1 0.36 and pass@16 0.78 over 800 rollouts, with per-attempt correctness stated alongside it',
+      ],
+      skills: ['Reinforcement Learning', 'LLM Post-Training', 'RLOO', 'Curriculum Design', 'PyTorch', 'Experimental Control'],
+    },
+  },
+  {
     id: 'cs238',
     title: 'Cognitive Effort Allocation Under Bounded Rationality',
     oneliner: 'A POMDP testbed for decision fatigue, comparing bandit policies on how they trade deliberation against accumulated effort.',
     problem: 'How should an agent allocate cognitive effort between low-effort habitual choices and high-effort deliberation when fatigue accumulates over a time horizon?',
-    context: 'CS238: Decision Making Under Uncertainty',
+    context: 'Decision Making Under Uncertainty',
     year: '2025',
     coauthors: ['Kim Ngo'],
     results: [
@@ -120,7 +203,7 @@ export const projects: Project[] = [
     title: 'Distributed Rate Limiter: Flow Proportional Share',
     oneliner: 'Full C++ replication of Cloud Control distributed rate limiting (Raghavan et al., SIGCOMM 2007), with analysis of convergence failure modes.',
     problem: 'Can the FPS and GRD algorithms from Raghavan et al. be faithfully reproduced in C++, and what implementation gaps does replication expose?',
-    context: 'CS244C: Advanced Networking and Distributed Systems',
+    context: 'Advanced Networking and Distributed Systems',
     year: '2025',
     coauthors: ['Amy Chang', 'Andy Wang'],
     results: [
@@ -167,7 +250,7 @@ export const projects: Project[] = [
     title: 'Transfer Learning for Mars Surface Image Classification',
     oneliner: 'VGG-16 fine-tuned on NASA MSL Curiosity rover imagery; ablation study on handcrafted vs. learned features.',
     problem: 'Does incorporating handcrafted keypoint features (SIFT, ORB) improve or constrain learned representations of a pre-trained CNN for out-of-domain planetary imagery?',
-    context: 'CS131: Computer Vision',
+    context: 'Computer Vision',
     year: '2025',
     results: [
       {
@@ -205,7 +288,7 @@ export const projects: Project[] = [
     title: 'ProdPrepAI: Adaptive Interview Evaluation via BERT and Deep RL',
     oneliner: 'BERT multi-label classifier feeding a reinforcement learning agent that chooses adaptive follow-ups during PM interview practice.',
     problem: 'Can a language classifier and a reinforcement learning agent be combined to produce adaptive, multi-dimensional evaluation of open-ended interview responses?',
-    context: 'CS230: Deep Learning',
+    context: 'Deep Learning',
     year: '2024',
     coauthors: ['Tanaya Yadav', 'Arpit Ranasaria'],
     contribution: 'model fine-tuning, hyperparameter optimization, research, and report writing',
@@ -243,7 +326,7 @@ export const projects: Project[] = [
     title: 'Benchmarking ML Models for UFC Fight Outcome Prediction',
     oneliner: 'Replication of the Hitkul et al. (2019) logistic regression baseline on 4,896 UFC fights, benchmarked against feed-forward networks.',
     problem: 'Can the Hitkul et al. baseline be faithfully replicated, and do deeper architectures provide a generalization advantage at this dataset scale?',
-    context: 'CS221: Artificial Intelligence',
+    context: 'Artificial Intelligence',
     year: '2024',
     coauthors: ['Luis Arizmendi', 'Austin Salcedo', 'Saba Weatherspoon'],
     results: [
@@ -282,11 +365,14 @@ export const projects: Project[] = [
   {
     id: 'strabismus',
     title: 'Strabismus Baseline Classifier',
-    oneliner: 'Baseline computer vision classifier for strabismus screening from eye images, written as research code at Stanford Medicine.',
+    oneliner: 'Baseline computer vision classifier for strabismus screening from eye images, written as research code inside a Stanford School of Medicine effort on differentiating normal eye movements from cranial nerve palsies.',
     problem: 'What baseline does a straightforward image classifier establish for detecting ocular misalignment, and what would have to be true before such a model belonged anywhere near a clinic?',
     context: 'AI Researcher, Stanford Medicine',
     year: '2025',
     results: [
+      {
+        text: 'Part of a wider effort developing deep learning solutions to differentiate between normal eye movements and cranial nerve palsies',
+      },
       {
         text: 'Built and trained a baseline image classifier for strabismus (ocular misalignment) as part of computer vision research at Stanford Medicine',
       },
@@ -303,13 +389,53 @@ export const projects: Project[] = [
     ],
     note: 'Research code. Not a medical device, not FDA-cleared, and not for clinical use. The repository carries no write-up, so no performance figures are claimed here.',
     tldr: {
-      summary: 'A baseline classifier for detecting strabismus from eye images, written as research code at Stanford Medicine and published with explicit limits on how it may be used.',
+      summary: 'A baseline classifier for detecting strabismus from eye images, written as research code at Stanford Medicine inside a broader effort to tell normal eye movements apart from cranial nerve palsies, and published with explicit limits on how it may be used.',
       signals: [
+        'Sits under a wider research aim: deep learning that differentiates normal eye movements from cranial nerve palsies',
         'Computer vision applied to a real clinical screening question, built inside a medical research setting',
         'Published as a readable notebook rather than an opaque pipeline',
         'Carries an explicit non-clinical disclaimer instead of implying medical validity it does not have',
       ],
       skills: ['Computer Vision', 'Medical Imaging', 'Research Code', 'PyTorch', 'Responsible Scoping'],
+    },
+  },
+  {
+    id: 'swish',
+    title: 'Swish: Shot Outcome Classification from Video',
+    oneliner: 'A ResNet-18 video classifier that labels a basketball clip made or missed, served behind a FastAPI inference endpoint.',
+    problem: 'Can a small video model decide whether a shot went in from the clip alone, without ball tracking, pose estimation, or court geometry?',
+    context: '[CONTEXT NEEDED: the setting this was built in — course, employer, or independent]',
+    year: '2025–2026',
+    results: [
+      {
+        text: 'ResNet-18 backbone applied per frame with temporal average pooling: 16 frames sampled evenly across the clip, resized to 224x224 and ImageNet-normalized, pooled to a single 512-dimensional feature, then classified made or missed',
+      },
+      {
+        text: 'PyTorch training loop over a directory of made/ and missed/ clips read with OpenCV, using an 80/20 train/validation split, Adam, and cross-entropy loss, with dataset path and hyperparameters set through environment variables so the same script runs locally and in Colab',
+      },
+      {
+        text: 'Served with FastAPI: a /predict endpoint accepts an uploaded .mp4 or .mov and returns a label with a confidence score; the model loads once and is reused across requests, and a /health endpoint reports device and load state',
+      },
+      {
+        text: 'Trained weights are committed to the repository, so the endpoint runs without a training step first',
+      },
+      {
+        text: '[FIGURE NEEDED: dataset size — how many made and missed clips — and validation accuracy]',
+      },
+    ],
+    tags: ['Video Classification', 'ResNet-18', 'Temporal Pooling', 'PyTorch', 'FastAPI', 'OpenCV', 'Inference API'],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/MatthewTorre/swish-backend' },
+    ],
+    note: 'The repository carries no write-up and no reported accuracy, so no performance figures are claimed here. The architecture and serving details above are read from the source rather than from a report.',
+    tldr: {
+      summary: 'A binary video classifier for basketball shot outcome — ResNet-18 features averaged over 16 sampled frames — packaged as a FastAPI service with the trained weights checked in.',
+      signals: [
+        'Chose the simplest architecture that fits the task: per-frame CNN features with temporal average pooling rather than a video-specific backbone',
+        'Shipped the model as a service, not a notebook: upload endpoint, single model load, health check',
+        'Configured through environment variables so the training script runs unchanged locally and on a hosted GPU',
+      ],
+      skills: ['Computer Vision', 'Video Classification', 'PyTorch', 'Model Serving', 'FastAPI'],
     },
   },
   {
@@ -344,6 +470,43 @@ export const projects: Project[] = [
         'Top 10 of 140+ teams at the internal hackathon',
       ],
       skills: ['RAG', 'Embedding Retrieval', 'Evaluation Design', 'Flask', 'Enterprise Software'],
+    },
+  },
+  {
+    id: 'tech-assessment',
+    title: 'Technology Assessment Optimization',
+    oneliner: 'A retrieval system that automates the evidence-extraction step of a technology assessment against SOC 2 compliance reports. Python.',
+    problem: 'Can retrieval replace manual evidence-gathering in a domain where a wrong citation is not a bad answer but an audit finding?',
+    context: '[CONTEXT NEEDED: the setting this was built in — course, employer, or independent]',
+    year: '2025',
+    results: [
+      {
+        text: 'Retrieval-augmented pipeline over SOC 2 compliance reports, automating the step where a reviewer reads the report to find the passage that evidences a given control. Implemented in Python',
+      },
+      {
+        text: '[FIGURE NEEDED: corpus size — how many reports, and roughly how many pages, the system indexes]',
+      },
+      {
+        text: '[FIGURE NEEDED: retrieval stack — embedding model, index or vector store, and the model used to extract the evidence]',
+      },
+      {
+        text: '[FIGURE NEEDED: extraction accuracy and the method behind it — gold-labeled control set, citation correctness rate, or human review of sampled extractions]',
+      },
+      {
+        text: '[FIGURE NEEDED: the baseline this was measured against — manual evidence-gathering time, or keyword search over the same corpus]',
+      },
+    ],
+    tags: ['RAG', 'Retrieval', 'Evidence Extraction', 'SOC 2', 'Compliance', 'Python'],
+    links: [],
+    note: 'The source for this project is not public, so nothing above can be checked against an artifact from here.',
+    tldr: {
+      summary: 'A retrieval system for pulling control evidence out of SOC 2 reports, built for a setting where citing the wrong passage is an audit finding rather than a minor error.',
+      signals: [
+        'Targets the specific manual step that consumes reviewer time: locating the passage that evidences a control',
+        'Built on a corpus where precision of the citation matters more than fluency of the answer',
+        '[FIGURE NEEDED: the evaluation result that would make this card checkable]',
+      ],
+      skills: ['RAG', 'Retrieval Systems', 'Evaluation Design', 'Compliance Domain', 'Python'],
     },
   },
   {
@@ -383,7 +546,7 @@ export const projects: Project[] = [
     title: 'EzRecruit',
     oneliner: 'Recruit-management MVP for university varsity coaches, scoped from interviews with Stanford coaching staff.',
     problem: 'Varsity coaches work 12-hour days and spend a large share of them filtering inbound recruit interest across email, forms, and spreadsheets — time that comes directly out of coaching.',
-    context: 'CEE250: Technology Entrepreneurship',
+    context: 'Technology Entrepreneurship',
     year: '2024',
     coauthors: ['Austin Salcedo', 'Nick Walker', 'Chloe Widner'],
     results: [
@@ -416,7 +579,7 @@ export const projects: Project[] = [
     title: 'Quantum Approximate Optimization for the Traveling Salesman Problem',
     oneliner: 'QAOA implemented in Google Cirq for small TSP instances, written as an introduction to how the algorithm navigates a combinatorial landscape.',
     problem: 'How does the QAOA cost-mixer alternating structure navigate a combinatorial optimization landscape, and what are its practical limits at small instance sizes?',
-    context: 'Physics 14N: Quantum Computing',
+    context: 'Quantum Computing',
     year: '2024',
     coauthors: ['Kai Roybal'],
     results: [

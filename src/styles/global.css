@@ -884,7 +884,7 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 }
 .paper-card:hover { border-color: var(--hairline-hover); box-shadow: var(--elev-2); transform: translateY(-2px); }
 .paper-card-meta { display: flex; align-items: center; gap: 10px; }
-.paper-card-course { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--accent); }
+.paper-card-course { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
 .paper-card-year { font-size: 12px; color: var(--muted); }
 .paper-card-title { font-family: var(--font-display); font-size: 18px; font-weight: 500; line-height: 1.28; margin: 0; color: var(--ink); }
 .paper-card-desc { font-size: 13.5px; line-height: 1.62; color: var(--muted); margin: 0; }
@@ -934,7 +934,7 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
   box-shadow: var(--elev-3);
 }
 .paper-modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 22px 26px; border-bottom: 1px solid var(--hairline); }
-.paper-modal-course { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--accent); }
+.paper-modal-course { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
 .paper-modal-title { font-family: var(--font-display); font-size: 19px; font-weight: 500; line-height: 1.25; margin: 6px 0 0; color: var(--ink); }
 .paper-modal-close { background: none; border: none; cursor: pointer; padding: 8px; margin: -8px; line-height: 0; opacity: 0.5; border-radius: 4px; transition: opacity var(--dur) var(--ease-out); }
 .paper-modal-close:hover { opacity: 1; }
@@ -1023,6 +1023,24 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 .experience-company-link { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 180ms ease; }
 .experience-company-link:hover { border-bottom-color: var(--accent); }
 .experience-description { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0; max-width: 68ch; }
+.experience-highlights { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 7px; max-width: 68ch; }
+.experience-highlight {
+  position: relative;
+  padding-left: 15px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.experience-highlight::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
 
 .activities-list { display: flex; flex-direction: column; }
 .activity-row { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
@@ -1409,6 +1427,31 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 
 @media (max-width: 640px) {
   .arm-head { flex-direction: column; gap: 4px; }
+}
+
+/* ===== The thread ===== */
+.thread-block { max-width: 680px; margin-top: 40px; }
+.thread-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 10px 0 22px; }
+.thread-list { display: flex; flex-direction: column; }
+.thread-row { display: grid; grid-template-columns: 68px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+.thread-row:first-child { border-top: 1px solid var(--hairline); }
+.thread-year { font-family: var(--font-mono); font-size: 12px; color: var(--accent); padding-top: 2px; }
+.thread-text { font-size: 13.5px; line-height: 1.7; color: var(--muted); margin: 0; }
+.thread-close { font-size: 14px; line-height: 1.7; color: var(--ink); margin: 22px 0 0; }
+
+/* ===== What I do not claim ===== */
+.limits-block {
+  max-width: 680px;
+  margin-top: 40px;
+  padding: 22px 26px;
+  border-left: 2px solid var(--hairline);
+  background: var(--tag-bg);
+  border-radius: 0 10px 10px 0;
+}
+.limits-text { font-size: 13.5px; line-height: 1.72; color: var(--muted); margin: 10px 0 0; }
+
+@media (max-width: 640px) {
+  .thread-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
 /* ---- 15. Reduced motion (keep last) ----------------------------------- */

@@ -9,6 +9,7 @@ import { projects } from '../src/data/projects.ts';
 import { papers } from '../src/data/papers.ts';
 import { skillGroups } from '../src/data/skills.ts';
 import { mentors } from '../src/data/mentors.ts';
+import { reading } from '../src/data/reading.ts';
 import { domains, PROVENANCE_LABEL } from '../src/data/foundation.ts';
 
 /** Facts that live in prose on the pages rather than in a data module. */
@@ -35,7 +36,13 @@ function section(title: string, body: string) {
 function buildExperience() {
   const line = (e: (typeof experience)[number]) => {
     const where = e.location ? `, ${e.location}` : '';
-    return `- ${e.company} — ${e.role} (${e.dates}${where}). ${e.description}`;
+    // Highlights carry the figures and named collaborators. Kept in full for
+    // the same reason project results are: having the real number in context
+    // is what stops the model inventing one.
+    const detail = e.highlights?.length
+      ? `\n${e.highlights.map((h) => `    · ${h}`).join('\n')}`
+      : '';
+    return `- ${e.company} — ${e.role} (${e.dates}${where}). ${e.description}${detail}`;
   };
   const current = experience.filter((e) => /present/i.test(e.dates));
   const past = experience.filter((e) => !/present/i.test(e.dates));
@@ -125,6 +132,17 @@ function buildSkills() {
   );
 }
 
+function buildReading() {
+  const body = reading
+    .map((r) => `- ${r.title} (${r.authors.split(',')[0]} et al., ${r.venue} ${r.year}). ${r.note}`)
+    .join('\n');
+
+  return section(
+    'Reading trail',
+    `Public papers behind Matthew's interpretability position, oldest first. He has not published in interpretability himself; this is a reading and reasoning position argued from the literature. Say so if asked whether he has research of his own in the area.\n${body}`
+  );
+}
+
 function buildMentors() {
   return section(
     'Mentors and advisors',
@@ -145,6 +163,7 @@ export function systemPrompt(): string {
     buildPapers() +
     buildCoursework() +
     buildSkills() +
+    buildReading() +
     buildMentors() +
     '\n';
   return cached;

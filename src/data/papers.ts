@@ -20,7 +20,7 @@ export const papers: Paper[] = [
   {
     id: 'distributed-rate-limiter',
     title: 'Distributed Rate Limiter',
-    course: 'CS244C · Advanced Networking and Distributed Systems',
+    course: 'Advanced Networking and Distributed Systems',
     year: '2025',
     coauthors: ['Amy Chang', 'Andy Wang'],
     description:
@@ -33,7 +33,7 @@ export const papers: Paper[] = [
   {
     id: 'bounded-rationality',
     title: 'Learning Efficient Cognitive Effort Allocation Under Bounded Rationality',
-    course: 'CS238 · Decision Making Under Uncertainty',
+    course: 'Decision Making Under Uncertainty',
     year: '2025',
     coauthors: ['Kim Ngo'],
     description:
@@ -46,7 +46,7 @@ export const papers: Paper[] = [
   {
     id: 'cs221-final',
     title: 'Predicting MMA Fight Outcomes: CS221 Final Report',
-    course: 'CS221 · Artificial Intelligence',
+    course: 'Artificial Intelligence',
     year: '2024',
     coauthors: ['Luis Arizmendi', 'Austin Salcedo', 'Saba Weatherspoon'],
     description:
@@ -59,7 +59,7 @@ export const papers: Paper[] = [
   {
     id: 'deep-learning-mars',
     title: 'Transfer Learning for Mars Surface Image Classification',
-    course: 'CS131 · Computer Vision',
+    course: 'Computer Vision',
     year: '2025',
     description:
       'Fine-tunes VGG-16 on NASA MSL Curiosity rover imagery and ablates handcrafted SIFT and ORB keypoint channels against the learned representation.',
@@ -72,7 +72,7 @@ export const papers: Paper[] = [
   {
     id: 'qaoa-tsp',
     title: 'Quantum Optimization and the Traveling Salesman Problem',
-    course: 'Physics 14N · Quantum Computing',
+    course: 'Quantum Computing',
     year: '2024',
     coauthors: ['Kai Roybal'],
     description:
@@ -85,7 +85,7 @@ export const papers: Paper[] = [
   {
     id: 'prodprepai',
     title: 'ProdPrepAI: Multi-Label Classification and Reinforcement Learning for Interview Preparation',
-    course: 'CS230 · Deep Learning',
+    course: 'Deep Learning',
     year: '2024',
     coauthors: ['Tanaya Yadav', 'Arpit Ranasaria'],
     contribution: 'Model fine-tuning, hyperparameter optimization, research, and report writing.',
@@ -99,7 +99,7 @@ export const papers: Paper[] = [
   {
     id: 'sb1047-policy-memo',
     title: 'SB 1047 Policy Memorandum: Safe and Secure Innovation for Frontier AI',
-    course: 'CS182 · Ethics, Public Policy, and Technological Change',
+    course: 'Ethics, Public Policy, and Technological Change',
     year: '2024',
     coauthors: ['Remington Graham', 'Kyran Romero', 'Shuvi Jha'],
     description:
@@ -112,7 +112,7 @@ export const papers: Paper[] = [
   {
     id: 'mvp-stanford',
     title: 'EzRecruit: Minimum Viable Product and Problem Space',
-    course: 'CEE250 · Technology Entrepreneurship',
+    course: 'Technology Entrepreneurship',
     year: '2024',
     coauthors: ['Austin Salcedo', 'Nick Walker', 'Chloe Widner'],
     description:
