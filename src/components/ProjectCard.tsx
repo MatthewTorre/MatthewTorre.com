@@ -22,7 +22,7 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
         onClick={() => setShowTldr((v) => !v)}
         aria-pressed={showTldr}
       >
-        {showTldr ? '← Details' : 'TL;DR →'}
+        {showTldr ? 'Detail' : 'Summary'}
       </button>
 
       {/* ── DETAILS view ── */}

@@ -2,25 +2,37 @@ import { useEffect } from 'react';
 
 const REVEAL_OPTIONS = { threshold: 0.08, rootMargin: '0px 0px -40px 0px' };
 
-export function useRevealAll(selector: string, container?: HTMLElement | null) {
+/**
+ * Fades `.reveal` elements in as they enter the viewport.
+ *
+ * `.reveal` starts at opacity 0 and blurred, so anything the observer never
+ * reaches would be stranded invisible. Two guards prevent that: if
+ * IntersectionObserver is missing we reveal everything immediately, and
+ * `deps` lets a page re-run the query after it renders new content.
+ */
+export function useRevealAll(selector: string, deps: unknown[] = []) {
   useEffect(() => {
-    const root = container ?? document;
-    const els = root.querySelectorAll<HTMLElement>(selector);
+    const els = Array.from(document.querySelectorAll<HTMLElement>(selector));
     if (!els.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      REVEAL_OPTIONS
-    );
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach((el) => el.classList.add('in'));
+      return;
+    }
 
-    els.forEach((el) => observer.observe(el));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, REVEAL_OPTIONS);
+
+    els.forEach((el) => {
+      if (!el.classList.contains('in')) observer.observe(el);
+    });
     return () => observer.disconnect();
-  }, [selector, container]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selector, ...deps]);
 }

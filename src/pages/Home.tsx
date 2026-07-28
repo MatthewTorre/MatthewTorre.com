@@ -1,18 +1,13 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
 import { projects } from '../data/projects';
+import { papers } from '../data/papers';
+import { experience } from '../data/experience';
+import { domains } from '../data/foundation';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 import { useRevealAll } from '../hooks/useReveal';
-import { useTypewriter } from '../hooks/useTypewriter';
-
-const PHRASES = [
-  'ML systems researcher.',
-  'Stanford CS coterm.',
-  'building rigorous AI tools.',
-  'thinking about reasoning under RL.',
-];
 
 function greeting() {
   const h = new Date().getHours();
@@ -42,110 +37,154 @@ const pillars = [
 
 export default function Home() {
   const featured = projects.find((p) => p.featured) ?? projects[0];
+  const [copied, setCopied] = useState(false);
   useRevealAll('.reveal');
-  const typed = useTypewriter(PHRASES);
-  const [copied, setCopied] = useState('');
 
-  function copyEmail(address: string) {
-    navigator.clipboard.writeText(address).then(() => {
-      setCopied(address);
-      setTimeout(() => setCopied(''), 2000);
+  const stats = useMemo(
+    () => [
+      { n: projects.length, l: 'research systems built' },
+      { n: papers.length, l: 'papers and reports' },
+      { n: domains.flatMap((d) => d.modules).length, l: 'modules of coursework' },
+      { n: experience.length, l: 'roles held' },
+    ],
+    []
+  );
+
+  function copyEmail() {
+    navigator.clipboard.writeText('mtorre04@stanford.edu').then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     });
   }
 
   return (
     <>
-      <section className="hero">
-        <div className="container">
-          <p className="hero-greeting reveal">{greeting()}</p>
-          <h1 className="hero-name reveal">Matthew Torre</h1>
-          <p className="hero-typewriter reveal">
-            <span className="hero-typed">{typed}</span>
-            <span className="hero-cursor" aria-hidden="true">|</span>
+      <header className="hero">
+        <div className="frame">
+          <p className="hero-greeting">{greeting()}</p>
+          <h1 className="hero-name">Matthew Torre</h1>
+          <p className="hero-standfirst">
+            I design and empirically evaluate probabilistic machine learning systems, and I
+            care most about the point where a result stops being plausible and starts being
+            measured.
           </p>
 
-          <div className="hero-credential reveal reveal-delay-1">
-            <img src={stanfordLogo} alt="Stanford University" className="hero-credential-icon" />
+          <a
+            href="https://www.truth-computing.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-focus"
+          >
+            <span className="hero-focus-label">Primary focus</span>
+            <span className="hero-focus-name">
+              Truth Computing <span className="arw">&rarr;</span>
+            </span>
+            <span className="hero-focus-desc">
+              Co-founder, CEO, and CTO. Where this work is heading: systems that hold their
+              claims to a measurable standard. truth-computing.com
+            </span>
+          </a>
+
+          <div className="hero-credential">
+            <img src={stanfordLogo} alt="" className="hero-credential-icon" />
             <div>
               <span className="hero-credential-primary">
                 Stanford University &mdash; B.S. &amp; M.S. Computer Science, Artificial Intelligence
               </span>
               <span className="hero-credential-sub">
-                GPA 3.77 &middot; Expected June 2026 / 2027 &middot; Seeking MTS
+                B.S. GPA 3.8 &middot; M.S. GPA 4.0 &middot; Expected June 2026 / 2027 &middot; Seeking MTS
               </span>
             </div>
           </div>
 
-          <p className="hero-profile reveal reveal-delay-2">
-            Matthew designs and empirically evaluates probabilistic ML systems at the intersection
-            of reliable inference, evaluation methodology, and scalable experimentation. His work
-            spans stochastic simulation engines with rigorous statistical validation, POMDP and
-            bandit frameworks for decision-making under partial observability, and data-grounded
-            calibration pipelines that replace hand-specified priors with empirically fit
-            distributions.
+          <p className="hero-profile">
+            My work spans stochastic simulation engines with rigorous statistical validation,
+            POMDP and bandit frameworks for decision-making under partial observability, and
+            data-grounded calibration pipelines that replace hand-specified priors with
+            empirically fit distributions.
           </p>
-          <div className="hero-currently reveal reveal-delay-3">
+
+          <div className="hero-currently">
             <span className="hero-currently-label">Currently</span>
             <ul className="hero-currently-items">
-              <li className="hero-currently-item">Product Engineering Intern at Lasso</li>
-              <li className="hero-currently-item">Research in Stanford Department of Computer Science</li>
+              <li className="hero-currently-item">
+                Co-founder, CEO, and CTO at Truth Computing
+              </li>
+              <li className="hero-currently-item">
+                XFund Ethics Fellow, Stanford Technology Ventures Program
+              </li>
+              <li className="hero-currently-item">
+                Co-founder, Truth Computing Media
+              </li>
             </ul>
           </div>
-          <div className="hero-actions reveal reveal-delay-4">
-            <Link to="/projects" className="btn btn-primary">View Projects</Link>
-            <a href="https://github.com/MatthewTorre" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+
+          <div className="hero-actions">
+            <Link to="/work" className="btn btn-primary">View the work</Link>
+            <a
+              href="https://github.com/MatthewTorre"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+            >
               GitHub
             </a>
-            <a href="/Matthew_Torre_Research_CV.pdf" download className="btn btn-outline">Resume</a>
-            <button className="btn btn-ghost hero-email-btn" onClick={() => copyEmail('mtorre04@stanford.edu')}>
-              {copied === 'mtorre04@stanford.edu' ? '✓ Copied' : 'mtorre04@stanford.edu'}
-            </button>
-            <button className="btn btn-ghost hero-email-btn" onClick={() => copyEmail('mtorre@truth-computing.com')}>
-              {copied === 'mtorre@truth-computing.com' ? '✓ Copied' : 'mtorre@truth-computing.com'}
+            <button className="btn btn-ghost" onClick={copyEmail}>
+              {copied ? '✓ Copied' : 'mtorre04@stanford.edu'}
             </button>
           </div>
-          <p className="hero-updated reveal reveal-delay-4">Last updated March 2026</p>
+        </div>
+      </header>
+
+      <section>
+        <div className="frame" style={{ paddingTop: '8px', paddingBottom: '44px' }}>
+          <div className="stat-strip reveal">
+            {stats.map((s) => (
+              <div key={s.l} className="stat-cell">
+                <div className="stat-n">{s.n}</div>
+                <div className="stat-l">{s.l}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <GitHubStrip />
 
-      <section>
-        <div className="container">
-          <div className="section-header">
-            <span className="section-label">Featured Project</span>
-            <h2>Invariant</h2>
-            <p>
-              The primary systems artifact: a domain-agnostic Monte Carlo simulation platform
-              for probabilistic operational planning, built with zero external dependencies.
-            </p>
+      <section className="home-section">
+        <div className="frame">
+          <div className="section-header reveal">
+            <span className="section-label">Featured</span>
+            <h2>{featured.title}</h2>
+            <p>{featured.oneliner}</p>
           </div>
-          <ProjectCard project={featured} />
+          <div className="reveal reveal-delay-1">
+            <ProjectCard project={featured} />
+          </div>
         </div>
       </section>
 
-      <section>
-        <div className="container">
+      <section className="home-section">
+        <div className="frame">
           <div className="section-header reveal">
-            <span className="section-label">Research Focus</span>
-            <h2>What I Think About</h2>
+            <span className="section-label">Research focus</span>
+            <h2>What I think about</h2>
           </div>
 
           <div className="research-interests reveal reveal-delay-1">
             <p className="research-interest-text">
-              My research interests span the mathematical foundations of modern ML and the
-              systems infrastructure that makes it tractable at scale. I am particularly
-              drawn to interpretability as a lens: understanding what representations models
-              learn, how they use them, and where they fail informs both better architectures
-              and better evaluation methodology.
+              My interests span the mathematical foundations of modern ML and the systems
+              infrastructure that makes it tractable at scale. Interpretability is the lens I
+              keep returning to: understanding what representations models learn, how they use
+              them, and where they fail informs both better architectures and better evaluation
+              methodology.
             </p>
             <p className="research-interest-text">
-              More broadly, I am fascinated by what can be learned from weak or indirect
-              supervision, how architectural choices shape the solution space, and what role
-              data curation plays in determining model behavior. On the systems side, I am
-              most interested in the feedback loop between AI research and systems design:
-              how we build software and hardware to run these models, and how that
-              infrastructure in turn constrains and shapes the research.
+              More broadly, I am drawn to what can be learned from weak or indirect supervision,
+              how architectural choices shape the solution space, and what role data curation
+              plays in determining model behavior. On the systems side, the feedback loop between
+              AI research and systems design interests me most: how we build software and hardware
+              to run these models, and how that infrastructure in turn constrains the research.
             </p>
           </div>
 
@@ -158,9 +197,12 @@ export default function Home() {
             ))}
           </div>
 
-          <div style={{ marginTop: '2rem' }} className="reveal reveal-delay-3">
-            <Link to="/projects" className="btn btn-outline">
-              View all 7 projects &rarr;
+          <div className="home-cta-row reveal reveal-delay-3">
+            <Link to="/work" className="btn btn-outline">
+              All {projects.length} projects <span className="arw">&rarr;</span>
+            </Link>
+            <Link to="/foundation" className="btn btn-outline">
+              The coursework underneath <span className="arw">&rarr;</span>
             </Link>
           </div>
         </div>

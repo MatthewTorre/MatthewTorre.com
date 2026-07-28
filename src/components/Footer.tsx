@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const socials = [
   {
     label: 'GitHub',
@@ -38,6 +40,7 @@ const socials = [
   {
     label: 'YouTube',
     url: 'https://www.youtube.com/@Captured./shorts',
+    tip: 'Independent journalism · 180k views',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -46,46 +49,54 @@ const socials = [
   },
 ];
 
+const links = [
+  { to: '/', label: 'Home' },
+  { to: '/work', label: 'Work' },
+  { to: '/foundation', label: 'Foundation' },
+  { to: '/writing', label: 'Writing' },
+  { to: '/experience', label: 'Experience' },
+  { to: '/about', label: 'About' },
+];
+
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-inner">
+    <footer>
+      <div className="frame">
         <span className="footer-name">Matthew Torre</span>
+
         <ul className="footer-links">
+          {links.map(({ to, label }) => (
+            <li key={to}>
+              <Link to={to}>{label}</Link>
+            </li>
+          ))}
           <li>
-            <a href="mailto:mtorre04@stanford.edu" className="footer-link">
-              mtorre04@stanford.edu
+            <a
+              href="https://www.truth-computing.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link--focus"
+            >
+              Truth Computing
             </a>
           </li>
           <li>
-            <a href="mailto:mtorre@truth-computing.com" className="footer-link">
-              mtorre@truth-computing.com
-            </a>
-          </li>
-          <li>
-            <a href="/Matthew_Torre_Research_CV.pdf" download className="footer-link">
-              Download CV
-            </a>
+            <a href="mailto:mtorre04@stanford.edu">mtorre04@stanford.edu</a>
           </li>
         </ul>
+
         <div className="footer-socials">
-          {socials.map(({ label, url, icon }) => (
-            <div key={label} className={`footer-social-item${label === 'YouTube' ? ' footer-social-item--tip' : ''}`}>
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-social"
-                aria-label={label}
-              >
+          {socials.map(({ label, url, icon, tip }) => (
+            <div key={label} className={`footer-social-item${tip ? ' footer-social-item--tip' : ''}`}>
+              <a href={url} target="_blank" rel="noopener noreferrer" className="footer-social" aria-label={label}>
                 {icon}
               </a>
-              {label === 'YouTube' && (
-                <span className="footer-social-tip">Independent Journalism &middot; 180k views</span>
-              )}
+              {tip && <span className="footer-social-tip">{tip}</span>}
             </div>
           ))}
         </div>
+
+        Stanford University &middot; Computer Science, Artificial Intelligence
       </div>
     </footer>
   );

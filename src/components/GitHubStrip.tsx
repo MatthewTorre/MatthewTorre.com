@@ -20,11 +20,9 @@ export default function GitHubStrip() {
           grouped.push(days.slice(i, i + 7));
         }
         setWeeks(grouped);
-        const yearTotal = Object.values(json.total as Record<string, number>).reduce(
-          (a, b) => a + b,
-          0
-        );
-        setTotal(yearTotal);
+        // Count only the days actually drawn. `json.total` is keyed by calendar
+        // year, so summing it would cover a different span than the grid shows.
+        setTotal(days.reduce((n, d) => n + d.count, 0));
       })
       .catch(() => {}); // silent fail — strip just doesn't render
   }, []);
@@ -33,31 +31,35 @@ export default function GitHubStrip() {
 
   return (
     <div className="gh-strip">
-      <div className="gh-strip-header">
-        <span className="gh-strip-label">
-          {total !== null ? `${total.toLocaleString()} contributions in the last year` : 'GitHub activity'}
-        </span>
-        <a
-          href="https://github.com/MatthewTorre"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="gh-strip-link"
-        >
-          github.com/MatthewTorre ↗
-        </a>
-      </div>
-      <div className="gh-grid" aria-label="GitHub contribution graph">
-        {weeks.map((week, wi) => (
-          <div key={wi} className="gh-week">
-            {week.map((day) => (
-              <div
-                key={day.date}
-                className={`gh-day gh-level-${day.level}`}
-                title={`${day.count} contribution${day.count !== 1 ? 's' : ''} on ${day.date}`}
-              />
-            ))}
-          </div>
-        ))}
+      <div className="frame">
+        <div className="gh-strip-header">
+          <span className="gh-strip-label">
+            {total !== null
+              ? `${total.toLocaleString()} contributions in the last 26 weeks`
+              : 'GitHub activity'}
+          </span>
+          <a
+            href="https://github.com/MatthewTorre"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gh-strip-link"
+          >
+            github.com/MatthewTorre ↗
+          </a>
+        </div>
+        <div className="gh-grid" aria-label="GitHub contribution graph">
+          {weeks.map((week, wi) => (
+            <div key={wi} className="gh-week">
+              {week.map((day) => (
+                <div
+                  key={day.date}
+                  className={`gh-day gh-level-${day.level}`}
+                  title={`${day.count} contribution${day.count !== 1 ? 's' : ''} on ${day.date}`}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
