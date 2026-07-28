@@ -1112,6 +1112,7 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 .coursework-item { font-size: 13.5px; color: var(--ink); padding: 6px 0; border-bottom: 1px solid var(--hairline); }
 .coursework-link { color: var(--ink); transition: color var(--dur) var(--ease-out); }
 .coursework-link:hover { color: var(--accent); }
+.coursework-note { font-size: 12.5px; line-height: 1.65; color: var(--muted); margin: 0 0 16px; max-width: 640px; }
 
 /* ---- 11. Foundation -------------------------------------------------- */
 .fdn-note {
@@ -1382,6 +1383,32 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
   .paper-modal-overlay { padding: 16px; }
   .chat-widget { bottom: 20px; right: 20px; }
   .back-to-top { bottom: 20px; left: 20px; }
+}
+
+/* ===== How I build ===== */
+.practice-block { max-width: 680px; }
+.practice-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0 0 24px; }
+.practice-list { display: flex; flex-direction: column; }
+.practice-row { padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+.practice-row:first-child { border-top: 1px solid var(--hairline); }
+.practice-principle { font-size: 15px; font-weight: 500; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.01em; }
+.practice-detail { font-size: 13.5px; line-height: 1.7; color: var(--muted); margin: 0; }
+
+/* ===== Truth Computing arms ===== */
+.arms-block { max-width: 680px; }
+.arms-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0 0 24px; }
+.arms-list { display: flex; flex-direction: column; }
+.arm-row { padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+.arm-row:first-child { border-top: 1px solid var(--hairline); }
+.arm-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.arm-name { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
+.arm-status { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); white-space: nowrap; }
+.arm-field { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.arm-note { font-size: 13.5px; line-height: 1.7; color: var(--ink); margin: 8px 0 0; }
+.arms-link { display: inline-block; margin-top: 24px; font-size: 13.5px; color: var(--accent); }
+
+@media (max-width: 640px) {
+  .arm-head { flex-direction: column; gap: 4px; }
 }
 
 /* ---- 15. Reduced motion (keep last) ----------------------------------- */

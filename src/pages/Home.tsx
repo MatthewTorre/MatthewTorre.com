@@ -16,6 +16,33 @@ function greeting() {
   return 'Good evening';
 }
 
+const truthComputingWork = [
+  {
+    title: 'Human-in-the-loop, sitewide',
+    desc: 'Set the company-wide stance: every output carries its sources, holds up to an audit after the fact, and waits on a person before anything consequential happens.',
+  },
+  {
+    title: 'Designing for the failure case first',
+    desc: 'In a regulated healthcare build, automated messages are classified by consequence and the highest class can never leave without a licensed human releasing it. The default is to not send.',
+  },
+  {
+    title: 'A product spec defined by its refusals',
+    desc: 'I own the requirements for a homelessness-coordination platform. It states plainly what it will not do: allocate housing, override prioritization policy, replace a system of record, or decide eligibility.',
+  },
+  {
+    title: 'Publishing an incomplete security posture accurately',
+    desc: 'I own the safety plan for a design-partner platform. It separates controls that are implemented from those that are partial, and blocks real regulated data until the gap list closes.',
+  },
+  {
+    title: 'Grounded by construction, not by checking',
+    desc: 'System-generated briefs are assembled from records at read time and every claim carries the record it came from, rather than being a stored summary that can drift from its source.',
+  },
+  {
+    title: 'An editorial standard with failure modes',
+    desc: 'I wrote the brand and voice standard: a banned-phrase list, a rewrite pattern with worked examples, and a rule that unflattering facts get stated once, plainly, and are not repeated.',
+  },
+];
+
 const pillars = [
   {
     title: 'Probabilistic Systems',
@@ -80,8 +107,9 @@ export default function Home() {
               Truth Computing <span className="arw">&rarr;</span>
             </span>
             <span className="hero-focus-desc">
-              Co-founder, CEO, and CTO. Where this work is heading: systems that hold their
-              claims to a measurable standard. truth-computing.com
+              Co-founder, Chief Executive Officer, and Chief Technology Officer. Where this
+              work is heading: systems that hold their claims to a measurable standard.
+              truth-computing.com
             </span>
           </a>
 
@@ -109,7 +137,8 @@ export default function Home() {
             <span className="hero-currently-label">Currently</span>
             <ul className="hero-currently-items">
               <li className="hero-currently-item">
-                Co-founder, CEO, and CTO at Truth Computing
+                Co-founder, Chief Executive Officer, and Chief Technology Officer at Truth
+                Computing
               </li>
               <li className="hero-currently-item">
                 XFund Ethics Fellow, Stanford Technology Ventures Program
@@ -163,6 +192,40 @@ export default function Home() {
       </section>
 
       <GitHubStrip />
+
+      <section className="home-section">
+        <div className="frame">
+          <div className="section-header reveal">
+            <span className="section-label">Truth Computing</span>
+            <h2>What I am building now</h2>
+            <p>
+              I started Truth Computing to build AI that helps people reason more clearly and
+              close the gap between what is true and what is believed to be true. Most of what
+              I own there is about constraining a system so it cannot overstate itself.
+            </p>
+          </div>
+
+          <div className="pillars-grid reveal reveal-delay-1">
+            {truthComputingWork.map((w) => (
+              <div key={w.title} className="pillar-card">
+                <span className="pillar-title">{w.title}</span>
+                <p className="pillar-desc">{w.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="home-cta-row reveal reveal-delay-2">
+            <a
+              href="https://www.truth-computing.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+            >
+              truth-computing.com <span className="arw">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
       <section className="home-section">
         <div className="frame">

@@ -35,78 +35,72 @@ const certs = [
   { name: 'Convolutional Neural Networks', date: 'Nov 2024' },
 ];
 
-// Truth Computing's acknowledgments. Each entry describes a category of the
-// honors, roles, and institutions the people behind that work carry — the
-// people themselves are held privately and not named.
-const gratitude = [
+const practice = [
   {
-    label: 'Building and scaling businesses',
-    body: (
-      <>
-        A product leader who built and scaled multi-billion-dollar businesses at Google,
-        across payments (Google Wallet and Google Pay), the AdMob mobile-app monetization
-        platform, and AI-powered conversational products, and earlier at Siebel, Netscape,
-        and Oracle. Recipient of the Google Founders&rsquo; Award; Stanford MBA. From him we
-        learn how to build the repeatable processes that carry a business forward, and how
-        to scale what works without breaking it.
-      </>
-    ),
+    principle: 'Systems fail closed.',
+    detail:
+      'When a candidate output violates a hard constraint, it is suppressed, not ranked lower. The default state of a system I build is to do nothing.',
   },
   {
-    label: 'Honors & national academies',
-    body: (
-      <>
-        The A.M. Turing Award, the National Medal of Science, the Kyoto Prize, and the
-        Presidential Early Career Award for Scientists and Engineers &middot; members and
-        fellows of the National Academy of Sciences, the National Academy of Engineering,
-        the Royal Society, the French Academy of Sciences, and the Canadian Academy of
-        Engineering.
-      </>
-    ),
+    principle: 'Consequential outputs wait on a person.',
+    detail:
+      'In the clinical communication pipeline I designed for our vision care partner, the highest-consequence class of message cannot be sent automatically under any configuration. It waits for a licensed clinician to release it.',
   },
   {
-    label: 'Fellowships & research awards',
-    body: (
-      <>
-        Sloan Research Fellowship &middot; Schmidt Sciences AI2050 Fellowship &middot;
-        Miller Fellowship &middot; NSF CAREER Awards &middot; DARPA Young Faculty Award
-        &middot; Google Research Scholar &middot; IEEE Fellow, and Fellows of SIAM and the
-        American Mathematical Society.
-      </>
-    ),
+    principle: 'Every claim carries its source.',
+    detail:
+      'Generated briefs are assembled from records at read time, and each claim cites the record it came from, so the output is auditable line by line and cannot drift from what is on file.',
   },
   {
-    label: 'Where they studied and teach',
-    body: (
-      <>
-        Stanford &middot; MIT &middot; Caltech &middot; Carnegie Mellon &middot; Cambridge
-        &middot; Edinburgh &middot; Michigan &middot; Toronto &middot; Columbia &middot;
-        Swarthmore &middot; Johns Hopkins &middot; Harvard &middot; USC.
-      </>
-    ),
+    principle: 'History cannot be edited silently.',
+    detail:
+      'Audit trails are append-only and tamper-evident, so any edit or deletion of history is detectable after the fact rather than trusted not to happen.',
   },
   {
-    label: 'Research & public-service leadership',
-    body: (
-      <>
-        DARPA&rsquo;s Information Technology Office &middot; MIT Lincoln Laboratory &middot;
-        the National Science Foundation &middot; Stanford&rsquo;s Intelligent Systems
-        Laboratory, Center for AI Safety, and Institute for Human-Centered AI.
-      </>
-    ),
+    principle: 'I write the non-goals first.',
+    detail:
+      'The coordination platform I own the requirements for states plainly what it will never do: it does not allocate housing, override prioritization policy, replace the system of record, or make eligibility determinations. Knowing what a system must refuse is the design.',
   },
   {
-    label: 'Bodies of work we learn from',
-    body: (
-      <>
-        Foundational texts on the analysis of algorithms and digital typesetting &middot;
-        coding and information theory &middot; decision-making under uncertainty and
-        aircraft collision avoidance &middot; active networks &middot; a lifetime of
-        computer-science teaching.
-      </>
-    ),
+    principle: 'The security posture is published honestly.',
+    detail:
+      'I wrote the security and safety plan for our healthcare platform with a three-state vocabulary: in place, partial, and required before production. It names what is not yet built and forbids real patient data until that list closes.',
   },
 ];
+
+const arms = [
+  {
+    name: 'Truth Computing Legal',
+    field: 'Law',
+    status: 'Near production',
+    note: 'The furthest along of anything we are building. Details held close for now.',
+  },
+  {
+    name: 'Truth Computing Health',
+    field: 'Vision care',
+    status: 'Design partnership',
+    note: 'Human-gated clinical AI for an optometry practice, spanning intake, imaging workflows, and clinical documentation, each reviewed by a clinician before it enters the record.',
+  },
+  {
+    name: 'Truth Computing Concierge',
+    field: 'Automotive',
+    status: 'Design partnership',
+    note: 'Constraint-driven inventory matching and customer communication for a luxury dealership.',
+  },
+  {
+    name: 'Truth Computing Logistics',
+    field: 'Freight',
+    status: 'In research',
+    note: 'An orchestration layer over the ELD, load board, and accounting systems an owner-operator already runs.',
+  },
+  {
+    name: 'Truth Computing Create',
+    field: 'Brand',
+    status: 'In research',
+    note: 'Narrative and media work supporting the practice.',
+  },
+];
+
 
 export default function About() {
   useRevealAll('.reveal');
@@ -120,9 +114,10 @@ export default function About() {
           <p className="page-eyebrow">About</p>
           <h1 className="page-title">Matthew Torre</h1>
           <p className="page-desc">
-            Stanford coterm in Computer Science, Artificial Intelligence concentration.
-            Research, engineering, and product, with a bias toward work that can be
-            reproduced.
+            Co-founder, Chief Executive Officer, and Chief Technology Officer of Truth
+            Computing. I build AI for high-consequence work in healthcare and law, where every
+            output carries its sources and waits on a human before anything happens. Stanford
+            CS coterm in artificial intelligence.
           </p>
         </div>
       </header>
@@ -133,10 +128,21 @@ export default function About() {
             <img src={portrait} alt="Matthew Torre" className="about-portrait" />
             <div className="about-bio-text">
               <p>
-                I study computer science at Stanford with a focus on AI and machine learning.
-                My work sits at the intersection of research, engineering, product, and
-                system design: I care about building tools that are technically rigorous,
-                intuitive, and reproducible.
+                I am the co-founder, Chief Executive Officer, and Chief Technology Officer of
+                Truth Computing, where we go into businesses in
+                regulated fields, take on the workflows they cannot afford to get wrong, and rebuild
+                them around AI that stays traceable, auditable, and gated on a person. I am also a
+                Stanford CS coterm in artificial intelligence. My work sits at the intersection of
+                research, engineering, product, and system design, and I care about building tools
+                that are technically rigorous, intuitive, and reproducible.
+              </p>
+              <p>
+                Before Truth Computing I worked on large-scale data filtration and cybersecurity
+                mid-training for language models at the Stanford AI Laboratory, and built computer
+                vision systems for strabismus classification as an AI researcher at Stanford
+                Medicine. I built Feynman, a free platform that rebuilds university-level AI
+                coursework as a five-rung Learning Ladder for first-generation and low-income
+                students, now running as a Truth Computing mission project.
               </p>
               <p>
                 I am interested in the mechanics of reasoning under reinforcement learning:
@@ -151,6 +157,8 @@ export default function About() {
               <p>
                 I am a first-generation college student and a member of the AAPI community.
                 Access and opportunity are embedded in everything I am and everything I do.
+                Feynman is the most direct expression of that: the same coursework, met at
+                whatever height a student can reach today, free.
               </p>
             </div>
           </div>
@@ -183,6 +191,68 @@ export default function About() {
               function, and optimizing against an imperfect metric carries the same structural
               risks at much higher stakes.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="practice">
+        <div className="frame" style={{ padding: '56px 48px' }}>
+          <div className="section-header reveal">
+            <span className="section-label">How I build</span>
+            <h2>Working on systems that cannot be wrong</h2>
+          </div>
+          <div className="practice-block reveal reveal-delay-1">
+            <p className="practice-intro">
+              Most of my work now is in fields where a software mistake reaches a patient, a
+              client, or a court. These are the rules I hold to, and each one is load-bearing
+              in something already built.
+            </p>
+            <div className="practice-list">
+              {practice.map((p) => (
+                <div key={p.principle} className="practice-row">
+                  <p className="practice-principle">{p.principle}</p>
+                  <p className="practice-detail">{p.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="truth-computing">
+        <div className="frame" style={{ padding: '56px 48px' }}>
+          <div className="section-header reveal">
+            <span className="section-label">Truth Computing</span>
+            <h2>What I am building now</h2>
+          </div>
+          <div className="arms-block reveal reveal-delay-1">
+            <p className="arms-intro">
+              Truth Computing is a forward-deployed practice. We embed with teams in high
+              stakes fields and rebuild the workflows they cannot afford to get wrong. I am
+              co-founder, Chief Executive Officer, and Chief Technology Officer, and I have
+              written every line of the public practice to date. Two engagements are formal
+              design partnerships.
+            </p>
+            <div className="arms-list">
+              {arms.map((a) => (
+                <div key={a.name} className="arm-row">
+                  <div className="arm-head">
+                    <span className="arm-name">{a.name}</span>
+                    <span className="arm-status">{a.status}</span>
+                  </div>
+                  <p className="arm-field">{a.field}</p>
+                  <p className="arm-note">{a.note}</p>
+                </div>
+              ))}
+            </div>
+            <a
+              className="arms-link"
+              href="https://www.truth-computing.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              See the practice <span className="arw" aria-hidden="true">&rarr;</span>
+            </a>
           </div>
         </div>
       </section>
@@ -251,6 +321,10 @@ export default function About() {
             <p className="page-desc" style={{ marginTop: '4px' }}>
               All {moduleCount} modules, across six domains and labeled by where each was
               studied, are mapped on the Foundation page.
+            </p>
+            <p className="coursework-note">
+              Each module is labeled by where it was studied, Stanford core, Stanford depth, or
+              self-taught, so the weaker parts of the claim are visible alongside the stronger ones.
             </p>
             <Link to="/foundation" className="btn btn-outline">
               See the foundation <span className="arw">&rarr;</span>
@@ -351,45 +425,6 @@ export default function About() {
         </div>
       </section>
 
-      <section id="gratitude">
-        <div className="frame" style={{ padding: '56px 48px' }}>
-          <div className="section-header reveal">
-            <span className="section-label">Truth Computing</span>
-            <h2>With gratitude</h2>
-          </div>
-
-          <div className="ack-block reveal reveal-delay-1">
-            <p className="ack-lead">
-              The teachers, mentors, and colleagues who shaped us. We hold these
-              relationships privately and do not name them here, but their work, and the
-              traditions they come from, set the standard we build to. Among the honors,
-              fellowships, and institutions they carry:
-            </p>
-          </div>
-
-          <div className="ack-groups reveal reveal-delay-2">
-            {gratitude.map((g) => (
-              <div key={g.label} className="ack-group">
-                <span className="ack-group-label">{g.label}</span>
-                <p className="ack-group-body">{g.body}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="ack-block reveal reveal-delay-3" style={{ marginTop: '2.5rem' }}>
-            <span className="section-label">Friends &amp; early advisors</span>
-            <p className="ack-lead" style={{ marginTop: '8px' }}>
-              Sanjay Swamy, best friend and early advisor.
-            </p>
-            <p className="ack-disclaimer">
-              Held here in gratitude. These honors, roles, and affiliations describe each
-              person&rsquo;s own history and do not imply an advisory, financial, or
-              employment relationship with Truth Computing, nor an endorsement of Truth
-              Computing, its products, or any offering.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section id="skills">
         <div className="frame" style={{ padding: '56px 48px' }}>
