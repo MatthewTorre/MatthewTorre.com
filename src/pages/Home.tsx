@@ -118,6 +118,7 @@ export default function Home() {
             <div>
               <span className="hero-credential-primary">
                 Stanford University &mdash; B.S. &amp; M.S. Computer Science, Artificial Intelligence
+                and Theoretical Computer Science
               </span>
               <span className="hero-credential-sub">
                 B.S. conferred June 2026, with distinction &middot; GPA 3.8 &middot; M.S. expected

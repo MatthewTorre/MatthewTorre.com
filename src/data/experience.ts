@@ -236,7 +236,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     company: 'Joby for Congress (CA-16)',
-    role: 'Creative Producer',
+    role: 'Campaign Associate',
     dates: DATES_TODO,
     location: 'California',
     description:

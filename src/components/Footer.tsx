@@ -106,7 +106,8 @@ export default function Footer() {
           ))}
         </div>
 
-        Stanford University &middot; Computer Science, Artificial Intelligence
+        Stanford University &middot; Computer Science, Artificial Intelligence and Theoretical
+        Computer Science
       </div>
     </footer>
   );

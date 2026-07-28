@@ -104,7 +104,7 @@ export default function About() {
             Co-founder, Chief Executive Officer, and Chief Technology Officer of Truth
             Computing. I build AI for high-consequence work in healthcare and law, where every
             output carries its sources and waits on a human before anything happens. Stanford
-            CS coterm in artificial intelligence.
+            CS coterm in artificial intelligence and theoretical computer science.
           </p>
         </div>
       </header>
@@ -119,7 +119,7 @@ export default function About() {
                 Truth Computing, where we go into businesses in
                 regulated fields, take on the workflows they cannot afford to get wrong, and rebuild
                 them around AI that stays traceable, auditable, and gated on a person. I am also a
-                Stanford CS coterm in artificial intelligence. My work sits at the intersection of
+                Stanford CS coterm in artificial intelligence and theoretical computer science. My work sits at the intersection of
                 research, engineering, product, and system design, and I care about building tools
                 that are technically rigorous, intuitive, and reproducible.
               </p>
@@ -360,14 +360,15 @@ export default function About() {
               <div className="education-degree-row">
                 <span className="education-degree-title">B.S. Computer Science</span>
                 <span className="education-degree-detail">
-                  Artificial Intelligence Concentration &middot; Conferred June 2026, with
-                  distinction &middot; GPA 3.8 / 4.00
+                  Artificial Intelligence Concentration, with a minor focus in data science
+                  and systems &middot; Conferred June 2026, with distinction &middot; GPA 3.8 / 4.00
                 </span>
               </div>
               <div className="education-degree-row">
                 <span className="education-degree-title">M.S. Computer Science</span>
                 <span className="education-degree-detail">
-                  Artificial Intelligence Concentration &middot; Expected June 2027 &middot; GPA 4.0 / 4.00
+                  Artificial Intelligence and Theoretical Computer Science &middot; Expected
+                  June 2027 &middot; GPA 4.0 / 4.00
                 </span>
               </div>
             </div>
