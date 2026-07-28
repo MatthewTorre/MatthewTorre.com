@@ -39,7 +39,7 @@ const socials = [
   },
   {
     label: 'YouTube',
-    url: 'https://www.youtube.com/@Captured./shorts',
+    url: 'https://www.youtube.com/@truthcomputingmedia',
     tip: 'Independent journalism · 180k views',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

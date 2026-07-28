@@ -55,7 +55,7 @@ export const experience: ExperienceItem[] = [
     description:
       'Independent technology journalism under the Scattered Mind banner, demystifying the greatest technology of our time for a general audience.',
     logo: '/images/logos/truth-computing.png',
-    url: 'https://www.youtube.com/@Captured./shorts',
+    url: 'https://www.youtube.com/@truthcomputingmedia',
   },
   {
     company: 'STVP — Stanford Technology Ventures Program',
