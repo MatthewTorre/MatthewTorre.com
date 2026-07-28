@@ -74,11 +74,17 @@ export default function Experience() {
 
           <div className="activities-list">
             {activities.map((item) => (
-              <div key={item.org} className="activity-row">
+              <a
+                key={item.org}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="activity-row activity-link"
+              >
                 <OrgMark name={item.org} logo={item.logo} className="activity-logo" />
                 <span className="activity-org">{item.org}</span>
                 <span className="activity-role">{item.role}</span>
-              </div>
+              </a>
             ))}
           </div>
 

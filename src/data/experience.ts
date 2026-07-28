@@ -258,30 +258,38 @@ export const activities = [
     org: 'ACM, Association for Computing Machinery',
     role: 'Member',
     logo: '/images/logos/acm.png',
+    url: 'https://www.acm.org/',
   },
   {
     org: 'Stanford Undergraduate Research Association',
     role: 'Professional Development Chair, Research Conference Co-Director',
     logo: '/images/logos/sura.jpeg',
+    url: 'https://sura.stanford.edu/',
   },
   {
     org: 'AISES',
     role: 'Member',
     logo: '/images/logos/aises.jpeg',
+    url: 'https://aises.org/',
   },
   {
     org: 'Sigma Phi Epsilon',
     role: 'Brother Mentor, Member',
     logo: '/images/logos/sigep.jpeg',
+    url: 'https://sigep.org/',
   },
   {
     org: 'Stanford Management Group',
     role: 'Project Manager, Consultant',
     logo: '/images/logos/stanford-marketing.jpeg',
+    url: 'https://www.stanfordmanagementgroup.com/',
   },
   {
+    // SHCG has no public site of its own; its LinkedIn page is the org's
+    // only durable public presence.
     org: 'Stanford Healthcare Consulting Group',
     role: 'Project Lead (CAUTI reduction initiative)',
     logo: '/images/logos/stanford-health.jpeg',
+    url: 'https://www.linkedin.com/company/the-stanford-healthcare-consulting-group',
   },
 ];
