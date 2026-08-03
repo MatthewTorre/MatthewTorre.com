@@ -81,10 +81,10 @@ const arms = [
     name: 'Truth Computing Concierge',
     field: 'Automotive',
     status: 'Design partnership',
-    // A dealership, not the manufacturer. "Porsche dealership" is the accurate
-    // description of the counterparty; "Porsche" alone would claim a
-    // relationship with Porsche AG that does not exist.
-    partner: 'A Porsche dealership',
+    // Held generic for now: the partner has not cleared being named, and the
+    // marque alone would identify them to anyone who knows the market. A
+    // dealership, not a manufacturer — no automaker relationship is implied.
+    partner: 'A luxury car dealership',
     note: 'Constraint-driven inventory matching and customer communication.',
   },
   {
