@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
-import OrgMark from '../components/OrgMark';
+import LeadershipRow from '../components/LeadershipRow';
 import { projects } from '../data/projects';
 import { papers } from '../data/papers';
 import { experience } from '../data/experience';
@@ -44,6 +44,14 @@ const truthComputingWork = [
     desc: 'I wrote the brand and voice standard: a banned-phrase list, a rewrite pattern with worked examples, and a rule that unflattering facts get stated once, plainly, and are not repeated.',
   },
 ];
+
+/**
+ * Only roles carrying a headcount, because the copy beside them promises a
+ * number on every line. Taking the first four outright would include the
+ * Professional Development Chair, which led no one and would leave the reader
+ * looking for a figure that does not exist.
+ */
+const teamsLed = leadershipRoles.filter((r) => r.count).slice(0, 4);
 
 const pillars = [
   {
@@ -243,27 +251,17 @@ export default function Home() {
             <span className="section-label">Leadership</span>
             <h2>Teams I have been responsible for</h2>
             <p>
-              Most of what I have built was built with other people, and the number in each
-              line is the number I was actually accountable for. I love my community, and the
-              work I want to spend my life on is turning Southern California into the next tech
-              capital of the world.
+              Most of what I have built was built with other people. The number on each line
+              is the number I was actually accountable for, not the size of the room it
+              reached. I love my community, and the work I want to spend my life on is turning
+              Southern California into the next tech capital of the world.
             </p>
           </div>
 
           <div className="leadership-block reveal reveal-delay-1">
             <div className="leadership-list">
-              {leadershipRoles.slice(0, 4).map((r) => (
-                <div key={`${r.org}-${r.role}`} className="leadership-row">
-                  <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
-                  <div className="leadership-body">
-                    <div className="leadership-head">
-                      <span className="leadership-role">{r.role}</span>
-                      {r.dates && <span className="leadership-dates">{r.dates}</span>}
-                    </div>
-                    <p className="leadership-org">{r.org}</p>
-                    <p className="leadership-scope">{r.scope}</p>
-                  </div>
-                </div>
+              {teamsLed.map((r) => (
+                <LeadershipRow key={`${r.org}-${r.role}`} role={r} />
               ))}
             </div>
           </div>

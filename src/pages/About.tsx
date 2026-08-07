@@ -4,7 +4,7 @@ import { domains } from '../data/foundation';
 import { mentors } from '../data/mentors';
 import { reading } from '../data/reading';
 import { leadershipRoles } from '../data/leadership';
-import OrgMark from '../components/OrgMark';
+import LeadershipRow from '../components/LeadershipRow';
 import { useRevealAll } from '../hooks/useReveal';
 import portrait from '../assets/images/MATT_NEW.jpg';
 import stanfordLogo from '../assets/images/stanford-logo.png';
@@ -465,28 +465,7 @@ export default function About() {
 
                 <div className="leadership-list">
                   {group.roles.map((r) => (
-                    <div key={`${r.org}-${r.role}`} className="leadership-row">
-                      <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
-                      <div className="leadership-body">
-                        <p className="leadership-role">{r.role}</p>
-                        <p className="leadership-meta">
-                          {r.org}
-                          {r.dates && (
-                            <>
-                              <span className="leadership-sep" aria-hidden="true">·</span>
-                              <span className="leadership-dates">{r.dates}</span>
-                            </>
-                          )}
-                        </p>
-                        <p className="leadership-scope">{r.scope}</p>
-                      </div>
-                      {r.count && (
-                        <p className="leadership-count">
-                          <span className="leadership-count-n">{r.count.n}</span>
-                          <span className="leadership-count-unit">{r.count.unit}</span>
-                        </p>
-                      )}
-                    </div>
+                    <LeadershipRow key={`${r.org}-${r.role}`} role={r} />
                   ))}
                 </div>
               </div>

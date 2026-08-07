@@ -19,7 +19,7 @@ export const ROUTES: RouteMeta[] = [
     path: '/',
     title: 'Matthew Torre',
     description:
-      'I design and empirically evaluate probabilistic machine learning systems, and I care most about the point where a result stops being plausible and starts being measured.',
+      'Co-founder, CEO, and CTO of Truth Computing, building AI for high-consequence work in healthcare and law. Stanford CS in AI and theoretical computer science.',
     priority: 1.0,
   },
   {
