@@ -51,6 +51,11 @@ const practice = [
       'The coordination platform I own the requirements for states plainly what it will never do: it does not allocate housing, override prioritization policy, replace the system of record, or make eligibility determinations. Knowing what a system must refuse is the design.',
   },
   {
+    principle: 'The objective function is a policy document, not a hyperparameter.',
+    detail:
+      'The learning layer that selects client messages optimizes a reward whose weights encode what the firm is willing to do to a client in exchange for engagement: an opt-out is scored at −25 against a reply at +1, so roughly twenty-five successful replies are needed to justify one opt-out in expectation. Silence is a scored action rather than a skipped one, so “say nothing this period” is something the policy can learn rather than an option it can never choose. Changing those weights is a question for counsel, not for whoever is tuning the model that week.',
+  },
+  {
     principle: 'The security posture is graded, not asserted.',
     detail:
       'I write our safety plans with a three-state vocabulary: in place, partial, and required before production. A control is never described as done because it is planned, and real patient data does not enter a system until the third list is empty.',
@@ -81,9 +86,9 @@ const arms = [
     name: 'Truth Computing Concierge',
     field: 'Automotive',
     status: 'Design partnership',
-    // Held generic for now: the partner has not cleared being named, and the
-    // marque alone would identify them to anyone who knows the market. A
-    // dealership, not a manufacturer — no automaker relationship is implied.
+    // Held generic for now: the partner is not named publicly, and naming the
+    // marque would identify them to anyone who knows the market. A dealership,
+    // not a manufacturer — no relationship with any automaker is implied.
     partner: 'A luxury car dealership',
     note: 'Constraint-driven inventory matching and customer communication.',
   },
@@ -122,6 +127,40 @@ export default function About() {
           </p>
         </div>
       </header>
+
+      {/* The work I am proudest of, placed above everything else on the page for
+          that reason. The status word is "Live" because the site is live; if that
+          ever stops being true this block comes down rather than being softened. */}
+      <section id="feynman-banner">
+        <div className="frame">
+          <a
+            className="feynman-banner"
+            href="https://learn-feynman.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="feynman-banner-eyebrow">
+              <span className="feynman-live" aria-hidden="true" />
+              Live at learn-feynman.com &middot; The work I am proudest of
+            </span>
+            <h2 className="feynman-banner-title">Feynman</h2>
+            <p className="feynman-banner-lede">
+              A free platform that rebuilds university-level AI coursework as a five-rung
+              Learning Ladder, built for first-generation and low-income students. I believe
+              understanding technology should not be gated by who you know or what you can
+              pay for, and this is the most direct thing I have built about that.
+            </p>
+            <div className="feynman-banner-facts">
+              <span className="feynman-fact">Free, always</span>
+              <span className="feynman-fact">On-device AI tutor</span>
+              <span className="feynman-fact">University coursework, K-12 ready</span>
+            </div>
+            <span className="feynman-banner-cta">
+              Visit the site <span className="arw" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </section>
 
       <section id="bio">
         <div className="frame" style={{ padding: '56px 48px' }}>
