@@ -500,7 +500,7 @@ export const projects: Project[] = [
   {
     id: 'feynman',
     title: 'Feynman',
-    oneliner: 'A free AI learning platform that rebuilds university-level coursework as a five-rung Learning Ladder, built for first-generation and low-income students.',
+    oneliner: 'An AI learning platform that rebuilds university-level coursework as a five-rung Learning Ladder, free for the first-generation and low-income students it is built for.',
     problem: 'University-level material is gated less by difficulty than by access: who explains it to you, how many times you are allowed to ask, and whether anyone notices when you fall behind.',
     context: 'Founder · A Truth Computing mission project',
     year: '2026',
@@ -509,16 +509,29 @@ export const projects: Project[] = [
         text: 'Rebuilds university-level coursework as a five-rung "Learning Ladder", so a learner climbs from first exposure to fluency in defined steps rather than being handed a syllabus',
       },
       {
-        text: 'Translates advanced Stanford technology coursework into standards-aligned K-12 lessons, so the material arrives in a form a teacher can actually teach from rather than a form only a university course can carry',
+        text: 'Meets each concept at five heights, from a kindergarten-level spark up to the full university treatment, so a teacher can pitch the same material where the student actually is',
       },
       {
-        text: 'Students learn through interactive visual discovery rather than reading, and the AI tutor runs on-device, so student data stays on the student\'s machine instead of being sent somewhere to be processed',
+        text: 'Holds no student data to lose: no accounts, no login, no student profile, no student database, no cookies, and no analytics or third-party trackers, so conversations are not written to disk and are not recoverable afterward',
+      },
+      // The claim this replaced said the tutor runs on-device. Feynman's own
+      // privacy page refuses that claim for the hosted site and says plainly
+      // that messages reach a server. Stating the weaker true thing is the
+      // whole point of that page, and this card should not undo it.
+      {
+        text: 'States the limit rather than the flattering version: on the hosted site tutor messages are sent to a server, and only a self-hosted install runs the tutor as a local model where nothing leaves the machine',
+      },
+      {
+        text: 'The tutor answers only against retrieved course resources and is barred from writing URLs at all — every link is rendered by the app from its own index — so a fabricated citation is structurally impossible rather than merely discouraged',
+      },
+      {
+        text: 'Messages are screened by a deterministic rule layer before the model sees them and again before a student sees the reply; a self-harm signal is never forwarded to the model at all, and the student is shown crisis resources including the 988 Lifeline',
       },
       {
         text: 'Built for first-generation and low-income students, the group least likely to have someone at home who has already taken the course',
       },
       {
-        text: 'Free to use, and carried forward as a mission project under Truth Computing rather than run as a commercial product',
+        text: 'Free for first-generation and low-income students, and free with no conditions for students in Jurupa Valley and Montclair as the program rolls out; carried as a Truth Computing mission project rather than a commercial product',
       },
       {
         text: 'Live at learn-feynman.com as of July 2026; in conversation with the XCITE leadership team at UC Riverside about bringing Feynman to the Riverside community, which is a partnership being explored rather than one that is signed',
@@ -533,10 +546,11 @@ export const projects: Project[] = [
       signals: [
         'Structures material as a ladder with defined rungs instead of shipping another content library',
         'Targets a specific population — first-generation and low-income students — rather than a general audience',
-        'Runs the tutor on-device, so the privacy claim is a property of where the model sits rather than a policy promise',
-        'Kept free and run as a mission project rather than converted into a product',
+        'Made the privacy guarantee architectural — no accounts, no student database, nothing persisted — rather than a policy promise, and publishes the limits beside it, including that the hosted site is not on-device',
+        'Barred the model from writing URLs so a fabricated citation cannot be produced, and screened messages in both directions with a crisis path that never forwards a student\'s words to the model',
+        'Kept free for the students it is built for and run as a mission project rather than converted into a product',
       ],
-      skills: ['Product Design', 'Applied AI', 'Education Technology', 'On-Device Inference', 'Web Engineering'],
+      skills: ['Product Design', 'Applied AI', 'Education Technology', 'Safety and Moderation Design', 'Web Engineering'],
     },
   },
   {

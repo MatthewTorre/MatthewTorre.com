@@ -164,15 +164,18 @@ export default function About() {
             </span>
             <h2 className="feynman-banner-title">Feynman</h2>
             <p className="feynman-banner-lede">
-              A free platform that rebuilds university-level AI coursework as a five-rung
-              Learning Ladder, built for first-generation and low-income students. I believe
-              understanding technology should not be gated by who you know or what you can
-              pay for, and this is the most direct thing I have built about that.
+              A platform that rebuilds university-level AI coursework as a five-rung Learning
+              Ladder, free for the first-generation and low-income students it is built for. I
+              believe understanding technology should not be gated by who you know or what you
+              can pay for, and this is the most direct thing I have built about that.
             </p>
+            {/* Every chip is a claim Feynman's own privacy page will back. It said
+                "On-device AI tutor", which that page explicitly refuses to claim for
+                the hosted site — the tutor is local only when self-hosted. */}
             <div className="feynman-banner-facts">
-              <span className="feynman-fact">Free, always</span>
-              <span className="feynman-fact">On-device AI tutor</span>
-              <span className="feynman-fact">University coursework, K-12 ready</span>
+              <span className="feynman-fact">Free for first-gen and low-income students</span>
+              <span className="feynman-fact">No accounts, no student database</span>
+              <span className="feynman-fact">Self-host to keep data local</span>
             </div>
             <span className="feynman-banner-cta">
               Visit the site <span className="arw" aria-hidden="true">&rarr;</span>
