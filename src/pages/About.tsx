@@ -10,6 +10,25 @@ import portrait from '../assets/images/MATT_NEW.jpg';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 
 
+/**
+ * Split on whether a real headcount exists, not on importance. The intro
+ * promises a number, and a role that led no one cannot supply one; giving
+ * those their own group is more honest than leaving a blank column that reads
+ * as missing data. Order inside each group is preserved from the data file.
+ */
+const leadershipGroups = [
+  {
+    label: 'Teams',
+    note: 'People who answered to me',
+    roles: leadershipRoles.filter((r) => r.count),
+  },
+  {
+    label: 'Other roles',
+    note: 'Leadership without direct reports',
+    roles: leadershipRoles.filter((r) => !r.count),
+  },
+];
+
 const honors = [
   { label: 'Rising Bird Fellowship', url: 'https://careered.stanford.edu/risingbirdfellows' },
   { label: 'Russell A. Berman Award for Excellence', url: 'https://introsems.stanford.edu/teach/introsem-excellence-award' },
@@ -430,27 +449,48 @@ export default function About() {
 
           <div className="leadership-block reveal reveal-delay-1">
             <p className="leadership-intro">
-              Most of what I have built was built with other people, and the number in each
-              line below is the number I was actually accountable for. The habit started at
-              home. I love my community, and the work I want to spend my life on is turning
-              Southern California into the next tech capital of the world.
+              Most of what I have built was built with other people. Where a line carries a
+              number, that is the number I was actually accountable for, not the size of the
+              room it reached. The habit started at home. I love my community, and the work I
+              want to spend my life on is turning Southern California into the next tech
+              capital of the world.
             </p>
 
-            <div className="leadership-list">
-              {leadershipRoles.map((r) => (
-                <div key={`${r.org}-${r.role}`} className="leadership-row">
-                  <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
-                  <div className="leadership-body">
-                    <div className="leadership-head">
-                      <span className="leadership-role">{r.role}</span>
-                      {r.dates && <span className="leadership-dates">{r.dates}</span>}
-                    </div>
-                    <p className="leadership-org">{r.org}</p>
-                    <p className="leadership-scope">{r.scope}</p>
-                  </div>
+            {leadershipGroups.map((group) => (
+              <div key={group.label} className="leadership-group">
+                <div className="leadership-group-head">
+                  <span className="leadership-group-label">{group.label}</span>
+                  <span className="leadership-group-note">{group.note}</span>
                 </div>
-              ))}
-            </div>
+
+                <div className="leadership-list">
+                  {group.roles.map((r) => (
+                    <div key={`${r.org}-${r.role}`} className="leadership-row">
+                      <OrgMark name={r.org} logo={r.logo} className="leadership-logo" />
+                      <div className="leadership-body">
+                        <p className="leadership-role">{r.role}</p>
+                        <p className="leadership-meta">
+                          {r.org}
+                          {r.dates && (
+                            <>
+                              <span className="leadership-sep" aria-hidden="true">·</span>
+                              <span className="leadership-dates">{r.dates}</span>
+                            </>
+                          )}
+                        </p>
+                        <p className="leadership-scope">{r.scope}</p>
+                      </div>
+                      {r.count && (
+                        <p className="leadership-count">
+                          <span className="leadership-count-n">{r.count.n}</span>
+                          <span className="leadership-count-unit">{r.count.unit}</span>
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>

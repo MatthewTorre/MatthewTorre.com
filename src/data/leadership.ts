@@ -1,9 +1,8 @@
 /**
  * Leadership is tracked separately from `experience` because the unit is
  * different: an experience entry is a position, a leadership entry is a group
- * of people someone was answerable to. Every `scope` line here states the size
- * of that group, and every figure is one already claimed on the Experience
- * page — nothing is rounded up on the way over.
+ * of people someone was answerable to. Every figure here is one already
+ * claimed on the Experience page — nothing is rounded up on the way over.
  */
 export interface LeadershipRole {
   org: string;
@@ -12,6 +11,17 @@ export interface LeadershipRole {
   dates?: string;
   /** Who was led and how many, in one line. */
   scope: string;
+  /**
+   * People directly answerable to him, stated as a number rather than left in
+   * the prose so the page can be read down the column instead of sentence by
+   * sentence. Present only where a real headcount exists — a role that led no
+   * one omits it and renders in the second group rather than being given a
+   * zero or a number borrowed from the size of the audience. `n` is the group
+   * led, never the room reached: the research conference put work in front of
+   * 90+ researchers, and the fifteen interns are the ones he was accountable
+   * for.
+   */
+  count?: { n: number; unit: string };
   logo?: string;
 }
 
@@ -22,6 +32,7 @@ export const leadershipRoles: LeadershipRole[] = [
     dates: 'May 2026 – Present',
     scope:
       'Lead a team of twelve building Feynman and the Truth Computing platform, and carry both the company and the technical direction.',
+    count: { n: 12, unit: 'people' },
     logo: '/images/logos/truth-computing.png',
   },
   {
@@ -30,6 +41,7 @@ export const leadershipRoles: LeadershipRole[] = [
     dates: 'Oct 2023 – Sep 2024',
     scope:
       'Ran the largest undergraduate research conference at Stanford over 24 weeks: four sub-committees, 15 student interns, and 90+ researchers from 40+ institutions presenting to a keynote panel that included a Nobel Laureate.',
+    count: { n: 15, unit: 'interns' },
     logo: '/images/logos/sura.jpeg',
   },
   {
@@ -44,6 +56,7 @@ export const leadershipRoles: LeadershipRole[] = [
     role: 'Project Manager',
     scope:
       'Led six consultants through an eight-week engagement for an education technology client, holding the team to deliverables through 30+ user interviews and 140+ survey responses.',
+    count: { n: 6, unit: 'consultants' },
     logo: '/images/logos/stanford-marketing.jpeg',
   },
   {
@@ -51,6 +64,7 @@ export const leadershipRoles: LeadershipRole[] = [
     role: 'Project Lead',
     scope:
       'Led five consultants on Stanford Health Care’s catheter-associated infection reduction initiative, synthesizing 15+ physician interviews into three evidence-based interventions.',
+    count: { n: 5, unit: 'consultants' },
     logo: '/images/logos/stanford-health.jpeg',
   },
   {

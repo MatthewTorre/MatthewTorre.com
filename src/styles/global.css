@@ -1466,15 +1466,26 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 /* ===== Leadership ===== */
 .leadership-block { max-width: 720px; }
 .leadership-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0 0 24px; }
+.leadership-group + .leadership-group { margin-top: 44px; }
+.leadership-group-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
+.leadership-group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); }
+.leadership-group-note { font-size: 11.5px; color: var(--muted); }
 .leadership-list { display: flex; flex-direction: column; }
-.leadership-row { display: grid; grid-template-columns: 30px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+/* The third track is the headcount ledger. `auto` keeps it flush right and
+   collapses to nothing on rows without a count, so the second group closes up
+   rather than reserving an empty column. */
+.leadership-row { display: grid; grid-template-columns: 30px 1fr auto; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--hairline); align-items: start; }
 .leadership-row:first-child { border-top: 1px solid var(--hairline); }
 .leadership-logo { width: 30px; height: 30px; object-fit: contain; border-radius: 5px; margin-top: 2px; }
-.leadership-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-.leadership-role { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
-.leadership-dates { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; }
-.leadership-org { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.leadership-role { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; margin: 0; }
+.leadership-meta { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.leadership-sep { margin: 0 6px; color: var(--hairline-hover); }
+.leadership-dates { font-family: var(--font-mono); font-size: 11.5px; white-space: nowrap; }
 .leadership-scope { font-size: 13.5px; line-height: 1.7; color: var(--ink); margin: 8px 0 0; }
+/* Tabular figures so 12, 15, 6 and 5 sit on one axis down the column. */
+.leadership-count { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; margin: 0; padding-left: 24px; text-align: right; }
+.leadership-count-n { font-family: var(--font-mono); font-size: 21px; font-weight: 500; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.leadership-count-unit { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); white-space: nowrap; }
 
 .leadership-early-note { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 20px 0 0; }
 
@@ -1489,7 +1500,11 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 
 @media (max-width: 640px) {
   .leadership-row { grid-template-columns: 1fr; gap: 10px; }
-  .leadership-head { flex-direction: column; gap: 4px; }
+  /* One column means the ledger cannot sit flush right against anything, so
+     the count turns into an inline "12 people" line instead of a stranded
+     right-aligned block. */
+  .leadership-count { flex-direction: row; align-items: baseline; gap: 6px; padding-left: 0; text-align: left; }
+  .leadership-count-n { font-size: 17px; }
 }
 
 /* ===== Feynman banner — the loudest block on the About page, on purpose ===== */
