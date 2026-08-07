@@ -40,7 +40,7 @@ export const leadershipRoles: LeadershipRole[] = [
     role: 'Research Conference Co-Director',
     dates: 'Oct 2023 – Sep 2024',
     scope:
-      'Ran the largest undergraduate research conference at Stanford over 24 weeks: four sub-committees, 15 student interns, and 90+ researchers from 40+ institutions presenting to a keynote panel that included a Nobel Laureate.',
+      'Ran Stanford’s undergraduate research conference over 24 weeks: four sub-committees, 15 student interns, and 90+ researchers from 40+ institutions presenting to a keynote panel that included a Nobel Laureate.',
     count: { n: 15, unit: 'interns' },
     logo: '/images/logos/sura.jpeg',
   },

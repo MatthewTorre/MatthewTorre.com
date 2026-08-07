@@ -73,7 +73,10 @@ export const experience: ExperienceItem[] = [
     dates: 'Mar 2026',
     location: 'San Francisco, CA (Remote)',
     description:
-      'Infrastructure and analytics. Instrumented a behavioral telemetry pipeline (hesitation time, character count, verification attempts) across a React/Flask onboarding funnel; designed diagnostic dashboards to surface user trust-barrier signals from latency data.',
+      // The specific signals captured were named here. Enumerating them reads
+      // as a surveillance inventory of someone else's users, which is a worse
+      // description of the work than the work deserves.
+      'Infrastructure and analytics. Instrumented a behavioral telemetry pipeline across a React/Flask onboarding funnel; designed diagnostic dashboards to surface user trust-barrier signals from latency data.',
     logo: '/images/logos/lasso.jpeg',
     url: 'https://www.joinlasso.com/',
   },
@@ -146,7 +149,10 @@ export const experience: ExperienceItem[] = [
     logo: '/images/logos/stanford-ddl.jpeg',
     url: 'https://deliberation.stanford.edu/',
     highlights: [
-      'Assisted in data-related tasks drawing on survey data from over 6,300 participants across 32 countries, 9 regions, and 23 different languages, shaping Meta’s platform governance policies',
+      // The sentence used to end "shaping Meta's platform governance policies",
+      // which attributed a third party's policy outcomes to Matthew's data
+      // tasks. The lab's work informed that area; his part was the data work.
+      'Assisted in data-related tasks on a deliberative-polling study drawing on survey data from over 6,300 participants across 32 countries, 9 regions, and 23 different languages, run on questions of platform governance',
       'Worked on the America in One Room project and the Metaverse project',
     ],
   },
@@ -160,7 +166,10 @@ export const experience: ExperienceItem[] = [
     logo: '/images/logos/demystifyd.jpeg',
     url: 'https://www.demystifyd.com/',
     highlights: [
-      'Led the development of multiple features working with agile methodologies, data analysis, and product design to increase user engagement, reaching 100 daily active users and a 10% premium conversion rate',
+      // Active-user and conversion figures were here. Those are a private
+      // company's business metrics, not Matthew's to publish; the feature work
+      // is the credential either way.
+      'Led the development of multiple features working with agile methodologies, data analysis, and product design to increase user engagement',
       'Authored the Product Requirements Document (PRD) for multiple features, covering feature overview, target audience, user research, A/B testing, usability studies, technical requirements, and go-to-market strategy',
       'Collaborated with the Founder/CTO, Marketing, and UX Designers to execute six months of growth strategy including content calendars, virtual conferences, and sponsorship management',
     ],
@@ -171,13 +180,19 @@ export const experience: ExperienceItem[] = [
     dates: 'Oct 2023 – Sep 2024',
     location: 'Stanford, CA',
     description:
-      'Directed the largest undergraduate research conference at Stanford across a 24-week project, overseeing applications, venues, catering, programming, publicity, and coordination with the Office of Student Engagement.',
+      // "The largest undergraduate research conference at Stanford" was here.
+      // It is a superlative about someone else's event that cannot be produced
+      // on request; the scale below establishes the same thing from figures.
+      'Directed Stanford’s undergraduate research conference across a 24-week project, overseeing applications, venues, catering, programming, publicity, and coordination with the Office of Student Engagement.',
     logo: '/images/logos/sura.jpeg',
     url: 'https://sura.stanford.edu/',
     highlights: [
       'Convened over 90 undergraduate researchers from 40+ institutions presenting across Computational Sciences, Experimental Life Sciences, Experimental Physical Sciences, Humanities/Arts, and Qualitative/Quantitative Social Sciences',
       'Oversaw four research sub-committees and 15 student interns, and held deliverables to schedule',
-      'Coordinated with and curated programming for keynote panelists including Ato Quayson, Lerone A. Martin, Dr. Daniel Greene, Dr. Pamela Matson, Dr. Chris Field, Dr. Lisa Patel, and Nobel Laureate Thomas Südhof',
+      // The seven panelists were named here, including a Nobel Laureate.
+      // Their names are their own credential, not Matthew's to spend, and the
+      // work — curating the programming — is the part that is his.
+      'Curated the keynote programming and coordinated with a panel of Stanford faculty and a Nobel Laureate',
     ],
   },
   {
@@ -201,10 +216,13 @@ export const experience: ExperienceItem[] = [
     role: 'Project Lead',
     location: 'Stanford, CA',
     description:
-      'Led Stanford’s Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, working from physician interviews and workflow surveys toward evidence-based changes to the electronic health record.',
+      // "Led Stanford's CAUTI reduction initiative" was here. Stanford Health
+      // Care led that initiative; a student consulting team supported it, which
+      // is what the highlight below already said. The description now matches.
+      'Led the student consulting team supporting Stanford’s Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, working from physician interviews and workflow surveys toward evidence-based changes to the electronic health record.',
     logo: '/images/logos/stanford-health.jpeg',
     highlights: [
-      'Oversaw Stanford’s effort on the Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, leading a team of 5 consultants synthesizing and analyzing 15+ physician interviews and 3 workflow sentiment surveys',
+      'Led a team of 5 consultants on the Catheter-Associated Urinary Tract Infection (CAUTI) reduction initiative, synthesizing and analyzing 15+ physician interviews and 3 workflow sentiment surveys',
       'Proposed and substantiated 3 evidence-based interventions for user interface improvements in the Electronic Health Record (EHR)',
       // The hospital's own SIR target for the fiscal year was in this line. A
       // named hospital's internal quality goal is theirs to publish, not a
@@ -245,10 +263,10 @@ export const experience: ExperienceItem[] = [
     logo: '/images/logos/joby.jpeg',
     highlights: [
       'Collaborated with Mark Torre to create, write, film, and produce four ads for the campaign',
-      'YouTube: 935,817 impressions',
-      'Premium CTV: 148,477 impressions',
-      'Programmatic/Native: 94,659 impressions',
-      'Facebook/Instagram: 31,088 impressions',
+      // Per-channel impression counts were here. They are the campaign's media
+      // performance data rather than Matthew's, and the production credit does
+      // not depend on them.
+      'Distributed across paid video, connected TV, programmatic and native, and Facebook and Instagram',
     ],
   },
 ];

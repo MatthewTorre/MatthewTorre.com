@@ -125,8 +125,8 @@ export default function Home() {
                 and Theoretical Computer Science
               </span>
               <span className="hero-credential-sub">
-                B.S. conferred June 2026, with distinction &middot; GPA 3.8 &middot; M.S. in
-                progress, currently on leave &middot; GPA 4.0
+                B.S. conferred June 2026, with distinction &middot; M.S. in progress,
+                currently on leave
               </span>
             </div>
           </div>

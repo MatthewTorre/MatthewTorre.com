@@ -98,7 +98,12 @@ const arms = [
     name: 'Truth Computing Health',
     field: 'Vision care',
     status: 'Design partnership',
-    partner: 'Affordable Family Vision',
+    // Held generic, like the automotive partner. Naming a healthcare practice
+    // beside a description of AI touching intake and the clinical record tells
+    // that practice's patients something the practice may not have told them,
+    // and a clearance to be named is not the same as a clearance to be named
+    // here. The sector carries the point; the name only carries risk.
+    partner: 'An optometry practice',
     note: 'Human-gated clinical AI across intake, imaging workflows, and clinical documentation, each reviewed by a clinician before it enters the record.',
   },
   {
@@ -495,14 +500,14 @@ export default function About() {
                 <span className="education-degree-title">B.S. Computer Science</span>
                 <span className="education-degree-detail">
                   Artificial Intelligence Concentration, with a minor focus in data science
-                  and systems &middot; Conferred June 2026, with distinction &middot; GPA 3.8 / 4.00
+                  and systems &middot; Conferred June 2026, with distinction
                 </span>
               </div>
               <div className="education-degree-row">
                 <span className="education-degree-title">M.S. Computer Science</span>
                 <span className="education-degree-detail">
                   Artificial Intelligence and Theoretical Computer Science &middot; In progress,
-                  currently on leave &middot; GPA 4.0 / 4.00
+                  currently on leave
                 </span>
               </div>
             </div>
