@@ -26,7 +26,7 @@ His research interest is the mechanics of reasoning under reinforcement learning
 
 Honors: Rising Bird Fellowship, Russell A. Berman Award for Excellence, MLT Fellow (Management Leaders for Tomorrow), BOSP Stanford in Florence. DeepLearning.AI certifications under Andrew Ng: Neural Networks and Deep Learning; Improving Deep Neural Networks; Structuring Machine Learning Projects; Convolutional Neural Networks.
 
-Contact: mtorre04@stanford.edu · github.com/MatthewTorre`;
+Contact: mtorre04@stanford.edu · github.com/MatthewTorre · matthewtorre.substack.com`;
 
 const RULES = `You are the assistant on Matthew Torre's portfolio site. Answer questions about Matthew from the reference below.
 
