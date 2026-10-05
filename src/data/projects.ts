@@ -78,6 +78,61 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'ross',
+    title: 'Ross (Colossus OS)',
+    oneliner: "Truth Computing's flagship product: an AI system that reads a personal-injury firm's case files, drafts the client update, and only reaches the client after a person signs off.",
+    problem: "What has to be true, end to end — document intelligence, delivery, security, and billing — before a law firm will let this run on real cases?",
+    context: 'Founding/Lead Engineer · Truth Computing',
+    year: 'June–August 2026',
+    coauthors: ['Mark Torre', 'Johnathan Fierro', 'Nathan Berio'],
+    contribution: 'Primary author across nearly every subsystem below, and the project\'s main integrator; teammates owned document-detection correctness (Mark Torre), model evaluation (Johnathan Fierro), and UI polish (Nathan Berio) — see the note on this card',
+    results: [
+      {
+        text: 'Product foundation: built the initial private snapshot of Ross; designed and shipped the Client Update System (case-status flow, onboarding, the CALL keyword); built the public landing page, Stripe Checkout, and the firm signup/provisioning flow',
+      },
+      {
+        text: 'AI document pipeline: built medical-record chronology extraction (multi-file upload to a cited, deterministic timeline), document classification and triage ("worth telling" gating), OCR for scanned PDFs, and a model-routing layer that moved the system from Qwen to Anthropic with per-job model selection and cost tracking',
+      },
+      {
+        text: 'Integrations: built Google Drive folder watching and polling, Clio matter/document sync, Google/phone/email sign-in, and per-lawyer mailbox connections',
+      },
+      {
+        text: 'Messaging and delivery: built the SMS (Twilio) and email (SendGrid/Resend) delivery layer, opt-out and STOP handling, per-client channel toggles, consent capture, and the message drafting/review/send interface',
+      },
+      {
+        text: 'Security and compliance: ran a security-hardening pass — a stored-XSS fix, webhook authentication, session revocation, tenant isolation, and a secret-rotation runbook — closed a PHI-egress gap in the Files API, and added brute-force throttling, firm-wide two-factor authentication, and database restore/backup tooling',
+      },
+      {
+        text: 'Reliability and testing: built the audit/invariant test suite, ran a reliability audit that closed double-send, lost-reply, and lost-document gaps, added CI gating, and built a one-command pipeline-proof/testing harness page for firms',
+      },
+      {
+        text: 'Infrastructure: set up Fly.io deployment, a Terraform/AWS migration scaffold, and build-stamped deploy tracking',
+      },
+      {
+        text: 'Pricing and business: built two-tier pricing, per-case billing, and the Full View paywall',
+      },
+      {
+        text: 'Cumulative volume: ',
+        metric: '444 commits, June–August 2026, spanning nearly every subsystem in the app',
+      },
+    ],
+    tags: ['Applied AI', 'Document Intelligence', 'OCR', 'Messaging Infrastructure', 'Security Hardening', 'Legal Tech', 'Fly.io', 'Product Leadership'],
+    links: [
+      { label: 'truth-computing.com', url: 'https://www.truth-computing.com/' },
+    ],
+    note: "Compiled from the project's git history (all branches, as of 2026-08-18), grouped by theme rather than commit order. This card complements the Truth Computing card above: that one describes the company at case-study altitude and stays proprietary on architecture and customers; this one is a record of specific engineering scope, sourced the same way a contribution history for a resume would be. Commit counts measure authorship across the repository, not lines of code or impact, and include merge commits from being the project's primary integrator.",
+    tldr: {
+      summary: "Built and shipped Truth Computing's flagship product end to end: the AI document pipeline, the messaging and delivery layer, the integrations it runs on, and the security and reliability work that let a law firm trust it with real cases.",
+      signals: [
+        'Founding engineer and primary author across nearly every subsystem — product, AI pipeline, integrations, messaging, security, reliability, infra, and pricing',
+        'Shipped a full AI document pipeline: chronology extraction, triage, OCR, and a model-routing layer that migrated the system from Qwen to Anthropic under live cost tracking',
+        'Ran a security-hardening pass that closed a stored-XSS issue and a PHI-egress gap, and added tenant isolation, brute-force throttling, and firm-wide 2FA',
+        'Closed double-send, lost-reply, and lost-document gaps with a dedicated reliability audit and an audit/invariant test suite gating CI',
+      ],
+      skills: ['Applied AI', 'Systems Architecture', 'Security Hardening', 'Product Leadership', 'Integrations', 'Reliability Engineering'],
+    },
+  },
+  {
     id: 'invariant',
     title: 'Invariant',
     oneliner: 'Domain-agnostic Monte Carlo simulation platform for probabilistic operational planning; pure Python, zero external dependencies.',

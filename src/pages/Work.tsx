@@ -9,7 +9,7 @@ const CATEGORIES: { label: Category; ids: string[] }[] = [
   { label: 'All', ids: [] },
   { label: 'ML & AI', ids: ['cs224r', 'cs238', 'cs230', 'cs131', 'cs221', 'strabismus', 'swish', 'syncedin', 'tech-assessment'] },
   { label: 'Systems', ids: ['invariant', 'cs244c'] },
-  { label: 'Product', ids: ['truth-computing', 'feynman', 'ezrecruit'] },
+  { label: 'Product', ids: ['truth-computing', 'ross', 'feynman', 'ezrecruit'] },
   { label: 'Quantum', ids: ['qaoa'] },
 ];
 
