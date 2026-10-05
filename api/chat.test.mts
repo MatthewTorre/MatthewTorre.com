@@ -1,9 +1,9 @@
 // Exercises api/chat.ts with a stubbed upstream: validation, rate limiting,
 // SSE parsing, and streaming. Everything except the Groq call itself.
-const ROOT = '/Users/matthewtorre/truth-computing/MatthewTorre.com-main';
 process.env.GROQ_API_KEY = 'test-key';
 
-const handler = (await import(`${ROOT}/api/chat.ts`)).default;
+// Resolved from this file, so the suite runs from any checkout and in CI.
+const handler = (await import(new URL('./chat.ts', import.meta.url).href)).default;
 
 let captured: any = null;
 

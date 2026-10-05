@@ -14,9 +14,38 @@ export interface ProjectTldr {
   skills: string[];
 }
 
+/**
+ * Maturity, stated with a word rather than a color so it survives a screen
+ * reader, a grayscale print, and a reader who skims. The definitions are the
+ * ones in private/CLAIM_REGISTER.md; a label is never upgraded here ahead of
+ * the evidence there.
+ *
+ *   Delivered       the scoped deliverable was completed and handed over
+ *   Live            a deployed artifact exists; says nothing about outcomes
+ *   In development  implemented pieces exist, scope is incomplete
+ *   Prototype       demonstrates a limited workflow or architecture
+ *   Research        experiments, evaluation artifacts, working drafts
+ *   Planned         a defined intention with nothing implemented yet
+ */
+export type Status = 'Delivered' | 'Live' | 'In development' | 'Prototype' | 'Research' | 'Planned';
+
+/** One part of a larger case study, with its own maturity where it differs from the whole. */
+export interface ProjectSection {
+  heading: string;
+  status?: Status;
+  body: string;
+}
+
 export interface Project {
   id: string;
+  /**
+   * Ids this record was previously published under. Each still resolves as an
+   * anchor on the Work page, so an old /work#ross link lands on Clientlyy.
+   */
+  legacyIds?: string[];
   title: string;
+  /** A short line under the title: what the thing is, or what it used to be called. */
+  subtitle?: string;
   oneliner: string;
   problem: string;
   /**
@@ -37,6 +66,14 @@ export interface Project {
   contribution?: string;
   /** Caveats about provenance, scope, or what is not published. */
   note?: string;
+  /** Top-level maturity. Mixed projects explain component differences in `sections`. */
+  status?: Status;
+  /** When the status and the claims on the card were last checked, e.g. "October 2026". */
+  asOf?: string;
+  /** Longer case-study detail, rendered after `results`. */
+  sections?: ProjectSection[];
+  /** What the card does not claim. Rendered as its own list so it cannot be skimmed past as a footnote. */
+  limits?: string[];
 }
 
 export const projects: Project[] = [
@@ -45,8 +82,10 @@ export const projects: Project[] = [
     title: 'Truth Computing',
     oneliner: "Approval-gated infrastructure for automated client communication in professional settings, where the message goes out under a person's name.",
     problem: 'What has to be true before a professional will let an AI system speak to their client in their name?',
-    context: 'Co-founder and CEO',
+    context: 'Co-founder, CEO & CTO',
     year: '2025–2026',
+    status: 'Live',
+    asOf: 'October 2026',
     results: [
       {
         text: 'Designed an approval-gated architecture for high-consequence automated communication: the system prepares the communication, and a human approval step stands between the model and the client',
@@ -55,7 +94,7 @@ export const projects: Project[] = [
         text: 'Model output is verified against the source documents it draws from before delivery rather than checked after the fact',
       },
       {
-        text: 'Applied the same architecture to a second, unrelated vertical, which tested whether the approval and verification structure was general or specific to the first domain',
+        text: 'Applied the same architecture to a second, unrelated vertical, a clinical workflow prototype, which tested whether the approval and verification structure was general or specific to the first domain',
       },
       {
         text: 'Wrote an engineering testing standard organized around claim-level invariants, so tests assert properties that must hold of what the system claims rather than spot-checking sampled outputs',
@@ -65,7 +104,7 @@ export const projects: Project[] = [
     links: [
       { label: 'truth-computing.com', url: 'https://www.truth-computing.com/' },
     ],
-    note: 'The work is proprietary and not published here. This card stays at case-study altitude on purpose: no architecture detail, no thresholds, no customer names, and no figures. The company site is the place to go for anything further.',
+    note: 'The work is proprietary and not published here. This card stays at case-study altitude on purpose: no architecture detail, no thresholds, no customer names, and no figures. It is live as the design under Clientlyy; the clinical application is a prototype, described below.',
     tldr: {
       summary: "Infrastructure for letting an AI system communicate with a professional's clients under that professional's name, built around human approval before delivery and verification of output against source documents.",
       signals: [
@@ -78,58 +117,354 @@ export const projects: Project[] = [
     },
   },
   {
-    id: 'ross',
-    title: 'Ross (Colossus OS)',
-    oneliner: "Truth Computing's flagship product: an AI system that reads a personal-injury firm's case files, drafts the client update, and only reaches the client after a person signs off.",
-    problem: "What has to be true, end to end — document intelligence, delivery, security, and billing — before a law firm will let this run on real cases?",
-    context: 'Founding/Lead Engineer · Truth Computing',
-    year: 'June–August 2026',
+    id: 'clientlyy',
+    // Published as "Ross (Colossus OS)" until October 2026. Colossus is a
+    // separate research record, so the name came off; the id still resolves.
+    legacyIds: ['ross'],
+    title: 'Clientlyy',
+    subtitle: 'Legal client communication infrastructure · Developed initially under the Ross name',
+    oneliner: 'Software for personal-injury firms that connects document processing, drafting, attorney review, client messaging, and audit history in one workflow.',
+    problem: 'Personal-injury firms need to keep clients informed while controlling what is communicated, which sources support it, and who authorizes delivery.',
+    context: 'Founder and founding engineer · Truth Computing',
+    year: 'June 2026 – present',
+    status: 'Live',
+    asOf: 'October 2026',
     coauthors: ['Mark Torre', 'Johnathan Fierro', 'Nathan Berio'],
-    contribution: 'Primary author across nearly every subsystem below, and the project\'s main integrator; teammates owned document-detection correctness (Mark Torre), model evaluation (Johnathan Fierro), and UI polish (Nathan Berio) — see the note on this card',
+    // The split is the one the team wrote down in its August 4, 2026 handoff
+    // documents, not a reconstruction from commit counts.
+    contribution:
+      'I wrote the initial snapshot on June 10, 2026, set the architecture, and was the primary engineer and integrator through August 2026, owning the backend, data layer, billing, infrastructure, and security. Mark Torre led the product surface, copy, and design and built document-change detection and alerting. Johnathan Fierro owned model evaluation and cost and contributed to the Drive integration and per-firm provisioning. Nathan Berio worked on test-record realism and compliance documentation and fixed two send-path race conditions',
     results: [
       {
-        text: 'Product foundation: built the initial private snapshot of Ross; designed and shipped the Client Update System (case-status flow, onboarding, the CALL keyword); built the public landing page, Stripe Checkout, and the firm signup/provisioning flow',
+        text: 'Client messages pass through attorney review and consent checks before delivery by default',
       },
       {
-        text: 'AI document pipeline: built medical-record chronology extraction (multi-file upload to a cited, deterministic timeline), document classification and triage ("worth telling" gating), OCR for scanned PDFs, and a model-routing layer that moved the system from Qwen to Anthropic with per-job model selection and cost tracking',
+        text: 'Drafts are built from the firm’s own case files and checked against those sources; the medical chronology cites the source passage for each finding',
       },
       {
-        text: 'Integrations: built Google Drive folder watching and polling, Clio matter/document sync, Google/phone/email sign-in, and per-lawyer mailbox connections',
-      },
-      {
-        text: 'Messaging and delivery: built the SMS (Twilio) and email (SendGrid/Resend) delivery layer, opt-out and STOP handling, per-client channel toggles, consent capture, and the message drafting/review/send interface',
-      },
-      {
-        text: 'Security and compliance: ran a security-hardening pass — a stored-XSS fix, webhook authentication, session revocation, tenant isolation, and a secret-rotation runbook — closed a PHI-egress gap in the Files API, and added brute-force throttling, firm-wide two-factor authentication, and database restore/backup tooling',
-      },
-      {
-        text: 'Reliability and testing: built the audit/invariant test suite, ran a reliability audit that closed double-send, lost-reply, and lost-document gaps, added CI gating, and built a one-command pipeline-proof/testing harness page for firms',
-      },
-      {
-        text: 'Infrastructure: set up Fly.io deployment, a Terraform/AWS migration scaffold, and build-stamped deploy tracking',
-      },
-      {
-        text: 'Pricing and business: built two-tier pricing, per-case billing, and the Full View paywall',
-      },
-      {
-        text: 'Cumulative volume: ',
-        metric: '444 commits, June–August 2026, spanning nearly every subsystem in the app',
+        text: 'Live at app.clientlyy.com, with SMS as the production channel',
       },
     ],
-    tags: ['Applied AI', 'Document Intelligence', 'OCR', 'Messaging Infrastructure', 'Security Hardening', 'Legal Tech', 'Fly.io', 'Product Leadership'],
+    sections: [
+      {
+        heading: 'Product foundation',
+        status: 'Live',
+        body: 'I built the first versions of sign-in, the data layer with firm-level separation, onboarding, provisioning of a new firm after checkout, and per-firm feature flags. Later work on these pieces was shared; one-command per-firm deployment, for example, is Johnathan Fierro’s.',
+      },
+      {
+        heading: 'Document intelligence',
+        status: 'Live',
+        body: 'Case files are read from PDFs, including scanned pages through OCR, common image formats, Word documents, and plain text. On top of extraction I built document classification, the cited medical chronology, retrieval over the firm’s own case files, drafting that is checked against its sources, per-job model routing, and model cost tracking.',
+      },
+      {
+        heading: 'Integrations',
+        status: 'In development',
+        body: 'Google Drive is implemented and picks up new case documents automatically. Connections to practice-management systems and lawyers’ mailboxes are in development and have not run against a live account.',
+      },
+      {
+        heading: 'Communication',
+        status: 'Live',
+        body: 'SMS is the production channel, with consent capture, opt-out handling, and per-client channel preferences. Email delivery is built. Voice calling is not part of the product.',
+      },
+      {
+        heading: 'Reliability',
+        status: 'Live',
+        body: 'In August 2026 I ran a reliability audit that closed the paths to double sends, lost replies, and lost documents, and built the invariant test suite and a one-command pipeline harness that CI runs on every change. CI was passing on the main branch as of October 4, 2026.',
+      },
+      {
+        heading: 'Security',
+        status: 'Live',
+        body: 'I own security engineering: firm isolation, authentication and session controls, verification of incoming webhooks, limits on where protected health information can be sent, and a tamper-evident audit history. Each is a control on a specific action. Clientlyy holds no SOC 2, HIPAA, or other certification.',
+      },
+      {
+        heading: 'Infrastructure',
+        status: 'Live',
+        body: 'Deployment, release tracking, and backup tooling, and the move from the Ross domain to app.clientlyy.com at the end of August 2026. A migration to AWS is planned and is not running.',
+      },
+      {
+        heading: 'Commercial engineering',
+        status: 'In development',
+        body: 'Checkout, trials, per-case billing, and pilot entitlements are built. That is billing capability, and this page reports no revenue. I take part directly in demonstrations, onboarding, and pilot scoping with firms.',
+      },
+      {
+        heading: 'Current development, October 2026',
+        status: 'In development',
+        body: 'Engineering continues on integrations and on per-firm controls for handling protected health information, alongside commercial validation with firms. A learned message-selection policy is built but runs in shadow mode: it records what it would choose and does not choose what is sent. Whether it reduces complaints, workload, or case duration has not been measured.',
+      },
+      {
+        heading: 'Authorship note',
+        body: 'Across all branches from June 10 to August 22, 2026, I authored 402 of 504 non-merge commits, or 509 of 621 counting merges, measured by author email on October 5, 2026. Merges are counted separately because integrating other people’s branches was part of my role. Commit counts do not measure value, code quality, or how much any teammate’s work mattered.',
+      },
+    ],
+    limits: [
+      'No customers, revenue, or client outcomes are claimed here.',
+      'No security certification of any kind.',
+      'Integrations marked in development have not run against a live account.',
+      'The message-selection policy runs in shadow mode and makes no decisions about what is sent.',
+    ],
+    tags: ['Applied AI', 'Document Intelligence', 'OCR', 'Messaging Infrastructure', 'Security Engineering', 'Legal Tech', 'Systems Architecture'],
     links: [
       { label: 'truth-computing.com', url: 'https://www.truth-computing.com/' },
     ],
-    note: "Compiled from the project's git history (all branches, as of 2026-08-18), grouped by theme rather than commit order. This card complements the Truth Computing card above: that one describes the company at case-study altitude and stays proprietary on architecture and customers; this one is a record of specific engineering scope, sourced the same way a contribution history for a resume would be. Commit counts measure authorship across the repository, not lines of code or impact, and include merge commits from being the project's primary integrator.",
+    note: 'Compiled from the repository’s main branch and history as of October 4–5, 2026, and from the team’s August 4, 2026 handoff documents.',
     tldr: {
-      summary: "Built and shipped Truth Computing's flagship product end to end: the AI document pipeline, the messaging and delivery layer, the integrations it runs on, and the security and reliability work that let a law firm trust it with real cases.",
+      summary: 'Client-communication software for personal-injury firms. It reads case files, drafts updates against cited sources, and by default sends nothing to a client until it clears attorney review and consent checks. I wrote its initial foundation and was the primary engineer and integrator through August 2026.',
       signals: [
-        'Founding engineer and primary author across nearly every subsystem — product, AI pipeline, integrations, messaging, security, reliability, infra, and pricing',
-        'Shipped a full AI document pipeline: chronology extraction, triage, OCR, and a model-routing layer that migrated the system from Qwen to Anthropic under live cost tracking',
-        'Ran a security-hardening pass that closed a stored-XSS issue and a PHI-egress gap, and added tenant isolation, brute-force throttling, and firm-wide 2FA',
-        'Closed double-send, lost-reply, and lost-document gaps with a dedicated reliability audit and an audit/invariant test suite gating CI',
+        'Wrote the initial snapshot and owned backend, data layer, billing, infrastructure, and security through August 2026',
+        'Built the document pipeline: OCR, classification, a cited medical chronology, source-checked drafting, model routing, and cost tracking',
+        'Closed double-send, lost-reply, and lost-document paths in an August 2026 reliability audit backed by invariant tests in CI',
+        'States what is not live: practice-management and mailbox connections in development, the selection policy in shadow mode',
       ],
-      skills: ['Applied AI', 'Systems Architecture', 'Security Hardening', 'Product Leadership', 'Integrations', 'Reliability Engineering'],
+      skills: ['Systems Architecture', 'Applied AI', 'Security Engineering', 'Integrations', 'Reliability Engineering', 'Technical Leadership'],
+    },
+  },
+  // ── Current Truth Computing engagements ──────────────────────────────────
+  // Clients are described by sector, never named: see the rule in
+  // api/_prompt.ts and the sourcing in private/CLAIM_REGISTER.md.
+  {
+    id: 'practice-modernization',
+    title: 'Optometry practice modernization',
+    oneliner: 'A patient-facing website and staff console for an independent optometry practice, built as the first phase of a broader modernization engagement.',
+    problem: 'A small practice loses patients at the first step: finding out what is offered, whether their insurance is taken, and how to get an appointment, often in a language other than English.',
+    context: 'Lead engineer · Truth Computing',
+    year: 'July 2026 – present',
+    status: 'Delivered',
+    asOf: 'October 2026',
+    contribution: 'Sole engineer on the website and staff console; I also scoped the engagement with the practice',
+    results: [
+      {
+        text: 'Delivered a six-page patient site in August 2026: services, insurance and payment, eyewear, the practice, and contact and booking, with an insurance plan checker and prices shown only where the practice has confirmed them',
+      },
+      {
+        text: 'States that care is offered in English and Spanish, and the booking request form asks for a preferred language; the site itself is in English',
+      },
+      {
+        text: 'Local search groundwork: structured data, canonical redirects, and a sitemap',
+      },
+      {
+        text: 'Booking is a request form: requests land in a staff console and staff call the patient to confirm. There is no live scheduling integration',
+      },
+      {
+        text: 'Assessment of the practice’s existing systems (practice management, patient messaging, phones, and records) is the next phase and has not started',
+      },
+    ],
+    tags: ['Healthcare', 'Web', 'Local Search', 'Patient Intake', 'Client Delivery'],
+    links: [],
+    note: 'The practice is not named here. The website is delivered; broader integrations depend on system access and on the scope the practice chooses.',
+    tldr: {
+      summary: 'A patient-facing website and staff console for an independent optometry practice: services, insurance, and booking requests that staff confirm by phone. I built it end to end and it was delivered in August 2026; assessing the practice’s other systems is the next phase and has not started.',
+      signals: [
+        'Built and delivered the site and staff console as the sole engineer',
+        'Showed prices only where the practice had confirmed them, rather than publishing estimates',
+        'Kept booking as a staffed request until a scheduling integration is scoped',
+      ],
+      skills: ['Client Delivery', 'Web Engineering', 'Healthcare Workflows', 'Scoping'],
+    },
+  },
+  {
+    id: 'clinical-workflow',
+    title: 'Clinical workflow prototype',
+    oneliner: 'A review-gated patient-messaging workflow for an optometry practice, built to test whether the approval architecture behind Clientlyy holds up in a clinical setting.',
+    problem: 'In a clinic, the wrong automated message can reach a patient before anyone with a license has seen it. What does a workflow look like in which that cannot happen by configuration?',
+    context: 'Architect and engineer · Truth Computing',
+    year: 'July 2026 – present',
+    status: 'Prototype',
+    asOf: 'October 2026',
+    contribution: 'Designed and built it alone',
+    results: [
+      {
+        text: 'Messages are classed by consequence; the highest class enters a clinical hold that only the optometrist can release, under any review setting',
+      },
+      {
+        text: 'Staff choose how much review applies, from reviewing every message to reviewing sensitive ones only, and a consent gate sits in front of every send',
+      },
+      {
+        text: 'History is kept in a tamper-evident audit log, so an edit to the record after the fact is detectable',
+      },
+      {
+        text: 'Its test suite was passing as of September 27, 2026',
+      },
+    ],
+    limits: [
+      'No messaging provider is connected, so nothing is sent to patients.',
+      'No patient data has been used.',
+      'A tested hold is not a deployed clinical service, and no patient outcome is claimed.',
+    ],
+    tags: ['Healthcare', 'Human Review', 'Audit Trails', 'Consent', 'Prototype'],
+    links: [],
+    note: 'Kept separate from the practice website above. The architecture is described at this level only; client-specific design is not published.',
+    tldr: {
+      summary: 'A prototype patient-messaging workflow in which the highest-consequence messages cannot leave without the optometrist releasing them, built to test the approval architecture in a clinic. Tested; not connected to any messaging provider and not used with patient data.',
+      signals: [
+        'Made the clinical hold a property of the system rather than a setting staff can turn off',
+        'Kept a tamper-evident history of every action',
+        'Stated the prototype’s limits: no provider connected, no patient data',
+      ],
+      skills: ['Systems Architecture', 'Healthcare Workflows', 'Safety Design', 'Testing'],
+    },
+  },
+  {
+    id: 'haul',
+    title: 'Haul',
+    subtitle: 'Freight workflow and fraud-review prototype',
+    oneliner: 'Discovery, requirements, and a prototype for a freight operator: a workflow for reviewing suspicious loads and the records behind them.',
+    problem: 'Freight fraud reaches a small operator through ordinary-looking loads and paperwork. What would a review workflow need to hold, and who decides, before money or cargo moves?',
+    context: 'Product owner · Truth Computing',
+    year: 'September 2026 – present',
+    status: 'Prototype',
+    asOf: 'October 5, 2026',
+    contribution: 'On-site operator discovery, the product requirements, prototype direction, and engineering review. I built the earlier clickable demo; I am the reviewer, not the author, of the new foundation',
+    results: [
+      {
+        text: 'Ran on-site discovery with the operator in September 2026 and wrote the product requirements from it',
+      },
+      {
+        text: 'Built a clickable demo of the workflow direction',
+      },
+      {
+        text: 'As of October 5, 2026, the foundation exists in a working tree under review: a backend and database, separation between companies, sign-in and session controls, and a tamper-evident activity history',
+      },
+    ],
+    limits: [
+      'The end-to-end fraud-review workflow is not built yet.',
+      'Nothing here verifies carriers, prevents fraud, or connects to dispatch systems today.',
+      'No prevented-loss or savings figures.',
+    ],
+    tags: ['Logistics', 'Fraud Review', 'Discovery', 'Requirements', 'Prototype'],
+    links: [],
+    note: 'The operator is not named. Status is from the October 5, 2026 engineering assessment.',
+    tldr: {
+      summary: 'A fraud-review prototype for a freight operator, from on-site discovery and requirements to a reviewed backend foundation. The end-to-end review workflow is not built yet.',
+      signals: [
+        'Grounded the requirements in on-site observation of the operator’s work',
+        'Separated what exists (backend, company separation, sign-in, activity history) from what does not (the review workflow)',
+      ],
+      skills: ['Discovery', 'Product Requirements', 'Engineering Review', 'Logistics'],
+    },
+  },
+  {
+    id: 'school-district-consulting',
+    title: 'School-district technology consulting',
+    oneliner: 'Technology and AI consulting for a public school district, alongside work on a student-engagement program.',
+    problem: 'A district has to decide where software and AI belong in its operations before anyone builds anything, and those decisions reach students and families.',
+    context: 'Consulting lead · Truth Computing',
+    year: '2026',
+    status: 'Planned',
+    asOf: 'October 2026',
+    contribution: 'Developed the scope of the engagement with district leadership',
+    results: [
+      {
+        text: 'A consulting agreement covers modernizing the district’s digital infrastructure, including software with AI capabilities, and supporting a student-engagement program',
+      },
+      {
+        text: 'The agreement is in the district’s approval process; work under it has not started',
+      },
+    ],
+    limits: [
+      'No district-wide implementation, classroom deployment, or delivered component is claimed.',
+      'Parent communications, scheduling, and educator support are not part of any delivered work.',
+    ],
+    tags: ['Education', 'Public Sector', 'AI Assessment', 'Consulting'],
+    links: [],
+    note: 'The district is not named here.',
+    tldr: {
+      summary: 'Scoped a technology and AI consulting engagement with a public school district. The agreement is in approval and no work under it has started.',
+      signals: ['Developed the scope with district leadership', 'Claims nothing delivered before the agreement is in effect'],
+      skills: ['Scoping', 'Public Sector', 'AI Strategy'],
+    },
+  },
+  {
+    id: 'truth-academy',
+    title: 'Truth Academy',
+    oneliner: 'A planned program in which students learn by building real projects, with mentorship and leadership development, organized around Feynman.',
+    problem: 'Students who would benefit most from building real technical work are the least likely to be invited into it. What selection, mentorship, and project structure would let them in?',
+    context: 'Co-designer · Truth Computing',
+    year: '2026',
+    status: 'Planned',
+    asOf: 'October 2026',
+    coauthors: ['Raul Bedolla', 'John Sio'],
+    contribution: 'I built Feynman, the platform the program is organized around, and teach its business and technology sessions and connect it to institutions and mentors. Raul Bedolla and John Sio co-own the pilot, and John Sio leads mentorship and character evaluation',
+    results: [
+      {
+        text: 'Program design: selection by nomination and application, project-first learning, mentorship, and service hours',
+      },
+      {
+        text: 'No cohort has run and nominations have not opened',
+      },
+    ],
+    limits: [
+      'Cohort size, fellowships, and university relationships are goals, not commitments.',
+      'No student outcomes are claimed.',
+    ],
+    tags: ['Education', 'Mentorship', 'Program Design'],
+    links: [],
+    tldr: {
+      summary: 'A planned project-first program for students, built around Feynman and co-owned by Raul Bedolla and John Sio. No cohort has run.',
+      signals: ['Built the platform the program uses', 'Teaches the business and technology sessions'],
+      skills: ['Program Design', 'Teaching', 'Education Technology'],
+    },
+  },
+  {
+    id: 'colossus',
+    title: 'Colossus',
+    oneliner: 'Research into an evidence-governed architecture for AI systems that answer questions in specialized fields such as law.',
+    problem: 'When a model answers a legal question, what would it take for every statement to be tied to evidence, and how would anyone measure whether that holds?',
+    context: 'Researcher · Truth Computing',
+    year: '2026',
+    status: 'Research',
+    asOf: 'October 2026',
+    contribution: 'Architecture drafts and the evaluation set; the research briefs were written with Mark Torre',
+    results: [
+      {
+        text: 'Architecture drafts for a multi-agent system that keeps answers tied to evidence',
+      },
+      {
+        text: 'A small blind benchmark set for evaluating answers in legal and adjacent domains',
+      },
+      {
+        text: 'Retrieval experiments on local, non-client data',
+      },
+    ],
+    limits: [
+      'No performance results exist yet.',
+      'Mechanics are not published here.',
+      'Separate from Clientlyy, which was briefly published under a name that included Colossus.',
+    ],
+    tags: ['Research', 'Evaluation', 'Retrieval', 'Multi-Agent Systems'],
+    links: [],
+    tldr: {
+      summary: 'Research architecture and an evaluation set for evidence-governed AI answers in specialized fields. No results yet.',
+      signals: ['Built the evaluation set before claiming any result', 'Kept the research separate from the shipped product'],
+      skills: ['Research Design', 'Evaluation', 'Systems Architecture'],
+    },
+  },
+  {
+    id: 'truth-computing-media',
+    title: 'Truth Computing Media',
+    oneliner: 'Independent technology journalism. Mark Torre leads reporting and production; I lead the technology and editorial systems behind it.',
+    problem: 'How do you explain the most consequential technology of the moment to a general audience without overstating it?',
+    context: 'Co-founder · Technology and editorial systems',
+    year: '2022 – present',
+    status: 'Live',
+    asOf: 'October 2026',
+    coauthors: ['Mark Torre'],
+    contribution: 'The newsroom site and editorial tooling, and the AI explanations in the coverage; Mark Torre leads field reporting, filmmaking, and production',
+    results: [
+      {
+        text: 'Built the newsroom site in September 2026',
+      },
+      {
+        text: 'Journalism and production credits belong to Mark Torre and are not claimed here',
+      },
+    ],
+    tags: ['Media', 'Journalism', 'Web'],
+    links: [
+      { label: 'YouTube', url: 'https://www.youtube.com/@truthcomputingmedia' },
+    ],
+    tldr: {
+      summary: 'Independent technology journalism. Mark Torre leads reporting and production; I built the newsroom site and lead the technology and editorial systems.',
+      signals: ['Built the newsroom site', 'Credits the reporting to the person who did it'],
+      skills: ['Web Engineering', 'Editorial Systems'],
     },
   },
   {
@@ -559,6 +894,8 @@ export const projects: Project[] = [
     problem: 'University-level material is gated less by difficulty than by access: who explains it to you, how many times you are allowed to ask, and whether anyone notices when you fall behind.',
     context: 'Founder · A Truth Computing mission project',
     year: '2026',
+    status: 'Live',
+    asOf: 'October 2026',
     results: [
       {
         text: 'Rebuilds university-level coursework as a five-rung "Learning Ladder", so a learner climbs from first exposure to fluency in defined steps rather than being handed a syllabus',
@@ -567,7 +904,7 @@ export const projects: Project[] = [
         text: 'Meets each concept at five heights, from a kindergarten-level spark up to the full university treatment, so a teacher can pitch the same material where the student actually is',
       },
       {
-        text: 'Holds no student data to lose: no accounts, no login, no student profile, no student database, no cookies, and no analytics or third-party trackers, so conversations are not written to disk and are not recoverable afterward',
+        text: 'Holds no student data to lose: no accounts, no login, no student profile, no student database, no cookies, and no analytics or third-party trackers on the learning pages, so conversations are not written to disk and are not recoverable afterward',
       },
       // The claim this replaced said the tutor runs on-device. Feynman's own
       // privacy page refuses that claim for the hosted site and says plainly
@@ -589,6 +926,9 @@ export const projects: Project[] = [
         text: 'Free for first-generation and low-income students, and free with no conditions for students in Jurupa Valley and Montclair as the program rolls out; carried as a Truth Computing mission project rather than a commercial product',
       },
       {
+        text: 'Truth Academy, an early-stage program for students, is being designed around it; that work is described in its own entry, and no student usage or learning outcomes are claimed for either',
+      },
+      {
         text: 'Live at learn-feynman.com as of July 2026; in conversation with the XCITE leadership team at UC Riverside about bringing Feynman to the Riverside community, which is a partnership being explored rather than one that is signed',
       },
     ],
@@ -597,11 +937,11 @@ export const projects: Project[] = [
       { label: 'learn-feynman.com', url: 'https://learn-feynman.com' },
     ],
     tldr: {
-      summary: 'A free platform that rebuilds university coursework into a five-step ladder from first exposure to fluency, built for students without a household expert to ask.',
+      summary: 'A free platform that rebuilds university coursework into a five-step ladder from first exposure to fluency, built for first-generation and low-income students without a household expert to ask. Live at learn-feynman.com with no accounts and no student database; I built it and run it as a Truth Computing mission project.',
       signals: [
         'Structures material as a ladder with defined rungs instead of shipping another content library',
         'Targets a specific population — first-generation and low-income students — rather than a general audience',
-        'Made the privacy guarantee architectural — no accounts, no student database, nothing persisted — rather than a policy promise, and publishes the limits beside it, including that the hosted site is not on-device',
+        'Made the privacy guarantee architectural — no accounts, no student database, nothing persisted, no analytics on learning pages — rather than a policy promise, and publishes the limits beside it, including that the hosted site is not on-device',
         'Barred the model from writing URLs so a fabricated citation cannot be produced, and screened messages in both directions with a crisis path that never forwards a student\'s words to the model',
         'Kept free for the students it is built for and run as a mission project rather than converted into a product',
       ],

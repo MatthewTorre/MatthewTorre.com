@@ -32,10 +32,21 @@ export const experience: ExperienceItem[] = [
     role: 'Co-founder, Chief Executive Officer, Chief Technology Officer',
     dates: 'May 2026 – Present',
     location: 'Los Angeles, CA',
+    // "Leading a team of twelve" was here. No dated count separating
+    // employees, contributors, and advisors exists, so the team is described
+    // rather than numbered until one does. Precursor work from 2025 is on the
+    // Truth Computing card on the Work page, not folded into this tenure.
     description:
-      'Leading a team of twelve building Feynman and the Truth Computing platform. Technology for good, technology for humanity: complex ideas, made beautifully simple.',
+      'Co-founded Truth Computing and lead its company and technical direction. Built the initial foundation of Clientlyy and remained its primary engineer and integrator during early development. My responsibilities span architecture, applied AI, reliability, security, client delivery, commercial discovery, and developing a multidisciplinary team.',
     logo: '/images/logos/truth-computing.png',
     url: 'https://truth-computing.com',
+    highlights: [
+      'Built and integrated Clientlyy’s early application foundation, document-processing workflows, messaging infrastructure, case-file integrations, and deployment tooling',
+      'Established engineering requirements around source evidence, human approval, firm separation, audit history, and explicit failure states',
+      'Lead technical discovery and delivery planning across legal, healthcare, logistics, and education work',
+      'Take part directly in customer discovery, demonstrations, pilot design, and institutional relationships',
+      'Recruit and develop contributors, assign technical ownership, and coordinate company operations and outside counsel',
+    ],
   },
   {
     company: 'Stanford Artificial Intelligence Laboratory (SAIL)',
@@ -53,7 +64,10 @@ export const experience: ExperienceItem[] = [
     dates: 'Jun 2022 – Present',
     location: 'Greater Los Angeles, CA',
     description:
-      'Independent technology journalism under the Scattered Mind banner, demystifying the greatest technology of our time for a general audience.',
+      // "Under the Scattered Mind banner" was here; the newsroom no longer uses
+      // that name. Reporting and production are Mark Torre's and stay credited
+      // to him.
+      'Independent technology journalism for a general audience. Mark Torre leads reporting and production; I lead the technology and editorial systems, including the newsroom site.',
     logo: '/images/logos/truth-computing.png',
     url: 'https://www.youtube.com/@truthcomputingmedia',
   },

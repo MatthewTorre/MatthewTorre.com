@@ -1635,6 +1635,100 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
   .notfound-routes li { grid-template-columns: 1fr; gap: 4px; }
 }
 
+/* Section padding. Was an inline `padding: 56px 48px`, which overrode the
+   24px mobile gutter on .frame and pushed About and Experience 64px wider
+   than a 320px screen. Horizontal padding now comes from .frame. */
+.frame.section-frame { padding-top: 56px; padding-bottom: 56px; }
+
+@media (max-width: 640px) {
+  /* Long skill names wrap inside their pill instead of widening the page. */
+  .tag, .skill-tag { white-space: normal; max-width: 100%; }
+  /* Show the most recent weeks of the contribution graph and clip the oldest. */
+  .gh-grid { overflow: hidden; justify-content: flex-end; }
+  /* The hidden tooltip still takes layout; anchor it to the icon's right edge. */
+  .footer-social-tip { left: auto; right: 0; transform: none; }
+}
+
+/* ---- 14b. Current work, status, and case-study detail ------------------ */
+/* Status is a word in a quiet badge. No color carries meaning on its own. */
+.badge-status { color: var(--ink); border-color: var(--hairline-hover); }
+.badge-status-date { color: var(--muted); font-weight: 400; }
+
+.anchor-alias { position: absolute; top: 0; left: 0; width: 0; height: 0; }
+.project-card { position: relative; scroll-margin-top: 88px; }
+.project-subtitle { font-size: 13px; color: var(--muted); margin: 6px 0 8px; }
+
+.project-sections { display: flex; flex-direction: column; border-top: 1px solid var(--hairline); }
+.project-section { padding: 14px 0; border-bottom: 1px solid var(--hairline); }
+.project-section-heading {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  font-family: inherit; font-size: 13.5px; font-weight: 500; letter-spacing: -0.006em;
+  color: var(--ink); margin: 0 0 6px;
+}
+.project-section-status { font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.project-section-body { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0; max-width: 78ch; }
+
+.project-limits {
+  padding: 14px 18px;
+  border-left: 2px solid var(--hairline-hover);
+  background: var(--tag-bg);
+  border-radius: 0 10px 10px 0;
+}
+.project-limits-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.project-limits ul { margin: 8px 0 0; padding-left: 18px; }
+.project-limits li { font-size: 13px; line-height: 1.6; color: var(--muted); }
+.project-limits li + li { margin-top: 4px; }
+
+.projects-grid > .project-wide { grid-column: 1 / -1; }
+
+.work-group + .work-group { margin-top: 48px; }
+.work-group-head { max-width: 680px; margin: 0 0 18px; }
+.work-group-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.work-group-title { font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); margin: 6px 0 6px; }
+.work-group-desc { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0; }
+.work-archive-head { margin-bottom: 26px; }
+
+/* Home: selected work */
+.selected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.selected-card {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 22px 24px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--bg);
+  color: inherit;
+  transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+.selected-card:hover, .selected-card:focus-visible { border-color: var(--hairline-hover); box-shadow: var(--elev-2); }
+.selected-card-status { font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.selected-card-title { font-family: var(--font-display); font-size: 20px; font-weight: 500; letter-spacing: -0.012em; line-height: 1.2; color: var(--ink); margin: 0; }
+.selected-card-role { font-size: 12.5px; color: var(--muted); margin: 0; }
+.selected-card-summary { font-size: 13.5px; line-height: 1.62; color: var(--ink); margin: 0; flex: 1; }
+.selected-card-cta { font-size: 13px; color: var(--accent); }
+
+/* About: what I do at Truth Computing */
+.role-block { max-width: 760px; }
+.role-intro { font-size: 15px; line-height: 1.72; color: var(--muted); margin: 0 0 28px; max-width: 72ch; }
+.role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+.role-group { background: var(--bg); box-shadow: 0 0 0 1px var(--hairline); padding: 22px 24px; }
+.role-group-title { font-family: inherit; font-size: 14.5px; font-weight: 500; color: var(--ink); margin: 0 0 10px; letter-spacing: -0.006em; }
+.role-group ul { margin: 0; padding-left: 18px; }
+.role-group li { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+.role-group li + li { margin-top: 3px; }
+.role-detail { font-size: 13.5px; line-height: 1.7; color: var(--muted); margin: 22px 0 0; max-width: 72ch; }
+.arm-name a { color: inherit; border-bottom: 1px solid var(--hairline-hover); }
+.arm-name a:hover, .arm-name a:focus-visible { border-bottom-color: var(--ink); }
+
+@media (max-width: 900px) {
+  .selected-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+  .role-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .project-card { padding: 22px 20px; }
+}
+
 /* ---- 15. Reduced motion (keep last) ----------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -22,17 +22,30 @@ export interface LeadershipRole {
    * for.
    */
   count?: { n: number; unit: string };
+  /**
+   * Set where people did answer to him but no dated headcount has been
+   * verified. The row renders with the teams and without a figure, which is
+   * more accurate than filing a team lead under "without direct reports" and
+   * more defensible than a number that cannot be produced on request.
+   */
+  ledTeam?: boolean;
   logo?: string;
 }
+
+/** Roles that led people, with or without a verified headcount. */
+export const ledPeople = (r: LeadershipRole) => Boolean(r.count || r.ledTeam);
 
 export const leadershipRoles: LeadershipRole[] = [
   {
     org: 'Truth Computing',
     role: 'Co-founder, Chief Executive Officer, Chief Technology Officer',
     dates: 'May 2026 – Present',
+    // "A team of twelve" was here. No dated count separating employees,
+    // contributors, and advisors exists yet, so the figure came off until one
+    // does; the qualitative description is what the record supports.
     scope:
-      'Lead a team of twelve building Feynman and the Truth Computing platform, and carry both the company and the technical direction.',
-    count: { n: 12, unit: 'people' },
+      'Lead company and technical direction, assign technical ownership across a multidisciplinary team, and recruit and develop the people who build Clientlyy, client systems, and the education work.',
+    ledTeam: true,
     logo: '/images/logos/truth-computing.png',
   },
   {

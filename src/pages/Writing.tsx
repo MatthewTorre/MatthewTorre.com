@@ -196,7 +196,7 @@ export default function Writing() {
       </section>
 
       <section>
-        <div className="frame" style={{ padding: '56px 48px 0' }}>
+        <div className="frame" style={{ paddingTop: '56px' }}>
           <div className="section-header reveal">
             <span className="section-label">Essays</span>
             <h2>In my own voice</h2>
@@ -217,7 +217,7 @@ export default function Writing() {
       </section>
 
       <section>
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Notes</span>
             <h2>Field notes</h2>

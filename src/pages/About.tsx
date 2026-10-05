@@ -3,7 +3,7 @@ import { skillGroups } from '../data/skills';
 import { domains } from '../data/foundation';
 import { mentors } from '../data/mentors';
 import { reading } from '../data/reading';
-import { leadershipRoles } from '../data/leadership';
+import { leadershipRoles, ledPeople } from '../data/leadership';
 import LeadershipRow from '../components/LeadershipRow';
 import { useRevealAll } from '../hooks/useReveal';
 import portrait from '../assets/images/MATT_NEW.jpg';
@@ -20,12 +20,12 @@ const leadershipGroups = [
   {
     label: 'Teams',
     note: 'People who answered to me',
-    roles: leadershipRoles.filter((r) => r.count),
+    roles: leadershipRoles.filter(ledPeople),
   },
   {
     label: 'Other roles',
     note: 'Leadership without direct reports',
-    roles: leadershipRoles.filter((r) => !r.count),
+    roles: leadershipRoles.filter((r) => !ledPeople(r)),
   },
 ];
 
@@ -52,7 +52,7 @@ const practice = [
   {
     principle: 'Consequential outputs wait on a person.',
     detail:
-      'In a clinical communication pipeline I designed, the highest-consequence class of message cannot be sent automatically under any configuration. It waits for a licensed clinician to release it.',
+      'In a clinical communication prototype I designed, the highest-consequence class of message cannot be sent automatically under any configuration. It waits for a licensed clinician to release it.',
   },
   {
     principle: 'Every claim carries its source.',
@@ -72,7 +72,10 @@ const practice = [
   {
     principle: 'The objective function is a policy document, not a hyperparameter.',
     detail:
-      'The learning layer that selects client messages optimizes a reward whose weights encode what the firm is willing to do to a client in exchange for engagement: an opt-out is scored at −25 against a reply at +1, so roughly twenty-five successful replies are needed to justify one opt-out in expectation. Silence is a scored action rather than a skipped one, so “say nothing this period” is something the policy can learn rather than an option it can never choose. Changing those weights is a question for counsel, not for whoever is tuning the model that week.',
+      // This said the layer "selects client messages" and that silence was a
+      // learned action. As of October 2026 it runs in shadow mode, and
+      // holding when there is no news is a rule rather than a learned arm.
+      'The learning layer built to select client messages, which runs in shadow mode and does not yet choose what is sent, optimizes a reward whose weights encode what the firm is willing to do to a client in exchange for engagement: an opt-out is scored at −25 against a reply at +1, so roughly twenty-five successful replies are needed to justify one opt-out in expectation. Staying quiet when there is no news is a rule the policy cannot override, and it chooses only among templates a person has approved. Changing those weights is a question for counsel, not for whoever is tuning the model that week.',
   },
   {
     principle: 'The security posture is graded, not asserted.',
@@ -82,29 +85,69 @@ const practice = [
 ];
 
 /**
+ * Concrete engagements in place of the broad divisions this list used to
+ * carry (Legal, Health, Logistics). Each status is one of the labels defined
+ * in src/data/projects.ts and is never upgraded ahead of the record there;
+ * `id` links the row to the full entry on the Work page.
+ *
  * `partner` is named only where the partner has cleared being named. It is a
- * separate field rather than a clause inside `note` so that removing a name is
- * a one-line deletion that leaves the description standing, and so the status
- * word — which is verbatim and never upgraded — is never rewritten to carry it.
+ * separate field so removing a name is a one-line deletion that leaves the
+ * description standing. Every partner here is held generic: naming a
+ * healthcare practice beside a description of AI touching its patient
+ * messages tells its patients something the practice may not have told them.
  */
-const arms = [
+const arms: { name: string; id?: string; field: string; status: string; partner?: string; note: string }[] = [
   {
-    name: 'Truth Computing Legal',
+    name: 'Clientlyy',
+    id: 'clientlyy',
     field: 'Law',
-    status: 'Near production',
-    note: 'The furthest along of anything we are building. Details held close for now.',
+    status: 'Live',
+    note: 'Client communication for personal-injury firms. Live, with integrations and commercial validation in development.',
   },
   {
-    name: 'Truth Computing Health',
-    field: 'Vision care',
-    status: 'Design partnership',
-    // Held generic, like the automotive partner. Naming a healthcare practice
-    // beside a description of AI touching intake and the clinical record tells
-    // that practice's patients something the practice may not have told them,
-    // and a clearance to be named is not the same as a clearance to be named
-    // here. The sector carries the point; the name only carries risk.
+    name: 'Optometry practice modernization',
+    id: 'practice-modernization',
+    field: 'Healthcare',
+    status: 'Delivered',
     partner: 'An optometry practice',
-    note: 'Human-gated clinical AI across intake, imaging workflows, and clinical documentation, each reviewed by a clinician before it enters the record.',
+    note: 'A patient-facing website and staff console, delivered in August 2026. Assessing the practice’s other systems is the next phase.',
+  },
+  {
+    name: 'Clinical workflow prototype',
+    id: 'clinical-workflow',
+    field: 'Healthcare',
+    status: 'Prototype',
+    partner: 'The same practice',
+    note: 'Review-gated patient messaging. Tested, not connected to a messaging provider, and not used with patient data.',
+  },
+  {
+    name: 'Haul',
+    id: 'haul',
+    field: 'Freight',
+    status: 'Prototype',
+    partner: 'A freight operator',
+    note: 'A fraud-review workflow. The foundation is under review; the end-to-end workflow is not built.',
+  },
+  {
+    name: 'School-district technology consulting',
+    id: 'school-district-consulting',
+    field: 'Public education',
+    status: 'Planned',
+    note: 'Technology and AI consulting. The agreement is in the district’s approval process.',
+  },
+  {
+    name: 'Feynman and Truth Academy',
+    id: 'feynman',
+    field: 'Education',
+    status: 'Live',
+    note: 'Feynman is live at learn-feynman.com. Truth Academy is planned, and no cohort has run.',
+  },
+  {
+    name: 'Colossus',
+    id: 'colossus',
+    field: 'Research',
+    status: 'Research',
+    note: 'Architecture and evaluation research. No results yet.',
   },
   {
     name: 'Truth Computing Concierge',
@@ -117,16 +160,30 @@ const arms = [
     note: 'Constraint-driven inventory matching and customer communication.',
   },
   {
-    name: 'Truth Computing Logistics',
-    field: 'Freight',
-    status: 'In research',
-    note: 'An orchestration layer over the ELD, load board, and accounting systems an owner-operator already runs.',
-  },
-  {
     name: 'Truth Computing Create',
     field: 'Brand',
     status: 'In research',
     note: 'Narrative and media work supporting the practice.',
+  },
+];
+
+/** What the role covers, grouped so the reader sees four kinds of work rather than a list of titles. */
+const roleGroups = [
+  {
+    title: 'Build',
+    items: ['Founding engineering', 'Systems architecture', 'Applied AI', 'Infrastructure and security', 'Reliability and evaluation'],
+  },
+  {
+    title: 'Lead',
+    items: ['Company direction', 'Resource allocation', 'Engineering integration', 'Recruiting', 'Contributor development'],
+  },
+  {
+    title: 'Deliver',
+    items: ['Customer discovery', 'Technical demonstrations', 'Engagement scoping', 'Client implementation', 'Institutional relationships'],
+  },
+  {
+    title: 'Develop',
+    items: ['Research priorities', 'Education tools', 'Governance coordination', 'Operating structure', 'Technical standards'],
   },
 ];
 
@@ -144,10 +201,10 @@ export default function About() {
           <h1 className="page-title">Matthew Torre</h1>
           <p className="page-desc">
             Co-founder, Chief Executive Officer, and Chief Technology Officer of Truth
-            Computing. I build AI for high-consequence work in healthcare and law, where every
-            output carries its sources and waits on a human before anything happens. Stanford
-            CS coterm in artificial intelligence and theoretical computer science, currently
-            on leave.
+            Computing. I build applied AI for legal, healthcare, logistics, and education work,
+            where outputs carry their sources and consequential actions wait on a person.
+            Stanford CS coterm in artificial intelligence and theoretical computer science,
+            currently on leave.
           </p>
         </div>
       </header>
@@ -190,7 +247,7 @@ export default function About() {
       </section>
 
       <section id="bio">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="about-bio-row">
             <img src={portrait} alt="Matthew Torre" className="about-portrait" />
             <div className="about-bio-text">
@@ -233,8 +290,44 @@ export default function About() {
         </div>
       </section>
 
+      <section id="role" aria-labelledby="role-heading">
+        <div className="frame section-frame">
+          <div className="section-header reveal">
+            <span className="section-label">Truth Computing</span>
+            <h2 id="role-heading">What I do at Truth Computing</h2>
+          </div>
+          <div className="role-block reveal reveal-delay-1">
+            <p className="role-intro">
+              My role combines building the systems with building the company around them. I
+              wrote Clientlyy&rsquo;s initial technical foundation and led integration across its
+              early development. Today, my responsibilities include architecture, reliability,
+              customer discovery, client delivery, team development, and deciding where Truth
+              Computing concentrates its time and resources.
+            </p>
+            <div className="role-grid">
+              {roleGroups.map((g) => (
+                <div key={g.title} className="role-group">
+                  <h3 className="role-group-title">{g.title}</h3>
+                  <ul>
+                    {g.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="role-detail">
+              I also coordinate with outside counsel, set up payroll and compliance processes,
+              and am designing a paid build trial for hiring. These are responsibilities and
+              processes still being established, and none of them is a legal credential, a
+              certification, or a finished hiring program.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="research">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Research interests</span>
             <h2>Whether a model&rsquo;s stated reason is its actual reason</h2>
@@ -327,7 +420,7 @@ export default function About() {
       </section>
 
       <section id="practice">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">How I build</span>
             <h2>Working on systems that cannot be wrong</h2>
@@ -351,25 +444,30 @@ export default function About() {
       </section>
 
       <section id="truth-computing">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Truth Computing</span>
-            <h2>What I am building now</h2>
+            <h2>Where the work stands</h2>
           </div>
           <div className="arms-block reveal reveal-delay-1">
             <p className="arms-intro">
               Truth Computing is a forward-deployed practice. We embed with teams in high
               stakes fields and rebuild the workflows they cannot afford to get wrong. I am
-              co-founder, Chief Executive Officer, and Chief Technology Officer, and I have
-              written every line of the public practice to date. Two engagements are formal
-              design partnerships.
+              co-founder, Chief Executive Officer, and Chief Technology Officer. Each entry below
+              links to its record on the Work page, where my part and my collaborators&rsquo; parts
+              are stated separately.
             </p>
             <div className="arms-list">
               {arms.map((a) => (
                 <div key={a.name} className="arm-row">
                   <div className="arm-head">
-                    <span className="arm-name">{a.name}</span>
-                    <span className="arm-status">{a.status}</span>
+                    <span className="arm-name">
+                      {a.id ? <Link to={`/work#${a.id}`}>{a.name}</Link> : a.name}
+                    </span>
+                    <span className="arm-status">
+                      <span className="sr-only">Status: </span>
+                      {a.status}
+                    </span>
                   </div>
                   <p className="arm-field">
                     {a.field}
@@ -397,7 +495,7 @@ export default function About() {
       </section>
 
       <section id="reading">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Reading trail</span>
             <h2>What the position is built on</h2>
@@ -449,7 +547,7 @@ export default function About() {
       </section>
 
       <section id="leadership">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Leadership</span>
             <h2>Teams I have been responsible for</h2>
@@ -484,7 +582,7 @@ export default function About() {
       </section>
 
       <section id="education">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Education</span>
             <h2>Stanford University</h2>
@@ -571,7 +669,7 @@ export default function About() {
       </section>
 
       <section id="mentors">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">People</span>
             <h2>Mentors and advisors</h2>
@@ -602,7 +700,7 @@ export default function About() {
       </section>
 
       <section id="conversations">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">
               <a
@@ -631,7 +729,7 @@ export default function About() {
 
 
       <section id="skills">
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Technical skills</span>
             <h2>Skills</h2>

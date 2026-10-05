@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
 import LeadershipRow from '../components/LeadershipRow';
-import { projects } from '../data/projects';
+import { projects, Project } from '../data/projects';
 import { papers } from '../data/papers';
 import { experience } from '../data/experience';
 import { domains } from '../data/foundation';
-import { leadershipRoles } from '../data/leadership';
+import { leadershipRoles, ledPeople } from '../data/leadership';
 import stanfordLogo from '../assets/images/stanford-logo.png';
 import { useRevealAll } from '../hooks/useReveal';
 
@@ -25,7 +25,7 @@ const truthComputingWork = [
   },
   {
     title: 'Designing for the failure case first',
-    desc: 'In a regulated healthcare build, automated messages are classified by consequence and the highest class can never leave without a licensed human releasing it. The default is to not send.',
+    desc: 'In a clinical workflow prototype, automated messages are classified by consequence and the highest class can never leave without a licensed human releasing it. The default is to not send.',
   },
   {
     title: 'A product spec defined by its refusals',
@@ -46,12 +46,12 @@ const truthComputingWork = [
 ];
 
 /**
- * Only roles carrying a headcount, because the copy beside them promises a
- * number on every line. Taking the first four outright would include the
- * Professional Development Chair, which led no one and would leave the reader
- * looking for a figure that does not exist.
+ * Only roles that led people. Taking the first four outright would include the
+ * Professional Development Chair, which led no one. Truth Computing leads a team
+ * without a verified headcount, so the copy beside these rows promises a number
+ * only where a line carries one.
  */
-const teamsLed = leadershipRoles.filter((r) => r.count).slice(0, 4);
+const teamsLed = leadershipRoles.filter(ledPeople).slice(0, 4);
 
 const pillars = [
   {
@@ -72,6 +72,23 @@ const pillars = [
   },
 ];
 
+/**
+ * Three entries, in this order: the flagship product, the education work, and a
+ * delivered client engagement. Each card is a summary that links to the full
+ * record on the Work page, so the case study is written once.
+ */
+const SELECTED_IDS = ['clientlyy', 'feynman', 'practice-modernization'];
+const selected = SELECTED_IDS.map((id) => projects.find((p) => p.id === id)).filter(
+  (p): p is Project => Boolean(p)
+);
+
+/**
+ * Current Truth Computing entries carry a status; the research and project
+ * archive does not. Only the archive is counted as research systems, so a
+ * consulting engagement is never tallied as one.
+ */
+const ARCHIVE_COUNT = projects.filter((p) => !p.status).length;
+
 export default function Home() {
   const featured = projects.find((p) => p.featured) ?? projects[0];
   const [copied, setCopied] = useState(false);
@@ -79,7 +96,7 @@ export default function Home() {
 
   const stats = useMemo(
     () => [
-      { n: projects.length, l: 'research systems built' },
+      { n: ARCHIVE_COUNT, l: 'research systems built' },
       { n: papers.length, l: 'papers and reports' },
       { n: domains.flatMap((d) => d.modules).length, l: 'modules of coursework' },
       { n: experience.length, l: 'roles held' },
@@ -111,9 +128,8 @@ export default function Home() {
               Truth Computing <span className="arw">&rarr;</span>
             </span>
             <span className="hero-focus-desc">
-              Co-founder, Chief Executive Officer, and Chief Technology Officer, leading a
-              team of twelve. Where this work is heading: systems that hold their claims to a
-              measurable standard. truth-computing.com
+              Co-founder, CEO &amp; CTO. Applied AI and software for legal, healthcare,
+              logistics, and education work. truth-computing.com
             </span>
           </a>
 
@@ -132,10 +148,11 @@ export default function Home() {
           </div>
 
           <p className="hero-profile">
-            My work spans stochastic simulation engines with rigorous statistical validation,
-            POMDP and bandit frameworks for decision-making under partial observability, and
-            data-grounded calibration pipelines that replace hand-specified priors with
-            empirically fit distributions.
+            I build applied AI and software for workflows where mistakes reach real people. As
+            co-founder, CEO, and CTO of Truth Computing, I lead technical architecture and
+            company direction, with hands-on work spanning Clientlyy, client systems, and
+            education tools. My background includes AI research, clinical computer vision, and
+            engineering in regulated environments.
           </p>
 
           <div className="hero-currently">
@@ -155,33 +172,53 @@ export default function Home() {
           </div>
 
           <div className="hero-actions">
-            <a
-              href="https://calendar.app.google/LQAMNbiZ6fCzmfLx9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-accent"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="16" rx="2" />
-                <path d="M3 10h18M8 3v4M16 3v4" />
-              </svg>
-              Book a meeting
+            <a href="#selected-work" className="btn btn-accent">
+              View selected work
             </a>
-            <Link to="/work" className="btn btn-outline">View the work</Link>
-            <a
-              href="https://github.com/MatthewTorre"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline"
-            >
-              GitHub
-            </a>
+            <Link to="/experience" className="btn btn-outline">Experience</Link>
             <button className="btn btn-ghost" onClick={copyEmail}>
               {copied ? '✓ Copied' : 'mtorre04@stanford.edu'}
             </button>
           </div>
         </div>
       </header>
+
+      <section id="selected-work" className="home-section" aria-labelledby="selected-work-heading">
+        <div className="frame">
+          <div className="section-header reveal">
+            <span className="section-label">Selected work</span>
+            <h2 id="selected-work-heading">What I am building now</h2>
+          </div>
+
+          <div className="selected-grid reveal reveal-delay-1">
+            {selected.map((p) => (
+              <Link key={p.id} to={`/work#${p.id}`} className="selected-card">
+                {p.status && (
+                  <span className="selected-card-status">
+                    <span className="sr-only">Status: </span>
+                    {p.status}
+                  </span>
+                )}
+                <h3 className="selected-card-title">{p.title}</h3>
+                {p.context && <p className="selected-card-role">{p.context}</p>}
+                <p className="selected-card-summary">{p.tldr.summary}</p>
+                <span className="selected-card-cta">
+                  Read the case study <span className="arw" aria-hidden="true">&rarr;</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="home-cta-row reveal reveal-delay-2">
+            <Link to="/work#current" className="btn btn-outline">
+              All current work <span className="arw">&rarr;</span>
+            </Link>
+            <Link to="/work#archive" className="btn btn-outline">
+              Research and project archive <span className="arw">&rarr;</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section>
         <div className="frame" style={{ paddingTop: '8px', paddingBottom: '44px' }}>
@@ -202,7 +239,7 @@ export default function Home() {
         <div className="frame">
           <div className="section-header reveal">
             <span className="section-label">Truth Computing</span>
-            <h2>What I am building now</h2>
+            <h2>How I build there</h2>
             <p>
               I started Truth Computing to build AI that helps people reason more clearly and
               close the gap between what is true and what is believed to be true. Most of what
@@ -251,9 +288,9 @@ export default function Home() {
             <span className="section-label">Leadership</span>
             <h2>Teams I have been responsible for</h2>
             <p>
-              Most of what I have built was built with other people. The number on each line
-              is the number I was actually accountable for, not the size of the room it
-              reached. I love my community, and the work I want to spend my life on is turning
+              Most of what I have built was built with other people. Where a line carries a
+              number, that is the number I was actually accountable for, not the size of the
+              room it reached. I love my community, and the work I want to spend my life on is turning
               Southern California into the next tech capital of the world.
             </p>
           </div>

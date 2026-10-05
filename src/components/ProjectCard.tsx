@@ -6,6 +6,21 @@ interface ProjectCardProps {
   forceTldr?: boolean;
 }
 
+/**
+ * Status and its as-of date render as words in the badge row, in both views,
+ * so maturity is never something a reader has to open a toggle to find.
+ */
+function StatusBadge({ project }: { project: Project }) {
+  if (!project.status) return null;
+  return (
+    <span className="badge badge-status">
+      <span className="sr-only">Status: </span>
+      {project.status}
+      {project.asOf && <span className="badge-status-date">{` · as of ${project.asOf}`}</span>}
+    </span>
+  );
+}
+
 export default function ProjectCard({ project, forceTldr = false }: ProjectCardProps) {
   const [showTldr, setShowTldr] = useState(forceTldr);
 
@@ -14,7 +29,11 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
   }, [forceTldr]);
 
   return (
-    <article className={`project-card${project.featured ? ' featured' : ''}`}>
+    <article id={project.id} className={`project-card${project.featured ? ' featured' : ''}`}>
+      {/* Old ids keep resolving, so a link shared before a rename still lands here. */}
+      {project.legacyIds?.map((id) => (
+        <span key={id} id={id} className="anchor-alias" aria-hidden="true" />
+      ))}
 
       {/* ── toggle button ── */}
       <button
@@ -30,6 +49,7 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
         <>
           <div className="project-card-badges">
             {project.featured && <span className="badge badge-featured">Featured</span>}
+            <StatusBadge project={project} />
             {project.context && (
               <span className="badge badge-course">{project.context}</span>
             )}
@@ -38,6 +58,7 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
 
           <div>
             <h3 className="project-title">{project.title}</h3>
+            {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
             <p className="project-oneliner">{project.oneliner}</p>
           </div>
 
@@ -46,6 +67,9 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
               Team project with {project.coauthors.join(', ')}
               {project.contribution ? `. My part: ${project.contribution}` : ''}
             </p>
+          )}
+          {!project.coauthors && project.contribution && (
+            <p className="project-authors">My part: {project.contribution}</p>
           )}
 
           <p className="project-problem">{project.problem}</p>
@@ -61,6 +85,31 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
               </li>
             ))}
           </ul>
+
+          {project.sections && (
+            <div className="project-sections">
+              {project.sections.map((s) => (
+                <div key={s.heading} className="project-section">
+                  <h4 className="project-section-heading">
+                    {s.heading}
+                    {s.status && <span className="project-section-status">{s.status}</span>}
+                  </h4>
+                  <p className="project-section-body">{s.body}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {project.limits && (
+            <div className="project-limits">
+              <span className="project-limits-label">What this does not claim</span>
+              <ul>
+                {project.limits.map((l) => (
+                  <li key={l}>{l}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="project-tags">
             {project.tags.map((tag) => (
@@ -94,6 +143,11 @@ export default function ProjectCard({ project, forceTldr = false }: ProjectCardP
           <div className="tldr-header">
             <span className="tldr-label">TL;DR</span>
             <h3 className="project-title">{project.title}</h3>
+            {project.status && (
+              <div className="project-card-badges">
+                <StatusBadge project={project} />
+              </div>
+            )}
           </div>
 
           <p className="tldr-summary">{project.tldr.summary}</p>

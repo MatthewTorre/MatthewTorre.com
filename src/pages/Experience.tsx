@@ -66,7 +66,7 @@ export default function Experience() {
       </section>
 
       <section>
-        <div className="frame" style={{ padding: '56px 48px' }}>
+        <div className="frame section-frame">
           <div className="section-header reveal">
             <span className="section-label">Campus</span>
             <h2>Activities</h2>
