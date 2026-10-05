@@ -1689,7 +1689,7 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 .work-archive-head { margin-bottom: 26px; }
 
 /* Home: selected work */
-.selected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.selected-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .selected-card {
   display: flex; flex-direction: column; gap: 10px;
   padding: 22px 24px;

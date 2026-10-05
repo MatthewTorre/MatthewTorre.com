@@ -204,7 +204,7 @@ export const projects: Project[] = [
     ],
     tags: ['Applied AI', 'Document Intelligence', 'OCR', 'Messaging Infrastructure', 'Security Engineering', 'Legal Tech', 'Systems Architecture'],
     links: [
-      { label: 'truth-computing.com', url: 'https://www.truth-computing.com/' },
+      { label: 'clientlyy.com', url: 'https://clientlyy.com' },
     ],
     note: 'Compiled from the repository’s main branch and history as of October 4–5, 2026, and from the team’s August 4, 2026 handoff documents.',
     tldr: {
@@ -459,6 +459,7 @@ export const projects: Project[] = [
     ],
     tags: ['Media', 'Journalism', 'Web'],
     links: [
+      { label: 'truthcomputingmedia.com', url: 'https://truthcomputingmedia.com' },
       { label: 'YouTube', url: 'https://www.youtube.com/@truthcomputingmedia' },
     ],
     tldr: {

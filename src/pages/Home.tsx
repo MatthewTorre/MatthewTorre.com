@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
 import LeadershipRow from '../components/LeadershipRow';
-import { projects, Project } from '../data/projects';
+import { projects } from '../data/projects';
 import { papers } from '../data/papers';
 import { experience } from '../data/experience';
 import { domains } from '../data/foundation';
@@ -73,14 +73,20 @@ const pillars = [
 ];
 
 /**
- * Three entries, in this order: the flagship product, the education work, and a
- * delivered client engagement. Each card is a summary that links to the full
- * record on the Work page, so the case study is written once.
+ * Each card goes to the live site, not to the write-up; the full record for
+ * each one is on the Work page. Order: the flagship product, the education
+ * work, a delivered client engagement, and the media work.
  */
-const SELECTED_IDS = ['clientlyy', 'feynman', 'practice-modernization'];
-const selected = SELECTED_IDS.map((id) => projects.find((p) => p.id === id)).filter(
-  (p): p is Project => Boolean(p)
-);
+const SELECTED: { id: string; site: string; url: string }[] = [
+  { id: 'clientlyy', site: 'clientlyy.com', url: 'https://clientlyy.com' },
+  { id: 'feynman', site: 'learn-feynman.com', url: 'https://learn-feynman.com' },
+  { id: 'practice-modernization', site: 'affordablefamilyvision.com', url: 'https://affordablefamilyvision.com' },
+  { id: 'truth-computing-media', site: 'truthcomputingmedia.com', url: 'https://truthcomputingmedia.com' },
+];
+const selected = SELECTED.flatMap((s) => {
+  const p = projects.find((x) => x.id === s.id);
+  return p ? [{ ...s, project: p }] : [];
+});
 
 /**
  * Current Truth Computing entries carry a status; the research and project
@@ -191,8 +197,14 @@ export default function Home() {
           </div>
 
           <div className="selected-grid reveal reveal-delay-1">
-            {selected.map((p) => (
-              <Link key={p.id} to={`/work#${p.id}`} className="selected-card">
+            {selected.map(({ project: p, site, url }) => (
+              <a
+                key={p.id}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="selected-card"
+              >
                 {p.status && (
                   <span className="selected-card-status">
                     <span className="sr-only">Status: </span>
@@ -203,9 +215,10 @@ export default function Home() {
                 {p.context && <p className="selected-card-role">{p.context}</p>}
                 <p className="selected-card-summary">{p.tldr.summary}</p>
                 <span className="selected-card-cta">
-                  Read the case study <span className="arw" aria-hidden="true">&rarr;</span>
+                  {site} <span className="arw" aria-hidden="true">&#8599;</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </span>
-              </Link>
+              </a>
             ))}
           </div>
 
