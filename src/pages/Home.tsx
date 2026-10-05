@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ProjectCard from '../components/ProjectCard';
 import GitHubStrip from '../components/GitHubStrip';
 import LeadershipRow from '../components/LeadershipRow';
-import { projects, Project } from '../data/projects';
+import { projects } from '../data/projects';
 import { papers } from '../data/papers';
 import { experience } from '../data/experience';
 import { domains } from '../data/foundation';
@@ -71,16 +71,6 @@ const pillars = [
     desc: 'Distributed systems in C++, gossip protocols, rate limiting convergence analysis, and UNIX systems programming.',
   },
 ];
-
-/**
- * Three entries, in this order: the flagship product, the education work, and a
- * delivered client engagement. Each card is a summary that links to the full
- * record on the Work page, so the case study is written once.
- */
-const SELECTED_IDS = ['clientlyy', 'feynman', 'practice-modernization'];
-const selected = SELECTED_IDS.map((id) => projects.find((p) => p.id === id)).filter(
-  (p): p is Project => Boolean(p)
-);
 
 /**
  * Current Truth Computing entries carry a status; the research and project
@@ -172,9 +162,9 @@ export default function Home() {
           </div>
 
           <div className="hero-actions">
-            <a href="#selected-work" className="btn btn-accent">
-              View selected work
-            </a>
+            <Link to="/work" className="btn btn-accent">
+              View the work
+            </Link>
             <Link to="/experience" className="btn btn-outline">Experience</Link>
             <button className="btn btn-ghost" onClick={copyEmail}>
               {copied ? '✓ Copied' : 'mtorre04@stanford.edu'}
@@ -183,42 +173,6 @@ export default function Home() {
         </div>
       </header>
 
-      <section id="selected-work" className="home-section" aria-labelledby="selected-work-heading">
-        <div className="frame">
-          <div className="section-header reveal">
-            <span className="section-label">Selected work</span>
-            <h2 id="selected-work-heading">What I am building now</h2>
-          </div>
-
-          <div className="selected-grid reveal reveal-delay-1">
-            {selected.map((p) => (
-              <Link key={p.id} to={`/work#${p.id}`} className="selected-card">
-                {p.status && (
-                  <span className="selected-card-status">
-                    <span className="sr-only">Status: </span>
-                    {p.status}
-                  </span>
-                )}
-                <h3 className="selected-card-title">{p.title}</h3>
-                {p.context && <p className="selected-card-role">{p.context}</p>}
-                <p className="selected-card-summary">{p.tldr.summary}</p>
-                <span className="selected-card-cta">
-                  Read the case study <span className="arw" aria-hidden="true">&rarr;</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="home-cta-row reveal reveal-delay-2">
-            <Link to="/work#current" className="btn btn-outline">
-              All current work <span className="arw">&rarr;</span>
-            </Link>
-            <Link to="/work#archive" className="btn btn-outline">
-              Research and project archive <span className="arw">&rarr;</span>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section>
         <div className="frame" style={{ paddingTop: '8px', paddingBottom: '44px' }}>
