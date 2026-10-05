@@ -1688,6 +1688,24 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 .work-group-desc { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0; }
 .work-archive-head { margin-bottom: 26px; }
 
+/* Home: selected work */
+.selected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.selected-card {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 22px 24px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--bg);
+  color: inherit;
+  transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+.selected-card:hover, .selected-card:focus-visible { border-color: var(--hairline-hover); box-shadow: var(--elev-2); }
+.selected-card-status { font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.selected-card-title { font-family: var(--font-display); font-size: 20px; font-weight: 500; letter-spacing: -0.012em; line-height: 1.2; color: var(--ink); margin: 0; }
+.selected-card-role { font-size: 12.5px; color: var(--muted); margin: 0; }
+.selected-card-summary { font-size: 13.5px; line-height: 1.62; color: var(--ink); margin: 0; flex: 1; }
+.selected-card-cta { font-size: 13px; color: var(--accent); }
+
 /* About: what I do at Truth Computing */
 .role-block { max-width: 760px; }
 .role-intro { font-size: 15px; line-height: 1.72; color: var(--muted); margin: 0 0 28px; max-width: 72ch; }
@@ -1701,6 +1719,9 @@ a:hover > .arw, a:focus-visible > .arw, button:hover > .arw { transform: transla
 .arm-name a { color: inherit; border-bottom: 1px solid var(--hairline-hover); }
 .arm-name a:hover, .arm-name a:focus-visible { border-bottom-color: var(--ink); }
 
+@media (max-width: 900px) {
+  .selected-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 800px) {
   .role-grid { grid-template-columns: 1fr; }
 }
