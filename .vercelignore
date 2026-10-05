@@ -1,0 +1,6 @@
+# Never upload these with `vercel deploy`. private/ holds the claim register
+# and other material that is not part of the site.
+private/
+dist/
+.env
+.env.*
